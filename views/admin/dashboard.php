@@ -1,4 +1,4 @@
-<?php require 'template/top-template.php'; ?>
+<?php require 'template/top-template-bak.php'; ?>
 <?php
 $countAllUploadedDocuments = "SELECT COUNT(*) as all_documents from tbl_uploaded_document where status != 'Document pulled'";
 $stmt = $pdo->prepare($countAllUploadedDocuments);

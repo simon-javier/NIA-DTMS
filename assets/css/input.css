@@ -1,0 +1,23 @@
+@font-face {
+  font-family: Inter;
+  font-weight: 400;
+  src: url(../fonts/Inter.ttf) format(truetype);
+}
+
+@font-face {
+  font-family: Inter;
+  font-weight: 700;
+  src: url(../fonts/Inter.ttf) format(truetype);
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: italic;
+  src: url(../fonts/Inter.ttf) format(truetype);
+}
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+}
