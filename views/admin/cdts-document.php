@@ -1,11 +1,11 @@
-<?php require 'template/top-template.php'; ?>
-<?php 
-    // require '../../connection.php';
+<?php require 'template/top-template-bak.php'; ?>
+<?php
+// require '../../connection.php';
 
-    $doctypeQuery = "SELECT * FROM tbl_document_type";
-    $statement = $pdo->prepare($doctypeQuery);
-    $statement->execute();
-    $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
+$doctypeQuery = "SELECT * FROM tbl_document_type";
+$statement = $pdo->prepare($doctypeQuery);
+$statement->execute();
+$doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 ?>
@@ -13,35 +13,38 @@
 
 <style>
     :root {
-    --primary-color: #069734;
-    --lighter-primary-color: #07b940;
-    --white-color: #FFFFFF;
-    --black-color: #181818;
-    --bold: 600;
-    --transition: all 0.5s ease;
-    --box-shadow: 0 0.1rem 0.8rem rgba(0, 0, 0, 0.2);
+        --primary-color: #069734;
+        --lighter-primary-color: #07b940;
+        --white-color: #FFFFFF;
+        --black-color: #181818;
+        --bold: 600;
+        --transition: all 0.5s ease;
+        --box-shadow: 0 0.1rem 0.8rem rgba(0, 0, 0, 0.2);
     }
+
     ::-webkit-scrollbar {
         width: 4px;
         height: 4px;
     }
 
     ::-webkit-scrollbar-thumb {
-        background-color: #009933; 
+        background-color: #009933;
         border-radius: 6px;
     }
-    .table-container{
+
+    .table-container {
         padding: 2.5rem;
         background-color: #fff;
         box-shadow: var(--box-shadow);
         overflow-x: auto;
     }
-    .form-control{
+
+    .form-control {
         border: 2px solid #009933;
         border-radius: 10px;
     }
 
-    .main-content{
+    .main-content {
         position: relative;
         background-color: white;
         top: 0;
@@ -53,24 +56,25 @@
         padding: 1rem;
 
     }
-    .qr-code-container{
+
+    .qr-code-container {
         display: flex;
         justify-content: center;
         margin-bottom: 1rem;
     }
-    .qr-code{
+
+    .qr-code {
         height: 200px;
     }
-    
 </style>
 
-<div class="table-container" >
-<div class="d-flex justify-content-end mb-3">
-    <button class="btn btn-primary d-flex align-items-center" data-toggle="modal" data-target="#newDocumentModal">
+<div class="table-container">
+    <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-primary d-flex align-items-center" data-toggle="modal" data-target="#newDocumentModal">
             <i class='bx bx-plus-circle mr-2' style="font-size: 18px"></i> New Document
         </button>
-</div>
-<table id="example" class="hover" style="width:100%">
+    </div>
+    <table id="example" class="hover" style="width:100%">
         <thead>
             <tr>
                 <th>Document Type</th>
@@ -78,7 +82,7 @@
             </tr>
         </thead>
         <tbody>
-        <?php foreach ($doctypes as $row) { ?>
+            <?php foreach ($doctypes as $row) { ?>
                 <tr>
 
                     <td><?php echo $row['document_type'] ?></td>
@@ -99,41 +103,41 @@
 </div>
 
 <div class="modal fade" id="newDocumentModal" tabindex="-1" role="dialog" aria-labelledby="newDocumentModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="newDocumentModalLabel">New Document</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Form for submitting a new document type -->
-                    <form id="newDocumentForm" autocomplete="off">
-                        <div class="form-group">
-                            <label for="documentType">Document Type:</label>
-                            <input type="text" class="form-control" id="documentType" name="document_type" placeholder="Enter document type" required>
-                        </div>
-                        <!-- Add more form fields as needed -->
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" id="newDocumentFormbtn" class="btn btn-primary">Add</button>
-                        </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newDocumentModalLabel">New Document</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Form for submitting a new document type -->
+                <form id="newDocumentForm" autocomplete="off">
+                    <div class="form-group">
+                        <label for="documentType">Document Type:</label>
+                        <input type="text" class="form-control" id="documentType" name="document_type" placeholder="Enter document type" required>
+                    </div>
+                    <!-- Add more form fields as needed -->
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" id="newDocumentFormbtn" class="btn btn-primary">Add</button>
+                    </div>
 
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
 
-    <div class="modal fade" id="editDocumentModal" tabindex="-1" role="dialog" aria-labelledby="editDocumentModalLabel" aria-hidden="true">
+<div class="modal fade" id="editDocumentModal" tabindex="-1" role="dialog" aria-labelledby="editDocumentModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editDocumentModalLabel">Edit Document Type</h5>
                 <button type="button" id="close_modal" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <form id="editDocumentForm">
@@ -144,7 +148,7 @@
                     </div>
                     <div class="d-flex justify-content-end"> <button type="submit" id="editDocumentFormbtn" class="btn btn-primary">Save Changes</button></div>
 
-                   
+
                 </form>
             </div>
         </div>
@@ -167,17 +171,15 @@
     $('#close_modal').click(function() {
         $('#editDocumentModal').modal('hide');
     });
-
-
 </script>
 
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         var fileInput = document.getElementById('file');
 
-        fileInput.addEventListener('change', function () {
+        fileInput.addEventListener('change', function() {
             var selectedFile = this.files[0];
 
             // Check if a file is selected
@@ -211,17 +213,17 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         var textarea = document.getElementById('description');
         var charCount = document.getElementById('charCount');
 
-        textarea.addEventListener('input', function () {
+        textarea.addEventListener('input', function() {
             var maxLength = 250;
             var currentLength = textarea.value.length;
 
             if (currentLength > maxLength) {
                 textarea.value = textarea.value.substring(0, maxLength);
-                currentLength = maxLength; 
+                currentLength = maxLength;
             }
 
             charCount.textContent = currentLength + '/' + maxLength;
@@ -231,8 +233,8 @@
 
 
 <script>
-    $("#editDocumentFormbtn").click(function(e){
-        if($("#editDocumentForm")[0].checkValidity()){
+    $("#editDocumentFormbtn").click(function(e) {
+        if ($("#editDocumentForm")[0].checkValidity()) {
             e.preventDefault();
 
             $('.loader-container').fadeIn();
@@ -245,45 +247,44 @@
                 data: formData,
                 contentType: false,
                 processData: false,
-                success:function(response){
+                success: function(response) {
                     setTimeout(function() {
-                    $('.loader-container').fadeOut();
+                        $('.loader-container').fadeOut();
                     }, 500);
-                
-                    if(response.status === "failed"){
+
+                    if (response.status === "failed") {
                         Swal.fire({
                             title: 'Something went wrong!',
                             text: response.message,
                             icon: 'warning',
                             confirmButtonText: 'OK'
                         });
-                    }else if(response.status === "error"){
+                    } else if (response.status === "error") {
                         Swal.fire({
                             title: 'Error!',
                             text: response.message,
                             icon: 'error',
                             confirmButtonText: 'OK'
                         }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.reload();
-                        }
-                    });
-                    }
-                    else if(response.status === "success"){
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    } else if (response.status === "success") {
                         Swal.fire({
-                        title: 'Success!',
-                        text: response.message,
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                            }).then((result) => {
+                            title: 'Success!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
                             if (result.isConfirmed) {
                                 location.reload();
 
                             }
                         });
-                        }
-                    
-                   
+                    }
+
+
                 },
                 error: function(xhr, status, error) {
                     // Handle the error here
@@ -311,8 +312,8 @@
 
 
 <script>
-    $("#newDocumentFormbtn").click(function(e){
-        if($("#newDocumentForm")[0].checkValidity()){
+    $("#newDocumentFormbtn").click(function(e) {
+        if ($("#newDocumentForm")[0].checkValidity()) {
             e.preventDefault();
 
             $('.loader-container').fadeIn();
@@ -325,45 +326,44 @@
                 data: formData,
                 contentType: false,
                 processData: false,
-                success:function(response){
+                success: function(response) {
                     setTimeout(function() {
-                    $('.loader-container').fadeOut();
+                        $('.loader-container').fadeOut();
                     }, 500);
-                
-                    if(response.status === "failed"){
+
+                    if (response.status === "failed") {
                         Swal.fire({
                             title: 'Something went wrong!',
                             text: response.message,
                             icon: 'warning',
                             confirmButtonText: 'OK'
                         });
-                    }else if(response.status === "error"){
+                    } else if (response.status === "error") {
                         Swal.fire({
                             title: 'Error!',
                             text: response.message,
                             icon: 'error',
                             confirmButtonText: 'OK'
                         }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.reload();
-                        }
-                    });
-                    }
-                    else if(response.status === "success"){
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    } else if (response.status === "success") {
                         Swal.fire({
-                        title: 'Success!',
-                        text: response.message,
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                            }).then((result) => {
+                            title: 'Success!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
                             if (result.isConfirmed) {
                                 location.reload();
 
                             }
                         });
-                        }
-                    
-                   
+                    }
+
+
                 },
                 error: function(xhr, status, error) {
                     // Handle the error here
@@ -388,4 +388,3 @@
         }
     });
 </script>
-

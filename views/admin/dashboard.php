@@ -1,4 +1,4 @@
-<?php require 'template/top-template-bak.php'; ?>
+<?php require 'template/top-template.php'; ?>
 <?php
 $countAllUploadedDocuments = "SELECT COUNT(*) as all_documents from tbl_uploaded_document where status != 'Document pulled'";
 $stmt = $pdo->prepare($countAllUploadedDocuments);
@@ -54,144 +54,55 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
 ?>
 
 
-<style>
-    :root {
-        --primary-color: #069734;
-        --lighter-primary-color: #07b940;
-        --white-color: #FFFFFF;
-        --black-color: #181818;
-        --bold: 600;
-        --transition: all 0.5s ease;
-        --box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.2);
-    }
-
-    ::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background-color: #009933;
-        border-radius: 6px;
-    }
-
-    .table-container {
-        padding: 2.5rem;
-        background-color: #fff;
-        box-shadow: var(--box-shadow);
-    }
-
-    .main-content {
-        position: relative;
-        background-color: white;
-        top: 0;
-        max-height: 90vh;
-        overflow-y: scroll;
-        left: 90px;
-        transition: var(--transition);
-        width: calc(100% - 90px);
-        padding: 1rem;
-
-    }
-
-    .form-control {
-        border: 2px solid #009933;
-        border-radius: 10px;
-    }
-</style>
-
-<div class="row my-3">
-
-
-    <div class="col-md-4">
-        <a href="guest.php" style="text-decoration: none; color: black">
-            <div class="card text-center card-info">
-                <div class="card-block">
-                    <h4 class="card-title mt-3">No. of guest accounts</h4>
-                    <h2><i class="fa fa-user fa-2x"></i></h2>
-                </div>
-                <div class="row p-2 ">
-                    <div class="col-12">
-                        <div class="card card-block text-success rounded-0 ">
-                            <h3><?php echo $no_external; ?></h3>
-                            <span class="small text-uppercase">users</span>
-                        </div>
-                    </div>
-                </div>
+<!-- Cards -->
+<div class="flex items-center justify-center flex-wrap gap-16 mt-18">
+    <!-- Card 1 -->
+    <div class="bg-neutral-50 flex flex-col rounded-xl basis-[246px] shrink-0 ">
+        <div class="flex gap-6 items-center p-3">
+            <i class="fa-solid fa-user text-3xl text-green-300"></i>
+            <div>
+                <h1 class="font-bold text-xs text-gray-500 uppercase">Guest Accounts</h1>
+                <p class="uppercase font-bold text-xs"><span class="text-2xl"><?php echo $no_external; ?></span> User/s</p>
             </div>
-        </a>
-
-    </div>
-    <div class="col-md-4">
-        <a href="offices.php" style="text-decoration: none; color: black">
-            <div class="card text-center card-info">
-                <div class="card-block">
-                    <h4 class="card-title mt-3">No. of document handler account</h4>
-                    <h2><i class="fa fa-users fa-2x"></i></h2>
-                </div>
-                <div class="row p-2 ">
-                    <div class="col-12">
-                        <div class="card card-block text-success rounded-0 ">
-                            <h3><?php echo $no_offices; ?></h3>
-                            <span class="small text-uppercase">users</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <a href="./guest.php"
+            class="flex items-center justify-center gap-1 text-xs font-bold text-green-950 bg-green-100 rounded-b-xl p-3 select-none">
+            View Accounts
+            <i class="fa-solid fa-chevron-right"></i>
         </a>
     </div>
-    <div class="col-md-4">
-        <a href="pending-account.php" style="text-decoration: none; color: black">
-            <div class="card text-center card-info">
-                <div class="card-block">
-                    <h4 class="card-title mt-3">Incoming Registration</h4>
-                    <h2><i class="fa fa-file fa-2x"></i></h2>
-                </div>
-                <div class="row p-2 ">
-                    <div class="col-12">
-                        <div class="card card-block text-success rounded-0 ">
-                            <h3><?php echo $count; ?></h3>
-                            <span class="small text-uppercase">items</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- Card 2 -->
+    <div class="bg-neutral-50 flex flex-col rounded-xl basis-[246px] shrink-0 ">
+        <div class="flex gap-6 items-center p-3">
+            <i class="fa-solid fa-users text-4xl text-green-300"></i>
+            <div>
+                <h1 class="font-bold text-xs text-gray-500 uppercase">Document Handlers</h1>
+                <p class="uppercase font-bold text-xs"><span class="text-2xl"><?php echo $no_offices; ?></span> User/s</p>
             </div>
+        </div>
+        <a href="./offices.php"
+            class="flex items-center justify-center gap-1 text-xs font-bold text-green-950 bg-green-100 rounded-b-xl p-3 select-none">
+            View Accounts
+            <i class="fa-solid fa-chevron-right"></i>
+        </a>
+    </div>
+    <!-- Card 3 -->
+    <div class="bg-neutral-50 flex flex-col rounded-xl basis-[246px] shrink-0 ">
+        <div class="flex gap-6 items-center p-3">
+            <i class="fa-solid fa-file text-3xl text-green-300"></i>
+            <div>
+                <h1 class="font-bold text-xs text-gray-500 uppercase">Incoming Registrations</h1>
+                <p class="uppercase font-bold text-xs"><span class="text-2xl"><?php echo $count; ?></span> Item/s</p>
+            </div>
+        </div>
+        <a href="./pending-account.php"
+            class="flex items-center justify-center gap-1 text-xs font-bold text-green-950 bg-green-100 rounded-b-xl p-3 select-none">
+            View Registrations
+            <i class="fa-solid fa-chevron-right"></i>
         </a>
     </div>
 </div>
+</main>
+</body>
 
-
-
-
-
-
-
-<?php require 'template/bottom-template.php'; ?>
-
-<script>
-    var fromDateInput = document.getElementById('from');
-    var toDateInput = document.getElementById('dateto');
-
-
-    fromDateInput.addEventListener('input', handleDateChange);
-    toDateInput.addEventListener('input', handleDateChange);
-
-    function handleDateChange() {
-        var currentDate = new Date();
-
-        var fromDate = new Date(fromDateInput.value);
-        var toDate = new Date(toDateInput.value);
-
-        if (toDate < fromDate) {
-            toDateInput.value = fromDateInput.value;
-        }
-
-
-        if (toDate > currentDate) {
-            toDateInput.valueAsDate = currentDate;
-        }
-        if (fromDate > currentDate) {
-            fromDateInput.valueAsDate = currentDate;
-        }
-    }
-</script>
+</html>

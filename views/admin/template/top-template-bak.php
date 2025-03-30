@@ -43,6 +43,7 @@ $stmt->execute();
 $count = $stmt->fetchColumn(); // Fetching the count directly
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,101 +51,250 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document Tracking System</title>
+
+    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/jsdelivr/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/sweetalert/sweetalert2.min.css">
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/cloudflare/all.min.css">
+    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/boxicons/boxicons.min.css">
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/datatable/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="../../assets/css/output.css">
-    <link rel="stylesheet" href="../../assets/css/boxicons.min.css">
-    <script src="../../assets/js/script.js" defer></script>
+    <link rel="stylesheet" href="sidebar.css">
+    <style>
+        .dropdown-menu-left {
+            left: 0 !important;
+            right: auto !important;
+        }
+    </style>
+    <style>
+        .custom-dropdown {
+            display: none;
+        }
+    </style>
 </head>
 
+<body>
 
-<body class="bg-gray-200 text-neutral-950">
-    <header>
-        <nav class="bg-neutral-50 flex justify-end sticky items-center
-                gap-6 shadow-sm">
-            <p class="font-bold text-gray-500 py-5"><?php echo $current_time; ?></p>
-            <button type="button" class="cursor-pointer">
-                <i class='bx bx-bell text-2xl text-gray-500'></i>
-            </button>
-            <a href="./../../views/settings/update-profile.php" class="cursor-pointer">
-                <i class='bx bx-cog text-2xl text-gray-500'></i>
-            </a>
-            <button type="button" class="cursor-pointer mr-5">
-                <img src="../../assets/img/profile.jpg" class="drop-shadow-md size-9 
-                        object-cover rounded-full" alt="">
-            </button>
-        </nav>
-    </header>
-    <div class="fixed h-lvh bg-neutral-50 w-[270px] shadow-lg flex flex-col
-            gap-9 top-0" id="sidebar">
-        <div class="flex flex-col items-center mt-4 gap-3">
-            <img src="../../assets/img/logo.png" class="w-1/2" alt="">
-            <h1 class="text-lg font-bold text-center w-10/12" id="sidebarTitle">
-                NIA Document Tracking and Management System
-            </h1>
-        </div>
-        <div>
-            <div class="flex text-green-50 justify-center">
-                <a href="./dashboard.php" class="select-none flex gap-3 bg-green-600 p-3 w-11/12
-                        rounded-md sidebar-item">
-                    <i class="bx bxs-grid-alt text-2xl text-green-200 sidebar-icon"></i>
-                    Dashboard
-                </a>
-            </div>
-            <div class="flex justify-center">
-                <a href="./cdts-document.php" class="select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
-                        cursor-pointer sidebar-item">
-                    <i class="bx bx-file text-2xl text-gray-500 sidebar-icon"></i>
-                    CDTS Document
-                </a>
-            </div>
-            <div class="flex justify-center">
-                <a href="./list-office-names.php" class="select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
-                        cursor-pointer sidebar-item">
-                    <i class="bx bx-file text-2xl text-gray-500 sidebar-icon"></i>
-                    Offices
-                </a>
-            </div>
-            <div class="flex flex-col items-center">
-                <div class="select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
-                        cursor-pointer" id="userManagement">
-                    <i class="bx bxs-user text-2xl text-gray-500 sidebar-icon"></i>
-                    User Management
-                    <i class='ml-3 bx bx-chevron-down text-2xl chevron'></i>
-                </div>
-                <div class="submenu hidden">
-                    <ul class="flex flex-col gap-2">
-                        <li class="select-none p-3 rounded-md hover:bg-neutral-200 sidebar-item">
-                            <a href="./pending-account.php" class="flex items-center gap-3">
-                                <i class="bx bx-right-arrow-alt sidebar-icon text-2xl text-gray-500"></i>
-                                Incoming Registration
-                            </a>
-
-                        </li>
-                        <li class="select-none p-3 rounded-md hover:bg-neutral-200 sidebar-item">
-                            <a href="#" class="flex items-center gap-3">
-                                <i class="bx bx-right-arrow-alt sidebar-icon text-2xl text-gray-500"></i>
-                                Document Handler
-                            </a>
-
-                        </li>
-                        <li class="select-none p-3 rounded-md hover:bg-neutral-200 sidebar-item">
-                            <a href="#" class="flex items-center gap-3">
-                                <i class="bx bx-right-arrow-alt sidebar-icon text-2xl text-gray-500"></i>
-                                Guest
-
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="flex justify-center">
-                <a class="select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
-                        cursor-pointer sidebar-item">
-                    <i class="bx bx-file text-2xl text-gray-500 sidebar-icon"></i>
-                    Office Performance
-                </a>
+    <?php require '../../assets/loader/loader.php'; ?>
+    <div class="sidebar active">
+        <div class="top">
+            <div class="logo">
+                <img src="<?php echo $env_basePath; ?>assets/img/logo.png" alt="User Default Image">
+                <span>NIA Document Tracking and Management System</span>
             </div>
         </div>
+        <ul>
+            <li>
+                <a href="dashboard.php" class="navigation">
+                    <i class="bx bxs-grid-alt"></i>
+                    <span class="nav-item">Dashboard</span>
+                    <!-- <span class="badge bg-success rounded-pill">14</span> -->
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
+            <li>
+                <a href="cdts-document.php" class="navigation">
+                    <i class='bx bx-file'></i>
+                    <span class="nav-item">CDTS Document</span>
+                </a>
+                <span class="tooltip">CDTS Document</span>
+            </li>
+            <li>
+                <a href="list-office-names.php" class="navigation">
+                    <i class='bx bx-file'></i>
+                    <span class="nav-item">Offices</span>
+                </a>
+                <span class="tooltip">Offices</span>
+            </li>
+
+            <li style="display: none;">
+                <a href="office-archived.php" class="navigation">
+                    <i class='bx bx-file'></i>
+                    <span class="nav-item">Archive List</span>
+                </a>
+                <span class="tooltip">Archive List</span>
+            </li>
+            <li style="display: none;">
+                <a href="guest-archived.php" class="navigation">
+                    <i class='bx bx-file'></i>
+                    <span class="nav-item">Archive List</span>
+                </a>
+                <span class="tooltip">Archive List</span>
+            </li>
+            <!-- <li>
+                <a href="incoming-document.php" class="navigation">
+                    <i class='bx bxs-file-blank'></i>
+                    <span class="nav-item">Incoming Document</span>
+                </a>
+                <span class="tooltip">Incoming Document</span>
+            </li> -->
+            <!-- <li>
+                <a href="my-pending-documents.php" class="navigation">
+                    <i class='bx bxs-file-blank'></i>
+                    <span class="nav-item">My Pending Document</span>
+                </a>
+                <span class="tooltip">My Pending Document</span>
+            </li> -->
+            <li onclick="toggleDropdown()">
+                <a href="#" class="navigation">
+                    <i class='bx bxs-user'></i>
+                    <span class="nav-item">User Management</span>
+                </a>
+                <span class="tooltip">User Management</span>
+            </li>
+            <div class="custom-dropdown" style="margin-left: 10px; display: none;">
+                <li>
+                    <a href="pending-account.php" class="navigation">
+                        <i class='fa fa-arrow-right'></i>
+                        <span class="nav-item">Incoming Registration</span>
+                        <?php if ($count > 0): ?>
+                            <span class="badge bg-success rounded-pill"><?php echo $count; ?></span>
+                        <?php endif; ?>
+                    </a>
+                    <span class="tooltip">Incoming Registration</span>
+                </li>
+                <li>
+                    <a href="offices.php" class="navigation">
+                        <i class='fa fa-arrow-right'></i>
+                        <span class="nav-item">Document Handler</span>
+                    </a>
+                    <span class="tooltip">Document Handler</span>
+                </li>
+                <li style="display: none;">
+                    <a href="add-new-users.php" class="navigation">
+                        <i class='bx bx-dice-1'></i>
+                        <span class="nav-item">Add New Users</span>
+                    </a>
+                    <span class="tooltip">Add New Users</span>
+                </li>
+                <li style="display: none;">
+                    <a href="user-details.php" class="navigation">
+                        <i class="bx bxs-grid-alt"></i>
+                        <span class="nav-item">User Details</span>
+                    </a>
+                    <span class="tooltip">User Details</span>
+                </li>
+                <li style="display: none;">
+                    <a href="update-details.php" class="navigation">
+                        <i class="bx bxs-grid-alt"></i>
+                        <span class="nav-item">Update Details</span>
+                    </a>
+                    <span class="tooltip">Update Details</span>
+                </li>
+                <li>
+                    <a href="guest.php" class="navigation">
+                        <i class='fa fa-arrow-right'></i>
+                        <span class="nav-item">Guest</span>
+                    </a>
+                    <span class="tooltip">Guest</span>
+                </li>
+            </div>
+            <li>
+                <a href="office-performance.php" class="navigation">
+                    <i class='bx bx-file'></i>
+                    <span class="nav-item">Office Performance</span>
+                </a>
+                <span class="tooltip">Office Performance</span>
+            </li>
+            <!--             
+            <li>
+                <a href="document-tracking.php" class="navigation">
+                <i class='bx bx-radar'></i>
+                    <span class="nav-item">Document Tracking</span>
+                </a>
+                <span class="tooltip">Document Tracking</span>
+            </li> -->
+            <!-- <li>
+                <a href="generate-reports.php" class="navigation">
+                <i class='bx bxs-report' ></i>
+                    <span class="nav-item">Generate Reports</span>
+                </a>
+                <span class="tooltip">Generate Reports</span>
+            </li> -->
+            <!-- <li>
+                <a href="communication.php" class="navigation">
+                <i class='bx bx-chat'></i>
+                    <span class="nav-item">Communication</span>
+                </a>
+                <span class="tooltip">Communication</span>
+            </li> -->
+
+        </ul>
     </div>
+
+    <nav class="navbar active navbar-expand-lg">
+        <div class="container-fluid">
+            <div class="menu">
+                <i class="bx bx-menu" id="btn"></i>
+                <h4 class="title d-none d-md-block">NIA DTS</h4>
+            </div>
+            <div class="actions">
+                <div class="fullname">
+                    <p class="d-none d-md-block"><?php echo $current_time; ?></p>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" id="openModalBtn" data-id="<?php echo $user_id; ?>" onclick="openNotification(event)">
+                        <i class='bx bx-bell'></i>
+                        <?php if ($notificationCount > 0) { ?>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?php echo $notificationCount; ?>
+                            </span>
+                        <?php } ?>
+                    </button>
+                </div>
+                <div class="modal" id="notificationModal" style="color: black">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                                <?php if (!empty($notifications)) { ?>
+                                    <?php foreach ($notifications as $notification) { ?>
+                                        <div class="mb-3 border-bottom">
+                                            <p><?php echo $notification['content']; ?></p>
+                                            <small class="text-muted">
+                                                <?php echo date('F j, Y', strtotime($notification['timestamp'])); ?>
+                                            </small>
+
+                                        </div>
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <p class="text-center">No new notification.</p>
+                                <?php } ?>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="notifications.php">View all notifications</a>
+                                <button type="button" class="btn btn-secondary" id="closeModalBtn">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- <div class="fullname">
+                    <p class="d-none d-md-block"><?php
+                                                    // if(isset($_SESSION['fullname'])){
+                                                    //     echo $_SESSION['fullname'];
+                                                    // }
+                                                    ?></p>
+                </div> -->
+                <div class="dropdown">
+                    <img src="<?php echo $env_basePath; ?>assets/user-profile/<?php echo $userProfile['user_profile']; ?>" alt="User Default Image" class="dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="height: 50px; width: 50px;">
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="<?php echo $env_basePath ?>views/settings/update-profile.php">Settings</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="confirmLogout()">Logout</a></li>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main-content">
+        <!-- end of top-template.php -->
+
+        <script>
+            function toggleDropdown() {
+                var dropdown = document.querySelector('.custom-dropdown');
+                dropdown.style.display = (dropdown.style.display === 'none') ? 'block' : 'none';
+            }
+        </script>
