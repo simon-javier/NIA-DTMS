@@ -86,4 +86,3 @@ userManagementMenu.addEventListener("click", () => {
     chevron.classList.toggle("bx-chevron-up");
     submenu.classList.toggle('hidden');
 })
-
