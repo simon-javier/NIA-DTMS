@@ -86,3 +86,101 @@ userManagementMenu.addEventListener("click", () => {
     chevron.classList.toggle("bx-chevron-up");
     submenu.classList.toggle('hidden');
 })
+
+const notificationBtn = document.querySelector("#notificationButton");
+const notificationModal = document.querySelector("#notificationModal");
+notificationBtn.addEventListener("click", (event) => {
+    const userId = event.target.closest("[data-id]").getAttribute("data-id");
+    $('.loader-container').fadeIn();
+    let formData = new FormData();
+    formData.append("action", "mark_as_read");
+    formData.append("userid", userId);
+
+    $.ajax({
+        url: "../../controller/notification-controller.php",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+
+            setTimeout(function() {
+
+                $('.loader-container').fadeOut();
+            }, 500);
+
+            if (response.status === "failed") {
+                Swal.fire({
+                    title: 'Something went wrong!',
+                    text: response.message,
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+            } else if (response.status === "error") {
+                Swal.fire({
+                    title: 'Error!',
+                    text: response.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                });
+            } else if (response.status === "success") {
+                notificationModal.classList.toggle("hidden")
+                notificationModal.classList.toggle("flex")
+                if (notificationModal.classList.contains("hidden")) {
+                    window.location.reload();
+                }
+
+            }
+
+
+        },
+        error: function(xhr, status, error) {
+            // Handle the error here
+            var errorMessage = 'An error occurred while processing your request.';
+            if (xhr.statusText) {
+                errorMessage += ' ' + xhr.statusText;
+            }
+            Swal.fire({
+                title: 'Error!',
+                text: errorMessage + '<br><br>' + JSON.stringify(xhr, null, 2), // Include the entire error object for debugging
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                // Check if the user clicked the "OK" button
+                if (result.isConfirmed) {
+                    // Reload the page
+                    location.reload();
+                }
+            });
+        }
+    });
+
+})
+
+const profileLogo = document.querySelector("#profileLogo");
+const logoutBtn = document.querySelector("#logoutBtn");
+profileLogo.addEventListener("click", () => {
+    logoutBtn.classList.toggle("hidden");
+    logoutBtn.classList.toggle("flex");
+})
+
+logoutBtn.addEventListener("click", () => {
+    Swal.fire({
+        titleText: "Logout",
+        html: `
+            <p class="text-sm text-neutral-500">Are you sure you want to logout?</p>
+        `,
+        showCancelButton: true,
+        confirmButtonColor: '#dc2626',
+        confirmButtonText: 'Logout'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // User clicked "Yes, logout!" - Redirect to logout.php
+            window.location.href = '../../logout.php';
+        }
+    });
+})

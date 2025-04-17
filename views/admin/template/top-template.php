@@ -59,6 +59,11 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/css/solid.css">
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/css/output.css">
 
+    <script src="<?php echo $env_basePath; ?>assets/jquery/jquery-3.2.1.slim.min.js" defer></script>
+    <script src="<?php echo $env_basePath; ?>assets/datatable/jquery.dataTables.min.js" defer></script>
+    <script src="<?php echo $env_basePath; ?>assets/jsdelivr/popper.min.js" defer></script>
+    <script src="<?php echo $env_basePath; ?>assets/jsdelivr/sweetalert2.all.min.js" defer></script>
+    <script src="<?php echo $env_basePath; ?>assets/jquery/jquery-3.6.4.min.js" defer></script>
     <script src="<?php echo $env_basePath; ?>assets/js/script.js" defer></script>
 </head>
 
@@ -107,6 +112,13 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
                             <a href="./pending-account.php" class="navigation flex items-center gap-3">
                                 <i class="bx bx-right-arrow-alt sidebar-icon text-2xl text-gray-500"></i>
                                 Incoming Registration
+                                <?php if ($count > 0): ?>
+                                    <div class="rounded-full w-5 h-5 p-1 
+                                        bg-green-600 text-green-100 flex justify-center
+                                        items-center text-xs font-bold">
+                                        <p class=""><?php echo $count; ?></p>
+                                    </div>
+                                <?php endif; ?>
                             </a>
 
                         </li>
@@ -142,15 +154,53 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
             <nav class="bg-neutral-50 w-full flex justify-end items-center
                 gap-6 shadow-sm">
                 <p class="font-bold text-gray-500 py-5"><?php echo $current_time; ?></p>
-                <button type="button" class="cursor-pointer">
-                    <i class='bx bx-bell text-2xl text-gray-500'></i>
+                <button type="button" class="cursor-pointer relative" id="notificationButton" data-id="<?php echo $user_id; ?>">
+                    <i class='bx bx-bell text-2xl text-gray-500 hover:text-green-600'></i>
+                    <?php if ($notificationCount > 0) { ?>
+                        <span class="bg-red-600 p-1 w-2 h-1 inline-block rounded-full absolute left-3 border-neutral-50 border-1"></span>
+                    <?php } ?>
                 </button>
-                <button type="button" class="cursor-pointer">
-                    <i class='bx bx-cog text-2xl text-gray-500'></i>
-                </button>
-                <button type="button" class="cursor-pointer mr-5">
-                    <img src="<?php echo $env_basePath; ?>assets\img\profile.jpg"" class=" drop-shadow-md size-9
-                        object-cover rounded-full" alt="">
+                <a href="../../views/settings/update-profile.php" class="cursor-pointer">
+                    <i class='bx bx-cog text-2xl text-gray-500 hover:text-green-600'></i>
+                </a>
+                <button type="button" class="cursor-pointer mr-5" id="profileLogo">
+                    <img src="<?php echo $env_basePath; ?>assets\img\profile.jpg" class="drop-shadow-md size-9
+                        object-cover rounded-full hover:drop-shadow-green-600" alt="">
                 </button>
             </nav>
+            <!-- Profile Logo Modal -->
+            <button type="button" class="hidden cursor-pointer absolute right-4 z-10 shadow-2xl text-red-600 items-baseline
+                    bg-neutral-50 py-4 px-5 rounded-lg gap-2 top-17 hover:bg-gray-100" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <p>Logout</p>
+            </button>
+
+            <!-- Notification Modal -->
+            <div class="absolute hidden flex-col right-4 top-18 bg-neutral-50 
+                max-w-[402px] rounded-xl shadow-2xl" id="notificationModal">
+                <div class="py-3 px-4">
+                    <h1 class="text-sm">Notifications</h1>
+                </div>
+                <div class="">
+                    <?php if (!empty($notifications)) { ?>
+                        <?php foreach ($notifications as $notification) { ?>
+                            <div class="flex gap-3 items-center p-3
+                                border-y-gray-200 border-y-1 max-w-[368px]">
+                                <i class='p-1 bg-gray-200 rounded-md border-gray-300 border-1 bx bxs-envelope'></i>
+                                <div>
+                                    <h2 class="text-sm font-bold">New User Registration Request</h2>
+                                    <p class="text-xs text-neutral-500">
+                                        <?php echo $notification['content']; ?></p>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <p class="text-center py-10 px-24">No new notification</p>
+                    <?php } ?>
+                </div>
+                <div class="py-3 px-4 text-center bg-neutral-100 rounded-b-xl">
+                    <a href="notifications.php" class="text-sm text-neutral-600">See all notifications</a>
+                </div>
+            </div>
+
         </header>
