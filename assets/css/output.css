@@ -29,6 +29,7 @@
     --color-green-500: oklch(72.3% 0.219 149.579);
     --color-green-600: oklch(62.7% 0.194 149.214);
     --color-green-700: oklch(52.7% 0.154 150.069);
+    --color-green-900: oklch(39.3% 0.095 152.535);
     --color-green-950: oklch(26.6% 0.065 152.934);
     --color-gray-100: oklch(96.7% 0.003 264.542);
     --color-gray-200: oklch(92.8% 0.006 264.531);
@@ -565,9 +566,6 @@
   .border-gray-300 {
     border-color: var(--color-gray-300);
   }
-  .border-green-200 {
-    border-color: var(--color-green-200);
-  }
   .border-neutral-50 {
     border-color: var(--color-neutral-50);
   }
@@ -704,6 +702,9 @@
   .text-green-700 {
     color: var(--color-green-700);
   }
+  .text-green-900 {
+    color: var(--color-green-900);
+  }
   .text-green-950 {
     color: var(--color-green-950);
   }
@@ -766,10 +767,6 @@
   }
   .shadow-xl {
     --tw-shadow: 0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
-    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
-  .shadow-xs {
-    --tw-shadow: 0 1px 2px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.05));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
   .outline {
@@ -889,6 +886,11 @@ div.dt-buttons>.dt-button:hover:not(.disabled), div.dt-buttons>div.dt-button-spl
   --tw-border-style: none;
   border-style: none;
   background-color: var(--color-green-600);
+}
+div.dt-container .dt-info, div.dt-container .dt-length {
+  font-size: var(--text-xs);
+  line-height: var(--tw-leading, var(--text-xs--line-height));
+  color: var(--color-neutral-500);
 }
 @property --tw-rotate-x {
   syntax: "*";

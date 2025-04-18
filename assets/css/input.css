@@ -49,6 +49,11 @@ div.dt-buttons>div.dt-button-split .dt-button:hover:not(.disabled) {
   @apply border-none bg-green-600;
 }
 
+div.dt-container .dt-info,
+div.dt-container .dt-length {
+  @apply text-neutral-500 text-xs;
+}
+
 @theme {
   --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
 }

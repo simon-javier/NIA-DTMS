@@ -200,6 +200,10 @@ logoutBtn.addEventListener("click", () => {
 })
 
 new DataTable('#mainTable', {
+    columnDefs: [{
+        orderable: false,
+        targets: -1,
+    }],
     layout: {
         top0End: {
             buttons: [
