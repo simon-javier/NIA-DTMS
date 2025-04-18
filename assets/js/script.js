@@ -198,3 +198,14 @@ logoutBtn.addEventListener("click", () => {
         }
     });
 })
+
+new DataTable('#mainTable', {
+    layout: {
+        top0End: {
+            buttons: [
+                {
+                    text: "<i class='bx bx-plus-circle text-lg'></i>New Document",
+                }]
+        },
+    }
+});

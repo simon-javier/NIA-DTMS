@@ -52,7 +52,7 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
     <title>Document Tracking System</title>
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/sweetalert/sweetalert2.min.css">
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/cloudflare/all.min.css">
-    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/datatable/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/datatable/datatables.min.css">
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/css/boxicons.min.css">
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/css/fontawesome.css">
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/css/brands.css">
@@ -60,7 +60,7 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/css/output.css">
 
     <script src="<?php echo $env_basePath; ?>assets/jquery/jquery-3.2.1.slim.min.js" defer></script>
-    <script src="<?php echo $env_basePath; ?>assets/datatable/jquery.dataTables.min.js" defer></script>
+    <script src="<?php echo $env_basePath; ?>assets/datatable/datatables.min.js" defer></script>
     <script src="<?php echo $env_basePath; ?>assets/jsdelivr/popper.min.js" defer></script>
     <script src="<?php echo $env_basePath; ?>assets/jsdelivr/sweetalert2.all.min.js" defer></script>
     <script src="<?php echo $env_basePath; ?>assets/jquery/jquery-3.6.4.min.js" defer></script>

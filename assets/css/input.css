@@ -18,6 +18,37 @@
 
 @import "tailwindcss";
 
+table.dataTable>thead>tr {
+  @apply border-1 border-gray-200;
+}
+
+table.dataTable>thead>tr>th,
+table.dataTable>thead>tr>td {
+  @apply border-none;
+}
+
+div.dt-container.dt-empty-footer tbody>tr:last-child>* {
+  @apply border-none;
+}
+
+div.dt-container div.dt-layout-row {
+  @apply p-2 border-1 my-0 border-gray-200;
+}
+
+.dt-buttons span {
+  @apply flex justify-center items-center gap-2;
+}
+
+div.dt-buttons>.dt-button,
+div.dt-buttons>.dt-button:hover {
+  @apply text-base m-0 py-1.5 px-6 bg-green-500 text-green-50 border-none rounded-sm font-bold;
+}
+
+div.dt-buttons>.dt-button:hover:not(.disabled),
+div.dt-buttons>div.dt-button-split .dt-button:hover:not(.disabled) {
+  @apply border-none bg-green-600;
+}
+
 @theme {
   --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
 }
