@@ -8,9 +8,23 @@ let currentlyActiveItem = null; // Variable to store the currently active item
 // Adjust the selector if your active state is marked differently initially.
 currentlyActiveItem = document.querySelector(".sidebar-item.bg-green-600");
 
-pages.forEach((item) => {
-    item.addEventListener("click", handleItemClick);
-});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const currentPage = window.location.pathname.split('/').pop();
+    pages.forEach((item) => {
+        if (item.classList.contains(currentlyActiveItem)) {
+            return;
+        }
+
+        const linkHref = item.getAttribute("href");
+        if (linkHref !== null && linkHref.includes(currentPage)) {
+            setActiveState(item);
+        } else {
+            setInactiveState(item);
+        }
+    });
+})
+
 
 function setActiveState(item) {
     if (!item) return; // Guard clause if item is null

@@ -1,4 +1,4 @@
-<?php require 'template/top-template-bak.php'; ?>
+<?php require 'template/top-template.php'; ?>
 <?php
 // require '../../connection.php';
 

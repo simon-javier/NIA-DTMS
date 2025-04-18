@@ -70,7 +70,7 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
 
 <body class="bg-gray-200 text-neutral-950 flex min-h-screen">
     <!-- Sidebar -->
-    <div class="bg-neutral-50 w-[270px] shrink-0 shadow-lg flex flex-col gap-9" id="sidebar">
+    <div class="bg-neutral-50 w-[270px] shrink-0 shadow-lg flex flex-col gap-9 h-screen sticky top-0" id="sidebar">
         <div class="flex flex-col items-center mt-4 gap-3">
             <img src="<?php echo $env_basePath; ?>assets/img/logo.png" class="w-1/2" alt="">
             <h1 class="text-lg font-bold text-center w-10/12" id="sidebarTitle">

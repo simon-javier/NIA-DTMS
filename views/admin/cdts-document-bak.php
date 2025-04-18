@@ -1,11 +1,11 @@
-<?php require 'template/top-template.php'; ?>
+<?php require 'template/top-template-bak.php'; ?>
 <?php
 // require '../../connection.php';
 
-$doctypeQuery = "SELECT * FROM tbl_offices";
+$doctypeQuery = "SELECT * FROM tbl_document_type";
 $statement = $pdo->prepare($doctypeQuery);
 $statement->execute();
-$offices = $statement->fetchAll(PDO::FETCH_ASSOC);
+$doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 ?>
@@ -71,25 +71,23 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
 <div class="table-container">
     <div class="d-flex justify-content-end mb-3">
         <button class="btn btn-primary d-flex align-items-center" data-toggle="modal" data-target="#newDocumentModal">
-            <i class='bx bx-plus-circle mr-2' style="font-size: 18px"></i> New Office
+            <i class='bx bx-plus-circle mr-2' style="font-size: 18px"></i> New Document
         </button>
     </div>
     <table id="example" class="hover" style="width:100%">
         <thead>
             <tr>
-                <th>Office Name</th>
-                <th>Office Code</th>
+                <th>Document Type</th>
                 <th style="text-align: right;">Action</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($offices as $row) { ?>
+            <?php foreach ($doctypes as $row) { ?>
                 <tr>
 
-                    <td><?php echo $row['office_name'] ?></td>
-                    <td><?php echo $row['office_code'] ?></td>
+                    <td><?php echo $row['document_type'] ?></td>
                     <td style="text-align: right;">
-                        <button data-id="<?php echo $row['id'] ?>" data-document="<?php echo $row['office_name'] ?>" data-code="<?php echo $row['office_code'] ?>" class="btn btn-dark edit-button"><i class='bx bx-pencil'></i></button>
+                        <button data-id="<?php echo $row['id'] ?>" data-document="<?php echo $row['document_type'] ?>" class="btn btn-dark edit-button"><i class='bx bx-pencil'></i></button>
                     </td>
                 </tr>
             <?php } ?>
@@ -97,8 +95,7 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
         </tbody>
         <tfoot>
             <tr>
-                <th>Office Name</th>
-                <th>Office Code</th>
+                <th>Document Type</th>
                 <th style="text-align: right;">Action</th>
             </tr>
         </tfoot>
@@ -109,25 +106,21 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="newDocumentModalLabel">New Office</h5>
+                <h5 class="modal-title" id="newDocumentModalLabel">New Document</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <!-- Form for submitting a new document type -->
-                <form id="addNewOffice" autocomplete="off">
+                <form id="newDocumentForm" autocomplete="off">
                     <div class="form-group">
-                        <label for="documentType">Office Name:</label>
-                        <input type="text" class="form-control" id="documentType" name="office_name" placeholder="Enter office name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="officeCode">Office Code:</label>
-                        <input type="text" class="form-control" id="officeCode" name="office_code" placeholder="Enter office code" required>
+                        <label for="documentType">Document Type:</label>
+                        <input type="text" class="form-control" id="documentType" name="document_type" placeholder="Enter document type" required>
                     </div>
                     <!-- Add more form fields as needed -->
                     <div class="d-flex justify-content-end">
-                        <button type="submit" id="addNewOfficebtn" class="btn btn-primary">Add</button>
+                        <button type="submit" id="newDocumentFormbtn" class="btn btn-primary">Add</button>
                     </div>
 
                 </form>
@@ -147,17 +140,13 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editofficeinfo">
+                <form id="editDocumentForm">
                     <div class="form-group">
-                        <label for="editOfficeName">Office Name:</label>
-                        <input type="text" class="form-control" id="editOfficeName" name="edit_office_name" required>
-                        <input type="hidden" id="office_id" name="office_id" required>
+                        <label for="editDocumentType">Document Type:</label>
+                        <input type="text" class="form-control" id="editDocumentType" name="edit_document_type" required>
+                        <input type="hidden" id="document_id" name="document_id" required>
                     </div>
-                    <div class="form-group">
-                        <label for="editOfficeCode">Office Code:</label>
-                        <input type="text" class="form-control" id="editOfficeCode" name="edit_office_code" required>
-                    </div>
-                    <div class="d-flex justify-content-end"> <button type="submit" id="editofficeinfobtn" class="btn btn-primary">Save Changes</button></div>
+                    <div class="d-flex justify-content-end"> <button type="submit" id="editDocumentFormbtn" class="btn btn-primary">Save Changes</button></div>
 
 
                 </form>
@@ -173,11 +162,9 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
     $('.edit-button').click(function() {
         var id = $(this).data('id');
         var documentType = $(this).data('document');
-        var officeCode = $(this).data('code');
 
-        $('#editOfficeName').val(documentType);
-        $('#office_id').val(id);
-        $('#editOfficeCode').val(officeCode);
+        $('#editDocumentType').val(documentType);
+        $('#document_id').val(id);
         $('#editDocumentModal').modal('show');
     });
 
@@ -246,16 +233,16 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 <script>
-    $("#editofficeinfobtn").click(function(e) {
-        if ($("#editofficeinfo")[0].checkValidity()) {
+    $("#editDocumentFormbtn").click(function(e) {
+        if ($("#editDocumentForm")[0].checkValidity()) {
             e.preventDefault();
 
             $('.loader-container').fadeIn();
-            var formData = new FormData($("#editofficeinfo")[0]);
-            formData.append("action", "edit_office");
+            var formData = new FormData($("#editDocumentForm")[0]);
+            formData.append("action", "edit_document");
 
             $.ajax({
-                url: "../../controller/office-name-controller.php",
+                url: "../../controller/document-type-controller.php",
                 type: "POST",
                 data: formData,
                 contentType: false,
@@ -325,16 +312,16 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 <script>
-    $("#addNewOfficebtn").click(function(e) {
-        if ($("#addNewOffice")[0].checkValidity()) {
+    $("#newDocumentFormbtn").click(function(e) {
+        if ($("#newDocumentForm")[0].checkValidity()) {
             e.preventDefault();
 
             $('.loader-container').fadeIn();
-            var formData = new FormData($("#addNewOffice")[0]);
-            formData.append("action", "add_office");
+            var formData = new FormData($("#newDocumentForm")[0]);
+            formData.append("action", "create_document");
 
             $.ajax({
-                url: "../../controller/office-name-controller.php",
+                url: "../../controller/document-type-controller.php",
                 type: "POST",
                 data: formData,
                 contentType: false,
