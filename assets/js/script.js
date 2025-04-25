@@ -199,7 +199,7 @@ logoutBtn.addEventListener("click", () => {
     });
 })
 
-new DataTable('#mainTable', {
+const mainTable = new DataTable('#mainTable', {
     columnDefs: [{
         orderable: false,
         targets: -1,
@@ -208,8 +208,203 @@ new DataTable('#mainTable', {
         top0End: {
             buttons: [
                 {
+                    className: "new-document-btn",
                     text: "<i class='bx bx-plus-circle text-lg'></i>New Document",
                 }]
         },
     }
 });
+
+$('.new-document-btn').click(() => {
+    $("#newDocModal").toggleClass("hidden");
+    $("#documentType").select();
+})
+
+$("#editDocModal").keydown((e) => {
+    if (e.key === "Escape") {
+        $('#editDocModal').toggleClass("hidden");
+    }
+})
+
+$("#editDocModal").click((e) => {
+    const target = e.target;
+    if (target.className.includes("close-btn")) {
+        $('#editDocModal').toggleClass("hidden");
+    }
+})
+
+$("#newDocModal").keydown((e) => {
+    if (e.key === "Escape") {
+        $("#newDocModal").toggleClass("hidden");
+    }
+})
+
+$("#newDocModal").click((e) => {
+    const target = e.target;
+    if (target.className.includes("close-btn")) {
+        $("#newDocModal").toggleClass("hidden");
+    }
+})
+
+$("#newDocumentFormbtn").click(function(e) {
+    if ($("#newDocumentForm")[0].checkValidity()) {
+        e.preventDefault();
+
+        $('.loader-container').fadeIn();
+        let formData = new FormData($("#newDocumentForm")[0]);
+        formData.append("action", "create_document");
+
+        $.ajax({
+            url: "../../controller/document-type-controller.php",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                setTimeout(function() {
+                    $('.loader-container').fadeOut();
+                }, 500);
+
+                if (response.status === "failed") {
+                    Swal.fire({
+                        title: 'Something went wrong!',
+                        text: response.message,
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                } else if (response.status === "error") {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
+                } else if (response.status === "success") {
+                    Swal.fire({
+                        titleText: 'Successful',
+                        html: `<p class="text-sm text-neutral-500">${response.message}</p>`,
+                        icon: 'success',
+                        confirmButtonColor: 'oklch(62.7% 0.194 149.214)',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
+                }
+
+
+            },
+            error: function(xhr, status, error) {
+                // Handle the error here
+                var errorMessage = 'An error occurred while processing your request.';
+                if (xhr.statusText) {
+                    errorMessage += ' ' + xhr.statusText;
+                }
+                Swal.fire({
+                    title: 'Error!',
+                    text: errorMessage + '<br><br>' + JSON.stringify(xhr, null, 2), // Include the entire error object for debugging
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    // Check if the user clicked the "OK" button
+                    if (result.isConfirmed) {
+                        // Reload the page
+                        location.reload();
+                    }
+                });
+            }
+        });
+    }
+});
+
+// Attach a click event to the edit button
+$('#mainTable').on('click', '.edit-button', (e) => {
+    const id = $(e.target).data('id');
+    const documentType = $(e.target).data('document');
+
+    $('#editDocumentType').val(documentType);
+    $('#document_id').val(id);
+    $('#editDocModal').toggleClass("hidden");
+    $('#editDocumentType').select();
+});
+
+$("#editDocumentFormbtn").click(function(e) {
+    if ($("#editDocumentForm")[0].checkValidity()) {
+        e.preventDefault();
+
+        $('.loader-container').fadeIn();
+        var formData = new FormData($("#editDocumentForm")[0]);
+        formData.append("action", "edit_document");
+
+        $.ajax({
+            url: "../../controller/document-type-controller.php",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                setTimeout(function() {
+                    $('.loader-container').fadeOut();
+                }, 500);
+
+                if (response.status === "failed") {
+                    Swal.fire({
+                        title: 'Something went wrong!',
+                        text: response.message,
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                } else if (response.status === "error") {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
+                } else if (response.status === "success") {
+                    Swal.fire({
+                        titleText: 'Successful',
+                        html: `<p class="text-sm text-neutral-500">${response.message}</p>`,
+                        icon: 'success',
+                        confirmButtonColor: 'oklch(62.7% 0.194 149.214)',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+
+                        }
+                    });
+                }
+
+
+            },
+            error: function(xhr, status, error) {
+                // Handle the error here
+                var errorMessage = 'An error occurred while processing your request.';
+                if (xhr.statusText) {
+                    errorMessage += ' ' + xhr.statusText;
+                }
+                Swal.fire({
+                    title: 'Error!',
+                    text: errorMessage + '<br><br>' + JSON.stringify(xhr, null, 2), // Include the entire error object for debugging
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    // Check if the user clicked the "OK" button
+                    if (result.isConfirmed) {
+                        // Reload the page
+                        location.reload();
+                    }
+                });
+            }
+        });
+    }
+});
+

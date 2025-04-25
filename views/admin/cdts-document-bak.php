@@ -83,13 +83,16 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
         </thead>
         <tbody>
             <?php foreach ($doctypes as $row) { ?>
-                <tr>
+            <tr>
 
-                    <td><?php echo $row['document_type'] ?></td>
-                    <td style="text-align: right;">
-                        <button data-id="<?php echo $row['id'] ?>" data-document="<?php echo $row['document_type'] ?>" class="btn btn-dark edit-button"><i class='bx bx-pencil'></i></button>
-                    </td>
-                </tr>
+                <td>
+                    <?php echo $row['document_type'] ?>
+                </td>
+                <td style="text-align: right;">
+                    <button data-id="<?php echo $row['id'] ?>" data-document="<?php echo $row['document_type'] ?>"
+                        class="btn btn-dark edit-button"><i class='bx bx-pencil'></i></button>
+                </td>
+            </tr>
             <?php } ?>
 
         </tbody>
@@ -102,7 +105,8 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
     </table>
 </div>
 
-<div class="modal fade" id="newDocumentModal" tabindex="-1" role="dialog" aria-labelledby="newDocumentModalLabel" aria-hidden="true">
+<div class="modal fade" id="newDocumentModal" tabindex="-1" role="dialog" aria-labelledby="newDocumentModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -116,7 +120,8 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
                 <form id="newDocumentForm" autocomplete="off">
                     <div class="form-group">
                         <label for="documentType">Document Type:</label>
-                        <input type="text" class="form-control" id="documentType" name="document_type" placeholder="Enter document type" required>
+                        <input type="text" class="form-control" id="documentType" name="document_type"
+                            placeholder="Enter document type" required>
                     </div>
                     <!-- Add more form fields as needed -->
                     <div class="d-flex justify-content-end">
@@ -130,7 +135,8 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 
-<div class="modal fade" id="editDocumentModal" tabindex="-1" role="dialog" aria-labelledby="editDocumentModalLabel" aria-hidden="true">
+<div class="modal fade" id="editDocumentModal" tabindex="-1" role="dialog" aria-labelledby="editDocumentModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -143,10 +149,12 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
                 <form id="editDocumentForm">
                     <div class="form-group">
                         <label for="editDocumentType">Document Type:</label>
-                        <input type="text" class="form-control" id="editDocumentType" name="edit_document_type" required>
+                        <input type="text" class="form-control" id="editDocumentType" name="edit_document_type"
+                            required>
                         <input type="hidden" id="document_id" name="document_id" required>
                     </div>
-                    <div class="d-flex justify-content-end"> <button type="submit" id="editDocumentFormbtn" class="btn btn-primary">Save Changes</button></div>
+                    <div class="d-flex justify-content-end"> <button type="submit" id="editDocumentFormbtn"
+                            class="btn btn-primary">Save Changes</button></div>
 
 
                 </form>
@@ -159,16 +167,16 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
 <?php require 'template/bottom-template.php'; ?>
 <script>
     // Attach a click event to the edit button
-    $('.edit-button').click(function() {
-        var id = $(this).data('id');
-        var documentType = $(this).data('document');
+    $('.edit-button').click(function () {
+        const id = $(this).data('id');
+        const documentType = $(this).data('document');
 
         $('#editDocumentType').val(documentType);
         $('#document_id').val(id);
         $('#editDocumentModal').modal('show');
     });
 
-    $('#close_modal').click(function() {
+    $('#close_modal').click(function () {
         $('#editDocumentModal').modal('hide');
     });
 </script>
@@ -176,10 +184,10 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var fileInput = document.getElementById('file');
 
-        fileInput.addEventListener('change', function() {
+        fileInput.addEventListener('change', function () {
             var selectedFile = this.files[0];
 
             // Check if a file is selected
@@ -213,11 +221,11 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var textarea = document.getElementById('description');
         var charCount = document.getElementById('charCount');
 
-        textarea.addEventListener('input', function() {
+        textarea.addEventListener('input', function () {
             var maxLength = 250;
             var currentLength = textarea.value.length;
 
@@ -233,7 +241,7 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 <script>
-    $("#editDocumentFormbtn").click(function(e) {
+    $("#editDocumentFormbtn").click(function (e) {
         if ($("#editDocumentForm")[0].checkValidity()) {
             e.preventDefault();
 
@@ -247,8 +255,8 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function(response) {
-                    setTimeout(function() {
+                success: function (response) {
+                    setTimeout(function () {
                         $('.loader-container').fadeOut();
                     }, 500);
 
@@ -286,7 +294,7 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     // Handle the error here
                     var errorMessage = 'An error occurred while processing your request.';
                     if (xhr.statusText) {
@@ -312,7 +320,7 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 <script>
-    $("#newDocumentFormbtn").click(function(e) {
+    $("#newDocumentFormbtn").click(function (e) {
         if ($("#newDocumentForm")[0].checkValidity()) {
             e.preventDefault();
 
@@ -326,8 +334,8 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function(response) {
-                    setTimeout(function() {
+                success: function (response) {
+                    setTimeout(function () {
                         $('.loader-container').fadeOut();
                     }, 500);
 
@@ -365,7 +373,7 @@ $doctypes = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     // Handle the error here
                     var errorMessage = 'An error occurred while processing your request.';
                     if (xhr.statusText) {
