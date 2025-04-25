@@ -169,7 +169,7 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
                 </button>
             </nav>
             <!-- Profile Logo Modal -->
-            <button type="button" class="hidden cursor-pointer absolute right-4 z-10 shadow-2xl text-red-600 items-baseline
+            <button type="button" class="hidden cursor-pointer absolute right-4 z-20 shadow-2xl text-red-600 items-baseline
                     bg-neutral-50 py-4 px-5 rounded-lg gap-2 top-17 hover:bg-gray-100" id="logoutBtn">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 <p>Logout</p>
