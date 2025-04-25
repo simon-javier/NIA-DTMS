@@ -177,7 +177,7 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
 
             <!-- Notification Modal -->
             <div class="absolute hidden flex-col right-4 top-18 bg-neutral-50 
-                max-w-[402px] rounded-xl shadow-2xl" id="notificationModal">
+                max-w-[402px] rounded-xl shadow-2xl z-10" id="notificationModal">
                 <div class="py-3 px-4">
                     <h1 class="text-sm">Notifications</h1>
                 </div>
