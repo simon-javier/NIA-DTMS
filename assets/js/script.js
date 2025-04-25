@@ -410,20 +410,26 @@ $("#addNewOfficebtn").click(function(e) {
 // Attach a click event to the edit button
 $('#mainTable').on('click', '.edit-button', (e) => {
     const id = $(e.target).data('id');
-    const documentType = $(e.target).data('document');
-    const officeName = $(e.target).data('office');
-    const officeCode = $(e.target).data('code');
-
-    $('#document_id').val(id);
-    $('#editDocumentType').val(documentType);
-
-    $('#editOfficeName').val(officeName);
-    $('#editOfficeCode').val(officeCode);
-
     $('#editDocModal').toggleClass("hidden");
-    $('#editDocumentType').select();
 
-    $('#editOfficeName').select();
+    switch (currentPage) {
+        case "cdts-document.php":
+            const documentType = $(e.target).data('document');
+            $('#document_id').val(id);
+            $('#editDocumentType').val(documentType);
+            $('#editDocumentType').select();
+            break;
+        case "list-office-names.php":
+            const officeName = $(e.target).data('office');
+            const officeCode = $(e.target).data('code');
+            $('#officeId').val(id);
+            $('#editOfficeName').val(officeName);
+            $('#editOfficeCode').val(officeCode);
+            $('#editOfficeName').select();
+        default:
+            break;
+    }
+
 });
 
 $("#editofficeinfobtn").click(function(e) {

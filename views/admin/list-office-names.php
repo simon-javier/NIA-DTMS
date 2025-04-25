@@ -21,7 +21,7 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
         </thead>
         <tbody>
             <?php foreach ($offices as $row) { ?>
-                <tr>
+                <tr class="text-neutral-600">
 
                     <td>
                         <?php echo $row['office_name'] ?>
@@ -29,7 +29,7 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
                     <td>
                         <?php echo $row['office_code'] ?>
                     </td>
-                    <td style="text-align: right;">
+                    <td class="text-right">
                         <button data-id="<?php echo $row['id'] ?>" data-office="<?php echo $row['office_name'] ?>"
                             data-code="<?php echo $row['office_code'] ?>" class="px-4 py-0.5 rounded-sm cursor-pointer 
                                 text-green-700 shadow-xs-1 hover:text-green-900 edit-button">Edit</button>
@@ -57,6 +57,8 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
             <input type="text" class="p-2 border-neutral-300 border-1 rounded-md 
             focus-visible:outline-green-500 focus-visible:outline-1.5" id="documentType" name="office_name"
                 placeholder="Enter office name" required>
+
+
             <label for="office_code">Office Code:</label>
             <input type="text" class="p-2 border-neutral-300 border-1 rounded-md 
             focus-visible:outline-green-500 focus-visible:outline-1.5" id="officeCode" name="office_code"
@@ -84,6 +86,9 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
             focus-visible:outline-green-500 focus-visible:outline-1.5" id="editOfficeName" name="edit_office_name"
                 placeholder="Enter office name" required>
             <label for="edit_office_code">Office Code:</label>
+
+            <input type="hidden" id="officeId" name="office_id" required>
+
             <input type="text" class="p-2 border-neutral-300 border-1 rounded-md 
             focus-visible:outline-green-500 focus-visible:outline-1.5" id="editOfficeCode" name="edit_office_code"
                 placeholder="Enter office code" required>
