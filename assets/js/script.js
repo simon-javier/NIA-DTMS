@@ -225,11 +225,17 @@ switch (currentPage) {
         btnText = "<i class='bx bx-arrow-back text-base'></i> Back";
         btnClassName = "dec-reg-btn backBtn";
         break;
+    case "offices.php":
+        btnText = "<i class='bx bx-plus-circle text-lg'></i>New User";
+        btnClassName = "new-document-btn newUserBtn";
+        break;
 }
 
 const mainTable = new DataTable('#mainTable', {
+    responsive: true,
     columnDefs: [{
         orderable: false,
+        responsivePriority: 2,
         targets: -1,
     }],
     layout: {
@@ -249,6 +255,10 @@ $('.dec-reg-btn').click(() => {
 
 $('.dec-reg-btn.backBtn').click(() => {
     window.location.href = "guest.php";
+})
+
+$('.new-document-btn.newUserBtn').click(() => {
+    window.location.href = "add-new-users.php?type=handler";
 })
 
 
@@ -862,3 +872,90 @@ function unarchiveAccount(button) {
         }
     });
 }
+
+$("#update_information_button").click(function(e) {
+    if ($("#update_information")[0].checkValidity()) {
+        e.preventDefault();
+        Swal.fire({
+            titleText: 'Are you sure?',
+            html: `<p class="text-sm text-neutral-500">You are about to update the information</p>`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: "oklch(62.7% 0.194 149.214)",
+            confirmButtonText: 'Update'
+
+        }).then((result) => {
+            // If the user clicks "Yes, update it!", submit the form
+            if (result.isConfirmed) {
+                $('.loader-container').fadeIn();
+                $.ajax({
+                    url: "../../controller/crud-users-controller.php",
+                    type: "POST",
+                    data: $("#update_information").serialize() + "&action=update_information",
+                    success: function(response) {
+
+                        setTimeout(function() {
+
+                            $('.loader-container').fadeOut();
+                        }, 500);
+
+                        if (response.status === "failed") {
+                            Swal.fire({
+                                title: 'Something went wrong!',
+                                text: response.message,
+                                icon: 'warning',
+                                confirmButtonText: 'OK'
+                            });
+                        } else if (response.status === "error") {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        } else if (response.status === "success") {
+                            Swal.fire({
+                                titleText: 'Successful',
+                                html: `<p class="text-sm text-neutral-500">${response.message}</p>`,
+                                icon: 'success',
+                                confirmButtonColor: 'oklch(62.7% 0.194 149.214)',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+
+                                }
+                            });
+                        }
+
+
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle the error here
+                        var errorMessage = 'An error occurred while processing your request.';
+                        if (xhr.statusText) {
+                            errorMessage += ' ' + xhr.statusText;
+                        }
+                        Swal.fire({
+                            title: 'Error!',
+                            text: errorMessage + '<br><br>' + JSON.stringify(xhr, null, 2), // Include the entire error object for debugging
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            // Check if the user clicked the "OK" button
+                            if (result.isConfirmed) {
+                                // Reload the page
+                                location.reload();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+
+    }
+});

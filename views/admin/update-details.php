@@ -1,229 +1,149 @@
 <?php require 'template/top-template.php'; ?>
 
-<?php 
-    require '../../connection.php';
-    $id = $_GET['id'];
-    try {
-        //code...
-        $get_user_data = "
+<?php
+require '../../connection.php';
+$id = $_GET['id'];
+try {
+    //code...
+    $get_user_data = "
            select * from tbl_userinformation where id = '$id';
         ";
-        $stmt = $pdo->prepare($get_user_data);
-        $stmt->execute();
+    $stmt = $pdo->prepare($get_user_data);
+    $stmt->execute();
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $type = $result['role'];
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $type = $result['role'];
 
-        if($type != 'guest'){
-            $href = 'offices.php';
-        }else{
-            $href = 'guest.php';
-        }
-        
-        $officesQuery = "SELECT * FROM tbl_offices";
-        $stmt = $pdo->prepare($officesQuery);
-        $stmt->execute();
-        $list_offices = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    } catch (\PDOException $th) {
-        echo "Error: " . $th->getMessage();
+    if ($type != 'guest') {
+        $href = 'offices.php';
+    } else {
+        $href = 'guest.php';
     }
+
+    $officesQuery = "SELECT * FROM tbl_offices";
+    $stmt = $pdo->prepare($officesQuery);
+    $stmt->execute();
+    $list_offices = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (\PDOException $th) {
+    echo "Error: " . $th->getMessage();
+}
 ?>
 
-    <style>
-        :root {
-        --primary-color: #069734;
-        --lighter-primary-color: #07b940;
-        --white-color: #FFFFFF;
-        --black-color: #181818;
-        --bold: 600;
-        --transition: all 0.5s ease;
-        --box-shadow: 0 0.1rem 0.8rem rgba(0, 0, 0, 0.2);
-        }
-        p, h1, h2, h3, h4, h5, h6{
-            margin: 0;
-        }
+<div class="border-b border-gray-900/10 p-12 rounded-md bg-neutral-50 w-[95%] self-center mt-10">
+    <div class="flex justify-between">
+        <p>
+            <span class="badge
+                <?php
+                $className = '';
+                switch ($result['status']) {
+                    case 'active':
+                        $className = " bg-green-600 text-neutral-50 p-1 text-xs font-bold rounded-md";
+                        break;
+                    case 'archived':
+                        $className = "bg-blue-500 text-neutral-50 p-1 text-xs font-bold rounded-md";
+                        break;
+                    case 'pending':
+                        $className = "bg-yellow-500 text-neutral-50 p-1 text-xs font-bold rounded-md";
+                        break;
+                    default:
+                        $className = "bg-red-600 text-neutral-50 p-1 text-xs font-bold rounded-md";
+                        break;
+                }
+                echo
+                $className; ?>"
+                style="text-transform: uppercase;">
+                <?php echo $result['status']; ?>
+            </span>
+        </p>
+    </div>
 
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        *{
-            font-family: 'Poppins', 'Arial' !important;
-        }
-        .top-bar{
-            background-color: var(--primary-color);
-            padding: 20px;
-            color: var(--white-color);
-        }
-        .content{
-            padding: 20px;
-            box-shadow: var(--box-shadow);
-        }
-
-    </style>
-<!-- </head>
-<body> -->
-
-        <!-- <div class="top-bar d-flex justify-content-start align-items-start">
-
-            <a href="offices.php" class="btn btn-danger d-flex align-items-center" style="gap: 10px"><i class='bx bx-arrow-back' style="font-size: 18px;"></i> Back</a>
-        </div> -->
-        <div class="content">
-        <div class="mb-3 d-flex justify-content-start align-items-start">
-            <!-- <h2>User Details</h2> -->
-            <a href="<?php echo $href ?>" class="btn btn-danger d-flex align-items-center" style="gap: 10px"><i class='bx bx-arrow-back' style="font-size: 18px;"></i> Back</a>
-        </div>
-        <form id="update_information">
+    <form id='update_information'>
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <input type="hidden" value="<?php echo $id ?>" name="id" readonly>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="input1">First Name</label>
-                    <input type="text" class="form-control" name="firstname" id="input1" value="<?php echo $result['firstname']; ?>" placeholder="First Name" required>
+            <div class="sm:col-span-3">
+                <label for="input1" class="block text-sm/6 font-medium text-neutral-900">First Name</label>
+                <div class="mt-2">
+                    <input type="text" name="firstname" id="input1" autocomplete="given-name"
+                        class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
+                    text-base text-neutral-900 outline-1 -outline-offset-1
+                    outline-gray-300 placeholder:text-neutral-900 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600" value="<?php echo $result['firstname']; ?>"
+                        placeholder="N/A" required>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="input1">Last Name</label>
-                    <input type="text" class="form-control" name="lastname" value="<?php echo $result['lastname']; ?>" id="input1" placeholder="Last Name" required>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="input1">Contact Number</label>
-                    <input type="text" class="form-control" name="contact" id="input1" value="<?php echo $result['contact']; ?>" placeholder="N/A" required>
-                </div>
-                
-            </div>
-            <div class="col-md-6">
-            <div class="form-group">
-                    <label for="input2">Position</label>
-                    <input type="text" class="form-control" name="position" value="<?php echo $result['position']; ?>" id="input2" placeholder="N/A" required>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label for="input4">Email address</label>
-                    <input type="text" class="form-control" name="email" value="<?php echo $result['email']; ?>" id="input4" placeholder="N/A" required>
-                </div>
-            </div>
-            <?php if($type == "handler"){ ?>
-                <div class="col-md-12">
-                <div class="form-group">
-                    <label for="office">Office</label>
-                    <select name="office" id="office" class="form-control">
-                        <?php foreach ($list_offices as $office): ?>
-                            <option value="<?php echo $office['office_name']; ?>" <?php echo ($office['office_name'] == $result['office']) ? 'selected' : ''; ?>>
-                                <?php echo $office['office_name']; ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
 
+            <div class="sm:col-span-3">
+                <label for="last-name" class="block text-sm/6 font-medium text-neutral-900">Last Name</label>
+                <div class="mt-2">
+                    <input type="text" name="lastname" id="last-name" autocomplete="family-name"
+                        class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
+                    text-base text-neutral-900 outline-1 -outline-offset-1
+                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600" value="<?php echo $result['lastname']; ?>"
+                        placeholder="N/A" required>
                 </div>
             </div>
-            <?php } ?>
-            
+
+            <div class="sm:col-span-4">
+                <label for="email" class="block text-sm/6 font-medium text-neutral-900">Email Address</label>
+                <div class="mt-2">
+                    <input type="email" name="email" id="email" autocomplete="email"
+                        class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
+                    text-base text-neutral-900 outline-1 -outline-offset-1
+                    outline-gray-300 placeholder:text-neutral-900 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600"
+                        value="<?php echo $result['email']; ?>" placeholder="N/A" required>
+                </div>
+            </div>
+
+            <div class="sm:col-span-2">
+                <label for="contactNo" class="block text-sm/6 font-medium text-neutral-900">Contact Number</label>
+                <div class="mt-2">
+                    <input type="text" name="contact" id="contactNo" autocomplete="contact-number"
+                        class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
+                    text-base text-neutral-900 outline-1 -outline-offset-1
+                    outline-gray-300 placeholder:text-neutral-900 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600" value="<?php echo $result['contact']; ?>"
+                        placeholder="N/A" required>
+                </div>
+            </div>
+
+            <div class="sm:col-span-3">
+                <label for="position" class="block text-sm/6 font-medium text-neutral-900">Position</label>
+                <div class="mt-2">
+                    <input type="text" name="position" id="position" autocomplete="position"
+                        class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
+                    text-base text-neutral-900 outline-1 -outline-offset-1
+                    outline-gray-300 placeholder:text-neutral-900 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600" value="<?php echo $result['position']; ?>"
+                        placeholder="N/A" required>
+                </div>
+            </div>
+
+            <div class="sm:col-span-3">
+                <label for="role" class="block text-sm/6 font-medium text-neutral-900">Role</label>
+                <div class="mt-2">
+                    <input type="text" name="role" id="role" autocomplete="role"
+                        class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
+                    text-base text-neutral-900 outline-1 -outline-offset-1
+                    outline-gray-300 placeholder:text-neutral-900 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600"
+                        value="<?php echo $result['role']; ?>" placeholder="N/A" required>
+                </div>
+            </div>
+
+            <div class="sm:col-span-full">
+                <label for="office" class="block text-sm/6 font-medium text-neutral-900">Office</label>
+                <div class="mt-2">
+                    <input type="text" name="office" id="office" autocomplete="office"
+                        class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
+                    text-base text-neutral-900 outline-1 -outline-offset-1
+                    outline-gray-300 placeholder:text-neutral-900 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600"
+                        value="<?php echo $result['office']; ?>" placeholder="N/A" required>
+                </div>
+            </div>
             <input type="hidden" id="account_type" name="account_type" value="<?php echo $type; ?>">
-            
         </div>
-        <div class="d-flex justify-content-end align-items-end">
-            <button type="submit" id="update_information_button" class="btn btn-primary">Update</button>
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+            <a href="<?php echo $href ?>"
+                class="cursor-pointer text-sm/6 font-semibold text-gray-900 hover:text-gray-900/80">Cancel</a>
+            <button type="submit" id="update_information_button"
+                class="cursor-pointer rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Update</button>
         </div>
-        </form>
-        
-        </div>
-   
-    <?php require 'template/bottom-template.php'; ?>
-
-
-    <script>
-    $("#update_information_button").click(function(e){
-
-        if($("#update_information")[0].checkValidity()){
-            e.preventDefault();
-                Swal.fire({
-                title: 'Are you sure?',
-                text: 'You are about to update the information!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, update it!'
-            }).then((result) => {
-                // If the user clicks "Yes, update it!", submit the form
-                if (result.isConfirmed) {
-                    $('.loader-container').fadeIn();
-            $.ajax({
-                url: "../../controller/crud-users-controller.php",
-                type: "POST",
-                data: $("#update_information").serialize()+"&action=update_information",
-                success:function(response){
-
-                    setTimeout(function() {
-
-                    $('.loader-container').fadeOut();
-                    }, 500);
-                
-                    if(response.status === "failed"){
-                        Swal.fire({
-                            title: 'Something went wrong!',
-                            text: response.message,
-                            icon: 'warning',
-                            confirmButtonText: 'OK'
-                        });
-                    }else if(response.status === "error"){
-                        Swal.fire({
-                            title: 'Error!',
-                            text: response.message,
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.reload();
-                        }
-                    });
-                    }
-                    else if(response.status === "success"){
-                        Swal.fire({
-                        title: 'Success!',
-                        text: response.message,
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                            }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-
-                            }
-                        });
-                        }
-                    
-                   
-                },
-                error: function(xhr, status, error) {
-                    // Handle the error here
-                    var errorMessage = 'An error occurred while processing your request.';
-                    if (xhr.statusText) {
-                        errorMessage += ' ' + xhr.statusText;
-                    }
-                    Swal.fire({
-                        title: 'Error!',
-                        text: errorMessage + '<br><br>' + JSON.stringify(xhr, null, 2), // Include the entire error object for debugging
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        // Check if the user clicked the "OK" button
-                        if (result.isConfirmed) {
-                            // Reload the page
-                            location.reload();
-                        }
-                    });
-                }
-            });
-                }
-            });
-
-           
-        }
-    });
-</script>
+    </form>
+</div>
+</main>

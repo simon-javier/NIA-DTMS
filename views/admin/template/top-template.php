@@ -116,7 +116,9 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
                                     <div class="rounded-full w-5 h-5 p-1 
                                         bg-green-600 text-green-100 flex justify-center
                                         items-center text-xs font-bold">
-                                        <p class=""><?php echo $count; ?></p>
+                                        <p class="">
+                                            <?php echo $count; ?>
+                                        </p>
                                     </div>
                                 <?php endif; ?>
                             </a>
@@ -153,18 +155,23 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
         <header>
             <nav class="bg-neutral-50 w-full flex justify-end items-center
                 gap-6 shadow-sm">
-                <p class="font-bold text-gray-500 py-5"><?php echo $current_time; ?></p>
-                <button type="button" class="cursor-pointer relative" id="notificationButton" data-id="<?php echo $user_id; ?>">
+                <p class="font-bold text-gray-500 py-5">
+                    <?php echo $current_time; ?>
+                </p>
+                <button type="button" class="cursor-pointer relative" id="notificationButton"
+                    data-id="<?php echo $user_id; ?>">
                     <i class='bx bx-bell text-2xl text-gray-500 hover:text-green-600'></i>
                     <?php if ($notificationCount > 0) { ?>
-                        <span class="bg-red-600 p-1 w-2 h-1 inline-block rounded-full absolute left-3 border-neutral-50 border-1"></span>
+                        <span
+                            class="bg-red-600 p-1 w-2 h-1 inline-block rounded-full absolute left-3 border-neutral-50 border-1"></span>
                     <?php } ?>
                 </button>
                 <a href="../../views/settings/update-profile.php" class="cursor-pointer">
                     <i class='bx bx-cog text-2xl text-gray-500 hover:text-green-600'></i>
                 </a>
                 <button type="button" class="cursor-pointer mr-5" id="profileLogo">
-                    <img src="<?php echo $env_basePath; ?>assets\img\profile.jpg" class="drop-shadow-md size-9
+                    <img src="<?php echo $env_basePath; ?>assets/user-profile/<?php echo $userProfile['user_profile']; ?>"
+                        class="drop-shadow-md size-9
                         object-cover rounded-full hover:drop-shadow-green-600" alt="">
                 </button>
             </nav>
@@ -190,7 +197,8 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
                                 <div>
                                     <h2 class="text-sm font-bold">New User Registration Request</h2>
                                     <p class="text-xs text-neutral-500">
-                                        <?php echo $notification['content']; ?></p>
+                                        <?php echo $notification['content']; ?>
+                                    </p>
                                 </div>
                             </div>
                         <?php } ?>
