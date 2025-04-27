@@ -44,9 +44,19 @@ div.dt-buttons>.dt-button:hover {
   @apply text-base m-0 py-1.5 px-6 bg-green-500 text-green-50 border-none rounded-sm font-bold;
 }
 
+div.dt-buttons>.dt-button.dec-reg-btn,
+div.dt-buttons>.dt-button.dec-reg-btn:hover {
+  @apply text-sm m-0 py-1 px-3 bg-gray-400 text-neutral-200 border-none rounded-sm font-normal;
+}
+
 div.dt-buttons>.dt-button:hover:not(.disabled),
 div.dt-buttons>div.dt-button-split .dt-button:hover:not(.disabled) {
   @apply border-none bg-green-600;
+}
+
+div.dt-buttons>.dt-button.dec-reg-btn:hover:not(.disabled),
+div.dt-buttons>div.dt-button-split .dt-button.dec-reg-btn:hover:not(.disabled) {
+  @apply border-none bg-gray-500;
 }
 
 div.dt-container .dt-info,
@@ -79,7 +89,12 @@ div.dt-container .dt-paging .dt-paging-button:active {
   --animate-fade-in: fadeIn var(--default-transition-duration);
 
   @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
   }
 }

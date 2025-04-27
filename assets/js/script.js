@@ -16,7 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const linkHref = item.getAttribute("href");
+        let linkHref = "";
+
+        if (item.tagName === "LI") {
+            linkHref = item.querySelector('a').getAttribute("href");
+        } else {
+            linkHref = item.getAttribute("href");
+        }
+
         if (linkHref !== null && linkHref.includes(currentPage)) {
             setActiveState(item);
         } else {
@@ -200,12 +207,23 @@ logoutBtn.addEventListener("click", () => {
 })
 
 let btnText = "";
+let btnClassName = "";
 switch (currentPage) {
     case "list-office-names.php":
-        btnText = "Office";
+        btnText = "<i class='bx bx-plus-circle text-lg'></i>New Office";
+        btnClassName = "new-document-btn"
         break;
     case "cdts-document.php":
-        btnText = "Document";
+        btnText = "<i class='bx bx-plus-circle text-lg'></i>New Document";
+        btnClassName = "new-document-btn"
+        break;
+    case "pending-account.php":
+        btnText = "<i class='bx bx-archive-in'></i>Archived Accounts";
+        btnClassName = "dec-reg-btn";
+        break;
+    case "guest-archived.php":
+        btnText = "<i class='bx bx-arrow-back text-base'></i> Back";
+        btnClassName = "dec-reg-btn backBtn";
         break;
 }
 
@@ -218,12 +236,22 @@ const mainTable = new DataTable('#mainTable', {
         top0End: {
             buttons: [
                 {
-                    className: "new-document-btn",
-                    text: `<i class='bx bx-plus-circle text-lg'></i>New ${btnText}`,
+                    className: btnClassName,
+                    text: btnText,
                 }]
         },
     }
 });
+
+$('.dec-reg-btn').click(() => {
+    window.location.href = "guest-archived.php";
+})
+
+$('.dec-reg-btn.backBtn').click(() => {
+    window.location.href = "guest.php";
+})
+
+
 
 $('.new-document-btn').click(() => {
     $("#newDocModal").toggleClass("hidden");
@@ -407,6 +435,20 @@ $("#addNewOfficebtn").click(function(e) {
     }
 });
 
+$('#mainTable').on('click', '.dropdown-btn', (e) => {
+    const id = $(e.currentTarget).data('drop-id');
+    const targetDropdown = $(`#dropdownList${id}`);
+    const isCurrentlyVisible = !targetDropdown.hasClass('hidden');
+
+    // Hide all dropdowns
+    $('[id^="dropdownList"]').addClass('hidden');
+
+    // If it was hidden before, show it
+    if (!isCurrentlyVisible) {
+        targetDropdown.removeClass('hidden');
+    }
+})
+
 // Attach a click event to the edit button
 $('#mainTable').on('click', '.edit-button', (e) => {
     const id = $(e.target).data('id');
@@ -583,3 +625,240 @@ $("#editDocumentFormbtn").click(function(e) {
     }
 });
 
+function decline(button) {
+    var userId = button.dataset.id;
+    Swal.fire({
+        titleText: "Decline Registration?",
+        html: `<p class="text-sm text-neutral-500">This will decline the registration of the user and notify via email.</p>`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "oklch(57.7% 0.245 27.325)",
+        confirmButtonText: "Decline"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $('.loader-container').fadeIn();
+            $.ajax({
+                url: "../../controller/crud-users-controller.php",
+                type: "POST",
+                data: "action=decline_account&id=" + userId,
+                success: function(response) {
+
+                    setTimeout(function() {
+
+                        $('.loader-container').fadeOut();
+                    }, 500);
+
+                    if (response.status === "failed") {
+                        Swal.fire({
+                            title: 'Something went wrong!',
+                            text: response.message,
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        });
+                    } else if (response.status === "error") {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    } else if (response.status === "success") {
+                        Swal.fire({
+                            titleText: 'Successful',
+                            html: `<p class="text-sm text-neutral-500">${response.message}</p>`,
+                            icon: 'success',
+                            confirmButtonColor: 'oklch(62.7% 0.194 149.214)',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+
+                            }
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error here
+                    var errorMessage = 'An error occurred while processing your request.';
+                    if (xhr.statusText) {
+                        errorMessage += ' ' + xhr.statusText;
+                    }
+                    Swal.fire({
+                        title: 'Error!',
+                        text: errorMessage + '<br><br>' + JSON.stringify(xhr, null, 2), // Include the entire error object for debugging
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        // Check if the user clicked the "OK" button
+                        if (result.isConfirmed) {
+                            // Reload the page
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+function approve(button) {
+    var userId = button.dataset.id;
+    Swal.fire({
+        titleText: "Approve Registration?",
+        html: `<p class="text-sm text-neutral-500">This will approve the registration of the user and notify via email.`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "oklch(52.7% 0.154 150.069)",
+        confirmButtonText: "Approve",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $('.loader-container').fadeIn();
+            $.ajax({
+                url: "../../controller/crud-users-controller.php",
+                type: "POST",
+                data: "action=approve_account&id=" + userId,
+                success: function(response) {
+
+                    setTimeout(function() {
+
+                        $('.loader-container').fadeOut();
+                    }, 500);
+
+                    if (response.status === "failed") {
+                        Swal.fire({
+                            title: 'Something went wrong!',
+                            text: response.message,
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        });
+                    } else if (response.status === "error") {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    } else if (response.status === "success") {
+                        Swal.fire({
+                            titleText: 'Successful',
+                            html: `<p class="text-sm text-neutral-500">${response.message}</p>`,
+                            icon: 'success',
+                            confirmButtonColor: 'oklch(62.7% 0.194 149.214)',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+
+                            }
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error here
+                    var errorMessage = 'An error occurred while processing your request.';
+                    if (xhr.statusText) {
+                        errorMessage += ' ' + xhr.statusText;
+                    }
+                    Swal.fire({
+                        title: 'Error!',
+                        text: errorMessage + '<br><br>' + JSON.stringify(xhr, null, 2), // Include the entire error object for debugging
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        // Check if the user clicked the "OK" button
+                        if (result.isConfirmed) {
+                            // Reload the page
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+
+function unarchiveAccount(button) {
+    var userId = button.dataset.id;
+    Swal.fire({
+        titleText: "Unarchive account?",
+        html: `<p class="text-sm text-neutral-500">The user will again access to the system again.</p>`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "oklch(70.7% 0.165 254.624)",
+        confirmButtonText: "Unarchive"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $('.loader-container').fadeIn();
+            $.ajax({
+                url: "../../controller/crud-users-controller.php",
+                type: "POST",
+                data: "action=unarchive_account&id=" + userId,
+                success: function(response) {
+
+                    setTimeout(function() {
+
+                        $('.loader-container').fadeOut();
+                    }, 500);
+
+                    if (response.status === "failed") {
+                        Swal.fire({
+                            title: 'Something went wrong!',
+                            text: response.message,
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        });
+                    } else if (response.status === "error") {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    } else if (response.status === "success") {
+                        Swal.fire({
+                            titleText: 'Successful',
+                            html: `<p class="text-sm text-neutral-500">${response.message}</p>`,
+                            icon: 'success',
+                            confirmButtonColor: 'oklch(62.7% 0.194 149.214)',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+
+                            }
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error here
+                    var errorMessage = 'An error occurred while processing your request.';
+                    if (xhr.statusText) {
+                        errorMessage += ' ' + xhr.statusText;
+                    }
+                    Swal.fire({
+                        title: 'Error!',
+                        text: errorMessage + '<br><br>' + JSON.stringify(xhr, null, 2), // Include the entire error object for debugging
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        // Check if the user clicked the "OK" button
+                        if (result.isConfirmed) {
+                            // Reload the page
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
