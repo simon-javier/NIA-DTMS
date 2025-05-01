@@ -98,15 +98,20 @@ function handleItemClick() {
 }
 
 const userManagementMenu = document.querySelector("#userManagement");
-const submenu = userManagementMenu.parentElement.querySelector(".hidden");
-const chevron = userManagementMenu.querySelector(".chevron");
+let submenu;
+let chevron;
+if (userManagementMenu) {
+    submenu = userManagementMenu.parentElement.querySelector(".hidden");
+    chevron = userManagementMenu.querySelector(".chevron");
 
-userManagementMenu.addEventListener("click", () => {
+    userManagementMenu.addEventListener("click", () => {
 
-    chevron.classList.toggle("bx-chevron-down");
-    chevron.classList.toggle("bx-chevron-up");
-    submenu.classList.toggle('hidden');
-})
+        chevron.classList.toggle("bx-chevron-down");
+        chevron.classList.toggle("bx-chevron-up");
+        submenu.classList.toggle('hidden');
+    })
+}
+
 
 const notificationBtn = document.querySelector("#notificationButton");
 const notificationModal = document.querySelector("#notificationModal");

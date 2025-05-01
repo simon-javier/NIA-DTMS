@@ -18,6 +18,10 @@
 
 @import "tailwindcss";
 
+[list]::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+
 table.dataTable>thead>tr {
   @apply border-1 border-gray-200;
 }
