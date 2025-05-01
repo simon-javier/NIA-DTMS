@@ -161,7 +161,7 @@ notificationBtn.addEventListener("click", (event) => {
         },
         error: function(xhr, status, error) {
             // Handle the error here
-            var errorMessage = 'An error occurred while processing your request.';
+            let errorMessage = 'An error occurred while processing your request.';
             if (xhr.statusText) {
                 errorMessage += ' ' + xhr.statusText;
             }
@@ -348,7 +348,7 @@ $("#newDocumentFormbtn").click(function(e) {
             },
             error: function(xhr, status, error) {
                 // Handle the error here
-                var errorMessage = 'An error occurred while processing your request.';
+                let errorMessage = 'An error occurred while processing your request.';
                 if (xhr.statusText) {
                     errorMessage += ' ' + xhr.statusText;
                 }
@@ -374,7 +374,7 @@ $("#addNewOfficebtn").click(function(e) {
         e.preventDefault();
 
         $('.loader-container').fadeIn();
-        var formData = new FormData($("#addNewOffice")[0]);
+        let formData = new FormData($("#addNewOffice")[0]);
         formData.append("action", "add_office");
 
         $.ajax({
@@ -424,7 +424,7 @@ $("#addNewOfficebtn").click(function(e) {
             },
             error: function(xhr, status, error) {
                 // Handle the error here
-                var errorMessage = 'An error occurred while processing your request.';
+                let errorMessage = 'An error occurred while processing your request.';
                 if (xhr.statusText) {
                     errorMessage += ' ' + xhr.statusText;
                 }
@@ -489,7 +489,7 @@ $("#editofficeinfobtn").click(function(e) {
         e.preventDefault();
 
         $('.loader-container').fadeIn();
-        var formData = new FormData($("#editofficeinfo")[0]);
+        let formData = new FormData($("#editofficeinfo")[0]);
         formData.append("action", "edit_office");
 
         $.ajax({
@@ -538,7 +538,7 @@ $("#editofficeinfobtn").click(function(e) {
             },
             error: function(xhr, status, error) {
                 // Handle the error here
-                var errorMessage = 'An error occurred while processing your request.';
+                let errorMessage = 'An error occurred while processing your request.';
                 if (xhr.statusText) {
                     errorMessage += ' ' + xhr.statusText;
                 }
@@ -564,7 +564,7 @@ $("#editDocumentFormbtn").click(function(e) {
         e.preventDefault();
 
         $('.loader-container').fadeIn();
-        var formData = new FormData($("#editDocumentForm")[0]);
+        let formData = new FormData($("#editDocumentForm")[0]);
         formData.append("action", "edit_document");
 
         $.ajax({
@@ -614,7 +614,7 @@ $("#editDocumentFormbtn").click(function(e) {
             },
             error: function(xhr, status, error) {
                 // Handle the error here
-                var errorMessage = 'An error occurred while processing your request.';
+                let errorMessage = 'An error occurred while processing your request.';
                 if (xhr.statusText) {
                     errorMessage += ' ' + xhr.statusText;
                 }
@@ -636,7 +636,7 @@ $("#editDocumentFormbtn").click(function(e) {
 });
 
 function decline(button) {
-    var userId = button.dataset.id;
+    let userId = button.dataset.id;
     Swal.fire({
         titleText: "Decline Registration?",
         html: `<p class="text-sm text-neutral-500">This will decline the registration of the user and notify via email.</p>`,
@@ -692,7 +692,7 @@ function decline(button) {
                 },
                 error: function(xhr, status, error) {
                     // Handle the error here
-                    var errorMessage = 'An error occurred while processing your request.';
+                    let errorMessage = 'An error occurred while processing your request.';
                     if (xhr.statusText) {
                         errorMessage += ' ' + xhr.statusText;
                     }
@@ -715,7 +715,7 @@ function decline(button) {
 }
 
 function approve(button) {
-    var userId = button.dataset.id;
+    let userId = button.dataset.id;
     Swal.fire({
         titleText: "Approve Registration?",
         html: `<p class="text-sm text-neutral-500">This will approve the registration of the user and notify via email.`,
@@ -771,7 +771,7 @@ function approve(button) {
                 },
                 error: function(xhr, status, error) {
                     // Handle the error here
-                    var errorMessage = 'An error occurred while processing your request.';
+                    let errorMessage = 'An error occurred while processing your request.';
                     if (xhr.statusText) {
                         errorMessage += ' ' + xhr.statusText;
                     }
@@ -795,7 +795,7 @@ function approve(button) {
 
 
 function unarchiveAccount(button) {
-    var userId = button.dataset.id;
+    let userId = button.dataset.id;
     Swal.fire({
         titleText: "Unarchive account?",
         html: `<p class="text-sm text-neutral-500">The user will again access to the system again.</p>`,
@@ -851,7 +851,7 @@ function unarchiveAccount(button) {
                 },
                 error: function(xhr, status, error) {
                     // Handle the error here
-                    var errorMessage = 'An error occurred while processing your request.';
+                    let errorMessage = 'An error occurred while processing your request.';
                     if (xhr.statusText) {
                         errorMessage += ' ' + xhr.statusText;
                     }
@@ -935,7 +935,7 @@ $("#update_information_button").click(function(e) {
                     },
                     error: function(xhr, status, error) {
                         // Handle the error here
-                        var errorMessage = 'An error occurred while processing your request.';
+                        let errorMessage = 'An error occurred while processing your request.';
                         if (xhr.statusText) {
                             errorMessage += ' ' + xhr.statusText;
                         }
@@ -957,5 +957,81 @@ $("#update_information_button").click(function(e) {
         });
 
 
+    }
+});
+
+
+$("#add_user_btn").click(function(e) {
+    debugger;
+
+    if ($("#user_form")[0].checkValidity()) {
+        e.preventDefault();
+
+        $('.loader-container').fadeIn();
+        $.ajax({
+            url: "../../controller/crud-users-controller.php",
+            type: "POST",
+            data: $("#user_form").serialize() + "&action=add_new_user",
+            success: function(response) {
+
+                setTimeout(function() {
+
+                    $('.loader-container').fadeOut();
+                }, 500);
+
+                if (response.status === "failed") {
+                    Swal.fire({
+                        title: 'Something went wrong!',
+                        text: response.message,
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                } else if (response.status === "error") {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
+                } else if (response.status === "success") {
+                    Swal.fire({
+                        titleText: 'Successful',
+                        html: `<p class="text-sm text-neutral-500">Account added successfully.</p>`,
+                        icon: 'success',
+                        confirmButtonColor: 'oklch(62.7% 0.194 149.214)',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+
+                        }
+                    });
+                }
+
+
+            },
+            error: function(xhr, status, error) {
+                // Handle the error here
+                let errorMessage = 'An error occurred while processing your request.';
+                if (xhr.statusText) {
+                    errorMessage += ' ' + xhr.statusText;
+                }
+                Swal.fire({
+                    title: 'Error!',
+                    text: errorMessage + '<br><br>' + JSON.stringify(xhr, null, 2), // Include the entire error object for debugging
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    // Check if the user clicked the "OK" button
+                    if (result.isConfirmed) {
+                        // Reload the page
+                        location.reload();
+                    }
+                });
+            }
+        });
     }
 });

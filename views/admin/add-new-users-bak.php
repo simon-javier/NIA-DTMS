@@ -135,9 +135,9 @@ $offices = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <label for="office">Office:</label>
                     <select name="office" id="office" class="form-control">
                         <?php foreach ($offices as $office) { ?>
-                            <option value="<?php echo $office['office_name'] ?>">
-                                <?php echo $office['office_name'] ?>
-                            </option>
+                        <option value="<?php echo $office['office_name'] ?>">
+                            <?php echo $office['office_name'] ?>
+                        </option>
                         <?php } ?>
 
 
@@ -168,7 +168,7 @@ $offices = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php require 'template/bottom-template.php'; ?>
 
 <script>
-    $("#add_user_btn").click(function(e) {
+    $("#add_user_btn").click(function (e) {
 
         if ($("#user_form")[0].checkValidity()) {
             e.preventDefault();
@@ -178,9 +178,9 @@ $offices = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 url: "../../controller/crud-users-controller.php",
                 type: "POST",
                 data: $("#user_form").serialize() + "&action=add_new_user",
-                success: function(response) {
+                success: function (response) {
 
-                    setTimeout(function() {
+                    setTimeout(function () {
 
                         $('.loader-container').fadeOut();
                     }, 500);
@@ -219,7 +219,7 @@ $offices = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     // Handle the error here
                     var errorMessage = 'An error occurred while processing your request.';
                     if (xhr.statusText) {
@@ -363,7 +363,7 @@ $offices = $stmt->fetchAll(PDO::FETCH_ASSOC);
         var offices = <? php echo json_encode($offices); ?>;
 
         // Find the selected office in the offices array
-        var selectedOfficeObject = offices.find(function(office) {
+        var selectedOfficeObject = offices.find(function (office) {
             return office.office_name === selectedOffice;
         });
 
