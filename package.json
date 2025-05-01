@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.4",
+    "concurrently": "^9.1.2"
+  },
+  "scripts": {
+    "serve": "browser-sync start --config bs-config.js"
+  },
+  "name": "document-tracking",
+  "description": "## Prerequisites Before editing this project, ensure you have Tailwind CSS installed.",
+  "version": "1.0.0",
+  "main": "bs-config.js",
+  "devDependencies": {
+    "tailwindcss": "^4.1.4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
