@@ -40,8 +40,6 @@
     --color-blue-400: oklch(70.7% 0.165 254.624);
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-blue-900: oklch(37.9% 0.146 265.522);
-    --color-indigo-600: oklch(51.1% 0.262 276.966);
-    --color-gray-50: oklch(98.5% 0.002 247.839);
     --color-gray-100: oklch(96.7% 0.003 264.542);
     --color-gray-200: oklch(92.8% 0.006 264.531);
     --color-gray-300: oklch(87.2% 0.01 258.338);
@@ -486,12 +484,6 @@
   .h-5 {
     height: calc(var(--spacing) * 5);
   }
-  .h-\[90\%\] {
-    height: 90%;
-  }
-  .h-\[95\%\] {
-    height: 95%;
-  }
   .h-full {
     height: 100%;
   }
@@ -540,14 +532,8 @@
   .w-100 {
     width: calc(var(--spacing) * 100);
   }
-  .w-\[90\%\] {
-    width: 90%;
-  }
   .w-\[95\%\] {
     width: 95%;
-  }
-  .w-\[99\%\] {
-    width: 99%;
   }
   .w-\[270px\] {
     width: 270px;
@@ -648,20 +634,11 @@
   .gap-y-8 {
     row-gap: calc(var(--spacing) * 8);
   }
-  .place-self-center {
-    place-self: center;
-  }
-  .self-baseline {
-    align-self: baseline;
-  }
   .self-center {
     align-self: center;
   }
   .self-end {
     align-self: flex-end;
-  }
-  .justify-self-center {
-    justify-self: center;
   }
   .justify-self-end {
     justify-self: flex-end;
@@ -752,9 +729,6 @@
   .bg-green-100 {
     background-color: var(--color-green-100);
   }
-  .bg-green-300 {
-    background-color: var(--color-green-300);
-  }
   .bg-green-400 {
     background-color: var(--color-green-400);
   }
@@ -763,33 +737,6 @@
   }
   .bg-green-600 {
     background-color: var(--color-green-600);
-  }
-  .bg-green-600\/1 {
-    background-color: color-mix(in srgb, oklch(62.7% 0.194 149.214) 1%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-green-600) 1%, transparent);
-    }
-  }
-  .bg-green-600\/12 {
-    background-color: color-mix(in srgb, oklch(62.7% 0.194 149.214) 12%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-green-600) 12%, transparent);
-    }
-  }
-  .bg-green-600\/52 {
-    background-color: color-mix(in srgb, oklch(62.7% 0.194 149.214) 52%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-green-600) 52%, transparent);
-    }
-  }
-  .bg-green-600\/96 {
-    background-color: color-mix(in srgb, oklch(62.7% 0.194 149.214) 96%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-green-600) 96%, transparent);
-    }
-  }
-  .bg-green-700 {
-    background-color: var(--color-green-700);
   }
   .bg-neutral-50 {
     background-color: var(--color-neutral-50);
@@ -800,14 +747,8 @@
   .bg-neutral-200 {
     background-color: var(--color-neutral-200);
   }
-  .bg-neutral-500 {
-    background-color: var(--color-neutral-500);
-  }
   .bg-orange-400 {
     background-color: var(--color-orange-400);
-  }
-  .bg-orange-600 {
-    background-color: var(--color-orange-600);
   }
   .bg-red-600 {
     background-color: var(--color-red-600);
@@ -815,17 +756,8 @@
   .bg-white {
     background-color: var(--color-white);
   }
-  .bg-yellow-400 {
-    background-color: var(--color-yellow-400);
-  }
   .bg-yellow-500 {
     background-color: var(--color-yellow-500);
-  }
-  .bg-yellow-600 {
-    background-color: var(--color-yellow-600);
-  }
-  .bg-none {
-    background-image: none;
   }
   .object-cover {
     object-fit: cover;
@@ -935,10 +867,6 @@
   .text-sm\/6 {
     font-size: var(--text-sm);
     line-height: calc(var(--spacing) * 6);
-  }
-  .text-xl {
-    font-size: var(--text-xl);
-    line-height: var(--tw-leading, var(--text-xl--line-height));
   }
   .text-xs {
     font-size: var(--text-xs);
@@ -1088,17 +1016,8 @@
   .-outline-offset-1 {
     outline-offset: calc(1px * -1);
   }
-  .outline-offset-1 {
-    outline-offset: 1px;
-  }
   .outline-gray-300 {
     outline-color: var(--color-gray-300);
-  }
-  .outline-neutral-100 {
-    outline-color: var(--color-neutral-100);
-  }
-  .outline-neutral-200 {
-    outline-color: var(--color-neutral-200);
   }
   .blur {
     --tw-blur: blur(8px);
