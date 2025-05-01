@@ -229,6 +229,10 @@ switch (currentPage) {
         btnText = "<i class='bx bx-plus-circle text-lg'></i>New User";
         btnClassName = "new-document-btn newUserBtn";
         break;
+    case "guest.php":
+        btnText = "<i class='bx bx-plus-circle text-lg'></i>New User";
+        btnClassName = "new-document-btn newGuestUserBtn";
+        break;
 }
 
 const mainTable = new DataTable('#mainTable', {
@@ -254,13 +258,16 @@ $('.dec-reg-btn').click(() => {
 })
 
 $('.dec-reg-btn.backBtn').click(() => {
-    window.location.href = "guest.php";
+    history.back()
 })
 
 $('.new-document-btn.newUserBtn').click(() => {
     window.location.href = "add-new-users.php?type=handler";
 })
 
+$('.new-document-btn.newGuestUserBtn').click(() => {
+    window.location.href = "add-new-users.php?type=handler";
+})
 
 
 $('.new-document-btn').click(() => {

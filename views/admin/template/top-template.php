@@ -142,7 +142,7 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
                 </div>
             </div>
             <div class="flex justify-center">
-                <a class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
+                <a href="office-performance.php" class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
                             cursor-pointer sidebar-item">
                     <i class="bx bx-file text-2xl text-gray-500 sidebar-icon"></i>
                     Office Performance

@@ -58,9 +58,9 @@ try {
                 <?php echo $result['status']; ?>
             </span>
         </p>
-        <a href="guest.php"
+        <button type="button" onclick="history.back()"
             class="text-sm m-0 py-1 px-3 bg-gray-400 text-neutral-200 rounded-sm font-normal hover:bg-gray-500 flex items-center gap-1"><i
-                class='bx bx-arrow-back text-base'></i> Back</a>
+                class='bx bx-arrow-back text-base'></i> Back</button>
     </div>
 
     <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">

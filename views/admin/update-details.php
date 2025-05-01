@@ -104,38 +104,40 @@ try {
                 </div>
             </div>
 
-            <div class="sm:col-span-3">
+            <div class="sm:col-span-full">
                 <label for="position" class="block text-sm/6 font-medium text-neutral-900">Position</label>
                 <div class="mt-2">
                     <input type="text" name="position" id="position" autocomplete="position"
                         class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
                     text-base text-neutral-900 outline-1 -outline-offset-1
                     outline-gray-300 placeholder:text-neutral-900 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600" value="<?php echo $result['position']; ?>"
-                        placeholder="N/A" required>
+                        placeholder="N/A">
                 </div>
             </div>
 
-            <div class="sm:col-span-3">
-                <label for="role" class="block text-sm/6 font-medium text-neutral-900">Role</label>
-                <div class="mt-2">
-                    <input type="text" name="role" id="role" autocomplete="role"
-                        class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
-                    text-base text-neutral-900 outline-1 -outline-offset-1
-                    outline-gray-300 placeholder:text-neutral-900 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600"
-                        value="<?php echo $result['role']; ?>" placeholder="N/A" required>
-                </div>
-            </div>
 
-            <div class="sm:col-span-full">
-                <label for="office" class="block text-sm/6 font-medium text-neutral-900">Office</label>
-                <div class="mt-2">
-                    <input type="text" name="office" id="office" autocomplete="office"
-                        class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
-                    text-base text-neutral-900 outline-1 -outline-offset-1
-                    outline-gray-300 placeholder:text-neutral-900 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600"
-                        value="<?php echo $result['office']; ?>" placeholder="N/A" required>
+            <?php if ($type == "handler") { ?>
+                <div class="sm:col-span-full">
+                    <label for="office" class="block text-sm/6 font-medium text-neutral-900">Office</label>
+                    <div class="mt-2 grid grid-cols-1">
+                        <select name="office" id="office"
+                            class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-neutral-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6">
+                            <?php foreach ($list_offices as $office): ?>
+                                <option value="<?php echo $office['office_name']; ?>" <?php echo ($office['office_name'] == $result['office']) ? 'selected' : ''; ?>>
+                                    <?php echo $office['office_name']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+                            viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path fill-rule="evenodd"
+                                d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
                 </div>
-            </div>
+            <?php } ?>
+
             <input type="hidden" id="account_type" name="account_type" value="<?php echo $type; ?>">
         </div>
         <div class="mt-6 flex items-center justify-end gap-x-6">

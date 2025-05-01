@@ -1,4 +1,4 @@
-<?php require 'template/top-template.php'; ?>
+<?php require 'template/top-template-bak.php'; ?>
 
 <?php
 
@@ -43,41 +43,39 @@ try {
 ?>
 
 
-<div class="h-full bg-neutral-50 p-4">
+<div class="row p-4">
     <?php if (empty($statusPercentages)): ?>
-        <div class="mb-4 p-4 shadow-sm">
-            <div class="">
-                <h4 class="text-center text-2xl text-gray-500">No office performance yet.</h4>
+        <div class="border col-md-12 mb-4 p-4">
+            <div class=" shadow-sm bg-white">
+                <h4 class="text-center">No office performance yet.</h4>
             </div>
         </div>
     <?php else: ?>
         <?php foreach ($statusPercentages as $officeName => $percentage): ?>
-            <div class="shadow-sm col-md-12 mb-4 p-4 rounded-md">
-                <div class="">
+            <div class="border col-md-12 mb-4 p-4">
+                <div class=" shadow-sm bg-white">
                     <h5 class="mb-3">
                         <?php echo $officeName; ?>
                     </h5>
                     <div class="progress" style="height: 30px">
                         <?php
                         if ($percentage >= 80) {
-                            $color = "bg-green-600 rounded-full text-neutral-50";
+                            $color = "bg-primary"; // Blue for high percentages
                         } elseif ($percentage >= 60) {
-                            $color = "bg-green-400 rounded-full";
+                            $color = "bg-info"; // Light blue for medium-high percentages
                         } elseif ($percentage >= 40) {
-                            $color = "bg-yellow-500 rounded-full";
+                            $color = "bg-warning"; // Yellow for medium percentages
                         } elseif ($percentage >= 20) {
-                            $color = "bg-orange-400 rounded-full";
+                            $color = "bg-secondary"; // Gray for low-medium percentages
                         } else {
-                            $color = "bg-red-600 rounded-full text-neutral-50";
+                            $color = "bg-danger"; // Red for low percentages
                         }
 
                         ?>
                         <div class="progress-bar <?php echo $color; ?>" role="progressbar"
                             style="width: <?php echo $percentage; ?>%;" aria-valuenow="100%" aria-valuemin="0"
                             aria-valuemax="100">
-                            <p class="text-center text-sm">
-                                <?php echo $percentage; ?>%
-                            </p>
+                            <?php echo $percentage; ?>%
                         </div>
                     </div>
                 </div>
