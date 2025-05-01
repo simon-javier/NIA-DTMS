@@ -69,6 +69,7 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
 
 
 <body class="bg-gray-200 text-neutral-950 flex min-h-screen">
+    <?php require '../../assets/loader/loader.php'; ?>
     <!-- Sidebar -->
     <div class="bg-neutral-50 w-[270px] shrink-0 shadow-lg flex flex-col gap-9 h-screen sticky top-0" id="sidebar">
         <div class="flex flex-col items-center mt-4 gap-3">
