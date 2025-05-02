@@ -38,16 +38,12 @@
     --color-blue-400: oklch(70.7% 0.165 254.624);
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-blue-900: oklch(37.9% 0.146 265.522);
-    --color-slate-500: oklch(55.4% 0.046 257.417);
-    --color-gray-50: oklch(98.5% 0.002 247.839);
     --color-gray-100: oklch(96.7% 0.003 264.542);
     --color-gray-200: oklch(92.8% 0.006 264.531);
     --color-gray-300: oklch(87.2% 0.01 258.338);
     --color-gray-400: oklch(70.7% 0.022 261.325);
     --color-gray-500: oklch(55.1% 0.027 264.364);
     --color-gray-600: oklch(44.6% 0.03 256.802);
-    --color-gray-700: oklch(37.3% 0.034 259.733);
-    --color-gray-800: oklch(27.8% 0.033 256.848);
     --color-gray-900: oklch(21% 0.034 264.665);
     --color-neutral-50: oklch(98.5% 0 0);
     --color-neutral-100: oklch(97% 0 0);
@@ -288,6 +284,9 @@
   .top-\[40px\] {
     top: 40px;
   }
+  .top-\[168px\] {
+    top: 168px;
+  }
   .right-4 {
     right: calc(var(--spacing) * 4);
   }
@@ -296,6 +295,9 @@
   }
   .right-\[54px\] {
     right: 54px;
+  }
+  .right-\[74px\] {
+    right: 74px;
   }
   .bottom-\[2px\] {
     bottom: 2px;
@@ -730,17 +732,14 @@
   .bg-blue-500 {
     background-color: var(--color-blue-500);
   }
-  .bg-gray-50 {
-    background-color: var(--color-gray-50);
-  }
-  .bg-gray-100 {
-    background-color: var(--color-gray-100);
-  }
   .bg-gray-200 {
     background-color: var(--color-gray-200);
   }
   .bg-gray-400 {
     background-color: var(--color-gray-400);
+  }
+  .bg-gray-600 {
+    background-color: var(--color-gray-600);
   }
   .bg-green-100 {
     background-color: var(--color-green-100);
@@ -961,9 +960,6 @@
   .text-red-600 {
     color: var(--color-red-600);
   }
-  .text-slate-500 {
-    color: var(--color-slate-500);
-  }
   .text-white {
     color: var(--color-white);
   }
@@ -1087,35 +1083,9 @@
       cursor: pointer;
     }
   }
-  .file\:border-0 {
-    &::file-selector-button {
-      border-style: var(--tw-border-style);
-      border-width: 0px;
-    }
-  }
-  .file\:bg-gray-800 {
-    &::file-selector-button {
-      background-color: var(--color-gray-800);
-    }
-  }
-  .file\:bg-green-600 {
-    &::file-selector-button {
-      background-color: var(--color-green-600);
-    }
-  }
-  .file\:bg-green-800 {
-    &::file-selector-button {
-      background-color: var(--color-green-800);
-    }
-  }
   .file\:bg-green-900 {
     &::file-selector-button {
       background-color: var(--color-green-900);
-    }
-  }
-  .file\:bg-neutral-50 {
-    &::file-selector-button {
-      background-color: var(--color-neutral-50);
     }
   }
   .file\:px-4 {
@@ -1137,17 +1107,6 @@
     &::file-selector-button {
       outline-style: var(--tw-outline-style);
       outline-width: 0px;
-    }
-  }
-  .file\:outline-1 {
-    &::file-selector-button {
-      outline-style: var(--tw-outline-style);
-      outline-width: 1px;
-    }
-  }
-  .file\:-outline-offset-1 {
-    &::file-selector-button {
-      outline-offset: calc(1px * -1);
     }
   }
   .placeholder\:text-gray-400 {
@@ -1249,42 +1208,6 @@
       }
     }
   }
-  .file\:hover\:bg-gray-700 {
-    &::file-selector-button {
-      &:hover {
-        @media (hover: hover) {
-          background-color: var(--color-gray-700);
-        }
-      }
-    }
-  }
-  .file\:hover\:bg-green-950 {
-    &::file-selector-button {
-      &:hover {
-        @media (hover: hover) {
-          background-color: var(--color-green-950);
-        }
-      }
-    }
-  }
-  .hover\:file\:bg-green-700 {
-    &:hover {
-      @media (hover: hover) {
-        &::file-selector-button {
-          background-color: var(--color-green-700);
-        }
-      }
-    }
-  }
-  .hover\:file\:bg-green-800 {
-    &:hover {
-      @media (hover: hover) {
-        &::file-selector-button {
-          background-color: var(--color-green-800);
-        }
-      }
-    }
-  }
   .hover\:file\:bg-green-950 {
     &:hover {
       @media (hover: hover) {
@@ -1308,12 +1231,6 @@
   .focus\:outline-green-600 {
     &:focus {
       outline-color: var(--color-green-600);
-    }
-  }
-  .focus\:outline-none {
-    &:focus {
-      --tw-outline-style: none;
-      outline-style: none;
     }
   }
   .focus-visible\:outline-2 {
@@ -1384,28 +1301,6 @@
       line-height: calc(var(--spacing) * 6);
     }
   }
-  .dark\:border-gray-600 {
-    @media (prefers-color-scheme: dark) {
-      border-color: var(--color-gray-600);
-    }
-  }
-  .dark\:bg-gray-700 {
-    @media (prefers-color-scheme: dark) {
-      background-color: var(--color-gray-700);
-    }
-  }
-  .dark\:text-gray-400 {
-    @media (prefers-color-scheme: dark) {
-      color: var(--color-gray-400);
-    }
-  }
-  .dark\:placeholder-gray-400 {
-    @media (prefers-color-scheme: dark) {
-      &::placeholder {
-        color: var(--color-gray-400);
-      }
-    }
-  }
 }
 [list]::-webkit-calendar-picker-indicator {
   display: none !important;
@@ -1450,7 +1345,12 @@ div.dt-buttons>.dt-button, div.dt-buttons>.dt-button:hover {
   font-weight: var(--font-weight-bold);
   color: var(--color-green-50);
 }
-div.dt-buttons>.dt-button.dec-reg-btn, div.dt-buttons>.dt-button.dec-reg-btn:hover {
+div.dt-buttons>.dt-button:hover:not(.disabled), div.dt-buttons>div.dt-button-split .dt-button:hover:not(.disabled) {
+  --tw-border-style: none;
+  border-style: none;
+  background-color: var(--color-green-600);
+}
+div.dt-buttons>.dt-button.docViewBtn, div.dt-buttons>.dt-button.docViewBtn:hover {
   margin: calc(var(--spacing) * 0);
   border-radius: var(--radius-sm);
   --tw-border-style: none;
@@ -1464,10 +1364,24 @@ div.dt-buttons>.dt-button.dec-reg-btn, div.dt-buttons>.dt-button.dec-reg-btn:hov
   font-weight: var(--font-weight-normal);
   color: var(--color-neutral-200);
 }
-div.dt-buttons>.dt-button:hover:not(.disabled), div.dt-buttons>div.dt-button-split .dt-button:hover:not(.disabled) {
+div.dt-buttons>.dt-button.docViewBtn:hover:not(.disabled), div.dt-buttons>div.dt-button-split .dt-button.docViewBtn:hover:not(.disabled) {
   --tw-border-style: none;
   border-style: none;
-  background-color: var(--color-green-600);
+  background-color: var(--color-gray-500);
+}
+div.dt-buttons>.dt-button.dec-reg-btn, div.dt-buttons>.dt-button.dec-reg-btn:hover {
+  margin: calc(var(--spacing) * 0);
+  border-radius: var(--radius-sm);
+  --tw-border-style: none;
+  border-style: none;
+  background-color: var(--color-gray-400);
+  padding-inline: calc(var(--spacing) * 3);
+  padding-block: calc(var(--spacing) * 1);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  --tw-font-weight: var(--font-weight-normal);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-neutral-200);
 }
 div.dt-buttons>.dt-button.dec-reg-btn:hover:not(.disabled), div.dt-buttons>div.dt-button-split .dt-button.dec-reg-btn:hover:not(.disabled) {
   --tw-border-style: none;

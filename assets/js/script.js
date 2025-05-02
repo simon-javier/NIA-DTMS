@@ -238,6 +238,10 @@ switch (currentPage) {
         btnText = "<i class='bx bx-plus-circle text-lg'></i>New User";
         btnClassName = "new-document-btn newGuestUserBtn";
         break;
+    case "pending-document.php":
+        btnText = "<i class='fa-solid fa-file'></i>Document List";
+        btnClassName = "docViewBtn";
+        break;
 }
 
 const mainTable = new DataTable('#mainTable', {
@@ -260,6 +264,10 @@ const mainTable = new DataTable('#mainTable', {
 
 $('.dec-reg-btn').click(() => {
     window.location.href = "guest-archived.php";
+})
+
+$('.docViewBtn').click(() => {
+    document.querySelector('.dropdown-list').classList.toggle('hidden');
 })
 
 $('.dec-reg-btn.backBtn').click(() => {
