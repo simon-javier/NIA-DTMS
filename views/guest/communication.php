@@ -1,6 +1,3 @@
-
-
-
 <?php require 'template/top-template.php'; ?>
 <?php 
     require '../../connection.php';
@@ -58,129 +55,31 @@
     // }
 
 ?>
-<style>
-     :root {
-    --primary-color: #069734;
-    --lighter-primary-color: #07b940;
-    --white-color: #FFFFFF;
-    --black-color: #181818;
-    --bold: 600;
-    --transition: all 0.5s ease;
-    --box-shadow: 0 0.1rem 0.8rem rgba(0, 0, 0, 0.2);
-    }
-    ::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
-    }
 
-    ::-webkit-scrollbar-thumb {
-        background-color: #009933; 
-        border-radius: 6px;
-    }
-
-    .container{
-        padding: 2.5rem;
-        background-color: #fff;
-        box-shadow: var(--box-shadow);
-        height: 85vh;
-    }
-    .main-content{
-        position: relative;
-        background-color: white;
-        top: 0;
-        max-height: 90vh;
-        overflow-y: scroll;
-        left: 90px;
-        transition: var(--transition);
-        width: calc(100% - 90px);
-        padding: 1rem;
-
-    }
-    .conversation-list {
-        padding: 0;
-    }
-
-    .conversation-list-item {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-        cursor: pointer;
-    }
-
-    .conversation-list-item img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
-    .message-timestamp{
-        font-size: 12px
-    }
-
-    .chat-bubble {
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 10px;
-    }
-
-    .receive-chat-bubble {
-        background-color: #e0e0e0;
-        margin-left: 10px;
-    }
-
-    .sender-chat-bubble {
-        background-color: #007bff;
-        color: #fff;
-        margin-right: 10px;
-        text-align: right;
-    }
-    .input-container {
-        display: flex;
-        margin-top: 10px;
-    }
-    #messageInput {
-        flex: 1;
-        margin-right: 10px;
-    }
-
-    #sendButton {
-        width: 80px; /* Adjust the width as needed */
-    }
-</style>
-
-    <div class="container">
-    <div class="chat-container" id="chatContainer">
-            <div class="receiver-info d-flex align-item-center p-3">
-            <img src="<?php echo $env_basePath; ?>assets/user-profile/<?php echo $userProfile; ?>" alt="User Image" style="border-radius: 50%; height: 50px; width: 50px">
-            <h4 style="margin-top: 10px; margin-left: 10px"><?php echo $receiverFullname ?></h4>
-            </div>
-            <div id="chats" style="max-height: 51vh; overflow-y:scroll;">
-                
-            </div>
-            
-            
-        </div>
-        <form id="send-message-form">
-                <div class="input-container">
-                    <input type="hidden" value="<?php echo $convoid; ?> " name="conversation_id">
-                    <textarea id="messageInput" class="form-control" name="message" rows="3" placeholder="Type your message..."></textarea>
-                    <button id="sendButton" class="btn btn-primary">Send</button>
-                </div>
-            </form>
+<div class="self-center bg-neutral-50 mt-5 p-10 w-[95%] rounded-md shadow-xl flex flex-col gap-5">
+    <div class="flex items-center gap-2">
+        <img class="drop-shadow-2xl size-9 object-cover rounded-full" src="<?php echo $env_basePath; ?>assets/user-profile/<?php echo $userProfile; ?>" alt="User Image">
+        <h1 class="font-bold text-gray-800 flex gap-1 items-baseline"><span class="text-xs">To:</span> <?php echo strtoupper($receiverFullname)?></h1>
     </div>
+    <div id="chats" class="flex-1 basis-[500px] overflow-y-auto flex flex-col gap-2">
 
+    </div>
+    <form id="send-message-form">
+            <div class="flex gap-3">
+                <input type="hidden" value="<?php echo $convoid; ?> " name="conversation_id">
+                <textarea id="messageInput" class="w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6" name="message" rows="3" placeholder="Type your message..."></textarea>
+                <button id="sendButton" class="bg-green-600 rounded-md p-3 text-neutral-50">Send</button>
+            </div>
+    </form>
+</div>
 
-<?php require 'template/bottom-template.php'; ?>
+</main>
+
 <script>
-  
+document.addEventListener('DOMContentLoaded', () => {
     window.onload = function () {
         fetchMessages();
     };
-</script>
-
-
-<script>
     $("#sendButton").click(function(e){
         var messageInput = $("#messageInput").val();
         
@@ -228,9 +127,8 @@
                         // location.reload();
                         fetchMessages();
                     }
-                    
-                   
                 },
+
                 error: function(xhr, status, error) {
                     // Handle the error here
                     var errorMessage = 'An error occurred while processing your request.';
@@ -251,59 +149,61 @@
                     });
                 }
             });
-        } 
+        }
         }else{
             e.preventDefault();
             return;
         }
     });
+
     function fetchMessages() {
-    var chatContainer = document.getElementById('chats');
-    
-    $.ajax({
-        url: "../../controller/conversation-controller.php",
-        type: "POST",
-        data: { convoid: <?php echo $convoid; ?>, action: 'retrieve' }, 
-        success: function(response) {
-       
-            var isScrolledToBottom = chatContainer.scrollHeight - chatContainer.clientHeight <= chatContainer.scrollTop + 10000;
+        var chatContainer = document.getElementById('chats');
+
+        $.ajax({
+            url: "../../controller/conversation-controller.php",
+            type: "POST",
+            data: { convoid: <?php echo $convoid; ?>, action: 'retrieve' }, 
+            success: function(response) {
+
+                var isScrolledToBottom = chatContainer.scrollHeight - chatContainer.clientHeight <= chatContainer.scrollTop + 10000;
 
 
-            chatContainer.innerHTML = '';
+                chatContainer.innerHTML = '';
 
-            if (response.status === 'success') {
-        
-                response.data.forEach(function(message) {
-                    var messageContent = message.message; 
-                    var timestamp = message.timestamp; 
+                if (response.status === 'success') {
 
-                    var bubbleClass = (message.user_id == <?php echo $_SESSION['userid']; ?>) ? 'sender-chat-bubble' : 'receive-chat-bubble';
+                    response.data.forEach(function(message) {
+                        var messageContent = message.message; 
+                        var timestamp = message.timestamp; 
 
-                    // Create a new chat bubble and append it to the chat container
-                    var chatBubble = document.createElement('div');
-                    chatBubble.className = bubbleClass + ' chat-bubble';
-                    chatBubble.innerHTML = '<p>' + messageContent + '</p>' +
-                        '<p class="message-timestamp">' + timestamp + '</p>';
-                    
-                    chatContainer.appendChild(chatBubble);
-                });
+                        var bubbleClass = (message.user_id == <?php echo $_SESSION['userid']; ?>) ? 'sender-chat-bubble' : 'receive-chat-bubble';
 
-                // Scroll to the bottom after adding new messages
-                if (isScrolledToBottom) {
-                    chatContainer.lastChild.scrollIntoView(false);
+                        // Create a new chat bubble and append it to the chat container
+                        var chatBubble = document.createElement('div');
+                        chatBubble.className = bubbleClass + ' chat-bubble';
+                        chatBubble.innerHTML = '<p>' + messageContent + '</p>' +
+                            `<p class="${bubbleClass}-timestamp">` + timestamp + '</p>';
+
+                        chatContainer.appendChild(chatBubble);
+                    });
+
+                    // Scroll to the bottom after adding new messages
+                    if (isScrolledToBottom) {
+                        chatContainer.lastChild.scrollIntoView(false);
+                    }
+
+                    // Update the form, e.g., clear the input field
+                    document.getElementById('messageInput').value = '';
+                } else {
+                    console.error('Error fetching messages:', response.message);
                 }
-
-                // Update the form, e.g., clear the input field
-                document.getElementById('messageInput').value = '';
-            } else {
-                console.error('Error fetching messages:', response.message);
+            },
+            error: function(xhr, status, error) {
+                // Handle the error here
+                console.error('Error fetching messages:', error);
             }
-        },
-        error: function(xhr, status, error) {
-            // Handle the error here
-            console.error('Error fetching messages:', error);
-        }
-    });
-}
+        });
+    }
+})
 </script>
 

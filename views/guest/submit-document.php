@@ -84,7 +84,7 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
                 <label for="file" class="block text-sm/6 font-medium text-neutral-900">Send Attachments</label>
                 <div class="mt-2">
                     <input type="file" id="file" name="file" rows="3"
-                        class="w-full text-gray-400 text-sm bg-neutral-50 file:cursor-pointer cursor-pointer file:outline-0 file:py-2 file:px-4 file:mr-4 file:bg-green-900 hover:file:bg-green-950 file:text-white rounded"
+                        class="w-full text-gray-400 text-sm bg-neutral-50 file:cursor-pointer cursor-pointer file:outline-0 file:py-2 file:px-4 file:mr-4 file:bg-black hover:file:bg-gray-900 file:text-white rounded"
                         required>
                     <p id="attachmentError" style="color: red;"></p>
                 </div>

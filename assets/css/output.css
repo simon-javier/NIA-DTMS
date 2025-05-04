@@ -43,12 +43,13 @@
     --color-gray-300: oklch(87.2% 0.01 258.338);
     --color-gray-400: oklch(70.7% 0.022 261.325);
     --color-gray-500: oklch(55.1% 0.027 264.364);
-    --color-gray-600: oklch(44.6% 0.03 256.802);
+    --color-gray-800: oklch(27.8% 0.033 256.848);
     --color-gray-900: oklch(21% 0.034 264.665);
     --color-neutral-50: oklch(98.5% 0 0);
     --color-neutral-100: oklch(97% 0 0);
     --color-neutral-200: oklch(92.2% 0 0);
     --color-neutral-300: oklch(87% 0 0);
+    --color-neutral-400: oklch(70.8% 0 0);
     --color-neutral-500: oklch(55.6% 0 0);
     --color-neutral-600: oklch(43.9% 0 0);
     --color-neutral-900: oklch(20.5% 0 0);
@@ -79,6 +80,7 @@
     --radius-lg: 0.5rem;
     --radius-xl: 0.75rem;
     --drop-shadow-md: 0 3px 3px rgb(0 0 0 / 0.12);
+    --drop-shadow-2xl: 0 25px 25px rgb(0 0 0 / 0.15);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -508,6 +510,9 @@
   .min-h-screen {
     min-height: 100vh;
   }
+  .w-1 {
+    width: calc(var(--spacing) * 1);
+  }
   .w-1\/2 {
     width: calc(1/2 * 100%);
   }
@@ -525,6 +530,9 @@
   }
   .w-10\/12 {
     width: calc(10/12 * 100%);
+  }
+  .w-11 {
+    width: calc(var(--spacing) * 11);
   }
   .w-11\/12 {
     width: calc(11/12 * 100%);
@@ -565,11 +573,17 @@
   .flex-1 {
     flex: 1;
   }
+  .flex-shrink {
+    flex-shrink: 1;
+  }
   .shrink-0 {
     flex-shrink: 0;
   }
   .basis-\[246px\] {
     flex-basis: 246px;
+  }
+  .basis-\[500px\] {
+    flex-basis: 500px;
   }
   .border-collapse {
     border-collapse: collapse;
@@ -631,6 +645,9 @@
   .gap-3 {
     gap: calc(var(--spacing) * 3);
   }
+  .gap-5 {
+    gap: calc(var(--spacing) * 5);
+  }
   .gap-6 {
     gap: calc(var(--spacing) * 6);
   }
@@ -659,6 +676,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .overflow-y-auto {
+    overflow-y: auto;
   }
   .rounded {
     border-radius: 0.25rem;
@@ -705,6 +725,9 @@
   .border-gray-300 {
     border-color: var(--color-gray-300);
   }
+  .border-gray-900 {
+    border-color: var(--color-gray-900);
+  }
   .border-gray-900\/10 {
     border-color: color-mix(in srgb, oklch(21% 0.034 264.665) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -737,9 +760,6 @@
   }
   .bg-gray-400 {
     background-color: var(--color-gray-400);
-  }
-  .bg-gray-600 {
-    background-color: var(--color-gray-600);
   }
   .bg-green-100 {
     background-color: var(--color-green-100);
@@ -812,6 +832,9 @@
   }
   .px-24 {
     padding-inline: calc(var(--spacing) * 24);
+  }
+  .py-0 {
+    padding-block: calc(var(--spacing) * 0);
   }
   .py-0\.5 {
     padding-block: calc(var(--spacing) * 0.5);
@@ -914,6 +937,9 @@
   }
   .text-gray-500 {
     color: var(--color-gray-500);
+  }
+  .text-gray-800 {
+    color: var(--color-gray-800);
   }
   .text-gray-900 {
     color: var(--color-gray-900);
@@ -1041,6 +1067,11 @@
     --tw-blur: blur(8px);
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
+  .drop-shadow-2xl {
+    --tw-drop-shadow-size: drop-shadow(0 25px 25px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.15)));
+    --tw-drop-shadow: drop-shadow(var(--drop-shadow-2xl));
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
   .drop-shadow-md {
     --tw-drop-shadow-size: drop-shadow(0 3px 3px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.12)));
     --tw-drop-shadow: drop-shadow(var(--drop-shadow-md));
@@ -1081,6 +1112,11 @@
   .file\:cursor-pointer {
     &::file-selector-button {
       cursor: pointer;
+    }
+  }
+  .file\:bg-black {
+    &::file-selector-button {
+      background-color: var(--color-black);
     }
   }
   .file\:bg-green-900 {
@@ -1205,6 +1241,15 @@
           --tw-drop-shadow-color: color-mix(in oklab, var(--color-green-600) var(--tw-drop-shadow-alpha), transparent);
         }
         --tw-drop-shadow: var(--tw-drop-shadow-size);
+      }
+    }
+  }
+  .hover\:file\:bg-gray-900 {
+    &:hover {
+      @media (hover: hover) {
+        &::file-selector-button {
+          background-color: var(--color-gray-900);
+        }
       }
     }
   }
@@ -1369,6 +1414,9 @@ div.dt-buttons>.dt-button.docViewBtn:hover:not(.disabled), div.dt-buttons>div.dt
   border-style: none;
   background-color: var(--color-gray-500);
 }
+div.dt-buttons>.dt-button.btnHidden, div.dt-buttons>.dt-button.btnHidden:hover {
+  display: none;
+}
 div.dt-buttons>.dt-button.dec-reg-btn, div.dt-buttons>.dt-button.dec-reg-btn:hover {
   margin: calc(var(--spacing) * 0);
   border-radius: var(--radius-sm);
@@ -1413,6 +1461,54 @@ div.dt-container .dt-paging .dt-paging-button:active {
   background: var(--color-neutral-300);
   border: 1px solid var(--color-neutral-300);
   box-shadow: none;
+}
+.receive-chat-bubble-timestamp {
+  font-size: var(--text-xs);
+  line-height: var(--tw-leading, var(--text-xs--line-height));
+  color: var(--color-neutral-400);
+}
+.sender-chat-bubble-timestamp {
+  font-size: var(--text-xs);
+  line-height: var(--tw-leading, var(--text-xs--line-height));
+  color: var(--color-green-800);
+}
+.receive-chat-bubble {
+  margin-left: calc(var(--spacing) * 3);
+  align-self: flex-start;
+  border-radius: var(--radius-md);
+  background-color: var(--color-neutral-300);
+  padding-inline: calc(var(--spacing) * 3);
+  padding-block: calc(var(--spacing) * 2);
+}
+.sender-chat-bubble {
+  margin-right: calc(var(--spacing) * 3);
+  max-width: 512px;
+  align-self: flex-end;
+  border-radius: var(--radius-md);
+  background-color: var(--color-green-600);
+  padding-inline: calc(var(--spacing) * 3);
+  padding-block: calc(var(--spacing) * 2);
+  text-align: right;
+  color: var(--color-neutral-50);
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  border-radius: 34px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 8px;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 16px;
 }
 @property --tw-rotate-x {
   syntax: "*";

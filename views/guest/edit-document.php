@@ -1,4 +1,3 @@
-<!-- TODO: Incomplete Documents and Pulled Documents -->
 <?php require 'template/top-template.php'; ?>
 <?php
 require '../../connection.php';

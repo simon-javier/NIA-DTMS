@@ -1,73 +1,59 @@
 <?php require 'template/top-template-bak.php'; ?>
-<?php
-require '../../connection.php';
+<?php 
+    require '../../connection.php';
+    $convoid = $_GET['convoid'];
+
     $user_id = $_SESSION['userid'];
-    $myConversationListQuery = "SELECT * from tbl_conversation where user_id = :user_id";
-    $stmt = $pdo->prepare($myConversationListQuery);
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->execute();
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $listOfreceiver = [];
-
-    foreach($results as $result){
-        $conversationListQuery = "SELECT * from tbl_conversation where user_id != :user_id and conversation_id = :conversation_id";
-        $stmt = $pdo->prepare($conversationListQuery);
+    try {
+        $getReceiverId = "SELECT user_id from tbl_conversation where user_id != :user_id and conversation_id = :conversation_id";
+        $stmt = $pdo->prepare($getReceiverId);
         $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':conversation_id', $result['conversation_id']);
+        $stmt->bindParam(':conversation_id', $convoid);
         $stmt->execute();
-        $receiver = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $receiverId = $receiver['user_id'];
-
-        $receiverInfoq = "SELECT * from tbl_userinformation where id = :receiverId";
-        $stmt = $pdo->prepare($receiverInfoq);
-        $stmt->bindParam(':receiverId', $receiverId);
-        $stmt->execute();
-        $receiverInfo = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $listOfreceiver[] = [
-            'fullname' => $receiverInfo['firstname'] . ' ' . $receiverInfo['lastname'],
-            'userProfile' => $receiverInfo['user_profile'],
-            'conversationId' => $result['conversation_id']
-        ];
-    }
-
-    if(isset($_GET['convoid'])){
-        try {
-            $convoid = $_GET['convoid'];
-            $getReceiverId = "SELECT user_id from tbl_conversation where user_id != :user_id and conversation_id = :conversation_id";
-            $stmt = $pdo->prepare($getReceiverId);
-            $stmt->bindParam(':user_id', $user_id);
-            $stmt->bindParam(':conversation_id', $convoid);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if(!$result){
-                echo 'This conversation not exists.';
-                exit;
-            }
-            $receiverId = $result['user_id'];
-    
-            $receiverInfo = "SELECT * from tbl_userinformation where id = :receiverId";
-            $stmt = $pdo->prepare($receiverInfo);
-            $stmt->bindParam(':receiverId', $receiverId);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if(!$result){
-                echo 'This receiver not exists.';
-                exit;
-            }
-            $receiverFullname = $result['firstname'] . ' ' . $result['lastname'];
-            $userProfile = $result['user_profile'];
-        } catch (\Throwable $th) {
-            
-            echo "Error fetching the receiver info: " .$th;
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(!$result){
+            echo 'This conversation not exists.';
             exit;
         }
+        // $receiverId = $result['user_id'];
+
+        // $receiverInfo = "SELECT * from tbl_userinformation where id = :receiverId";
+        // $stmt = $pdo->prepare($receiverInfo);
+        // $stmt->bindParam(':receiverId', $receiverId);
+        // $stmt->execute();
+        // $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        // if(!$result){
+        //     echo 'This receiver not exists.';
+        //     exit;
+        // }
+        $receiverFullname = "Admin";
+        $userProfile = "user-default.jpg";
+
+        $update = "UPDATE tbl_messages set status = 'read' where conversation_id = :con_id";
+        $stmt = $pdo->prepare($update);
+        $stmt->bindParam(':con_id', $convoid);
+        $stmt->execute();
+
+    } catch (\Throwable $th) {
+        
+        echo "Error fetching the receiver info: " .$th;
+        exit;
     }
 
     
+    // try {
+        
+    //     $getAllConversation = "SELECT * FROM tbl_messages where conversation_id = :conversation_id ORDER BY timestamp ASC";
+    //     $stmt = $pdo->prepare($getAllConversation);
+    //     $stmt->bindParam(':conversation_id', $convoid);
+    //     $stmt->execute();
+    //     $allConvo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // } catch (\Throwable $th) {
     
+    //     echo "Error getting the messages: " .$th;
+    //     exit;
+    // }
+
 ?>
 <style>
      :root {
@@ -88,10 +74,12 @@ require '../../connection.php';
         background-color: #009933; 
         border-radius: 6px;
     }
+
     .container{
         padding: 2.5rem;
         background-color: #fff;
         box-shadow: var(--box-shadow);
+        height: 85vh;
     }
     .main-content{
         position: relative;
@@ -156,68 +144,31 @@ require '../../connection.php';
     #sendButton {
         width: 80px; /* Adjust the width as needed */
     }
-    .items{
-        color: var(--black-color);
-    }
-
-  
 </style>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4" style="border-right: 2px solid #ddd; max-height: 75vh; overflow-y: scroll">
-            <!-- Left Div: Conversation List -->
-            <div class="conversation-list">
-            <?php foreach($listOfreceiver as $row) { ?>
-                <a href="communication.php?convoid=<?php echo $row['conversationId']; ?>" class="items" style="text-decoration: none;">
-                <div class="conversation-list-item">
-                        <img src="<?php echo $env_basePath ?>assets/user-profile/<?php echo $row['userProfile'] ?>" alt="User Image" style="border-radius: 50%; height: 50px; width: 50px">
-                        <p style="margin-top: 10px"><?php echo $row['fullname']; ?></p>
-                </div>
-                </a>
-            <?php } ?>
-                   
-            
-            </div>
-        </div>
-        <div class="col-md-8 chat-container" style="max-height: 75vh; overflow-y: scroll">
-        <?php if(isset($_GET['convoid'])){  ?>
-            <div class="chat-container" id="chatContainer">
+    <div class="container">
+    <div class="chat-container" id="chatContainer">
             <div class="receiver-info d-flex align-item-center p-3">
             <img src="<?php echo $env_basePath; ?>assets/user-profile/<?php echo $userProfile; ?>" alt="User Image" style="border-radius: 50%; height: 50px; width: 50px">
             <h4 style="margin-top: 10px; margin-left: 10px"><?php echo $receiverFullname ?></h4>
             </div>
             <div id="chats" style="max-height: 51vh; overflow-y:scroll;">
-                
             </div>
+            
+            
         </div>
         <form id="send-message-form">
                 <div class="input-container">
                     <input type="hidden" value="<?php echo $convoid; ?> " name="conversation_id">
-                    <textarea id="messageInput" class="form-control" name="message" rows="3" placeholder="Type your message..."></textarea>
+                    <textarea name="message" id="messageInput" rows="3" placeholder="Type your message..."
+                        class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"></textarea>
                     <button id="sendButton" class="btn btn-primary">Send</button>
                 </div>
-            </form>
-        <?php }else{ ?>
-            <div class="d-flex justify-content-center align-item-center flex-column" style="height: 50vh;">
-                <h1>Select a conversation</h1>
-            </div>
-            
-        <?php } ?>
-            
-        </div>
+        </form>
     </div>
-</div>
+
 
 <?php require 'template/bottom-template.php'; ?>
-<script>
-    // Scroll the chat container to the bottom when the page is fully loaded
-    window.onload = function () {
-        var chatContainer = document.getElementById('chatContainer');
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-    };
-</script>
-
 <script>
   
     window.onload = function () {

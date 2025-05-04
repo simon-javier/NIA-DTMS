@@ -127,11 +127,20 @@ $message_count = $count['count'];
                     Submit Document
                 </a>
             </div>
-            <div class="flex justify-center">
+            <div class="flex justify-center items-center">
                 <a href="pending-document.php" class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
                             cursor-pointer sidebar-item">
                     <i class="bx bx-file text-2xl text-gray-500 sidebar-icon"></i>
                     Pending Document
+                    <?php if($count_pending > 0): ?>
+                        <div class="rounded-full w-5 h-5 p-1 
+                                        bg-green-600 text-green-100 flex justify-center
+                                        items-center text-xs font-bold ml-auto self-center">
+                            <p class="">
+                                <?php echo $count_pending; ?>
+                            </p>
+                        </div>
+                    <?php endif; ?>
                 </a>
             </div>
             <div class="flex justify-center">
@@ -142,20 +151,37 @@ $message_count = $count['count'];
                 </a>
             </div>
             <div class="flex justify-center">
-                <a href="communication.php?convoid=<?php echo $result['conversation_id']; ?>" class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
-                            cursor-pointer sidebar-item items-center">
-                    <i class="bx bx-chat text-2xl text-gray-500 sidebar-icon"></i>
-                    Communication
-                    <?php if ($message_count > 0): ?>
-                        <div class="rounded-full w-5 h-5 p-1 
-                                        bg-green-600 text-green-100 flex justify-center
-                                        items-center text-xs font-bold ml-auto">
-                            <p class="">
-                                <?php echo $message_count; ?>
-                            </p>
-                        </div>
-                    <?php endif; ?>
-                </a>
+                <?php if($result){ ?>
+                    <a href="communication.php?convoid=<?php echo $result['conversation_id']; ?>" class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
+                                cursor-pointer sidebar-item items-center">
+                        <i class="bx bx-chat text-2xl text-gray-500 sidebar-icon"></i>
+                        Communication
+                        <?php if ($message_count > 0): ?>
+                            <div class="rounded-full w-5 h-5 p-1 
+                                            bg-green-600 text-green-100 flex justify-center
+                                            items-center text-xs font-bold ml-auto">
+                                <p class="">
+                                    <?php echo $message_count; ?>
+                                </p>
+                            </div>
+                        <?php endif; ?>
+                    </a>
+                <?php }else{ ?>
+                    <a href="#" onclick="createConversation();" class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
+                                cursor-pointer sidebar-item items-center">
+                        <i class="bx bx-chat text-2xl text-gray-500 sidebar-icon"></i>
+                        Communication
+                        <?php if ($message_count > 0): ?>
+                            <div class="rounded-full w-5 h-5 p-1 
+                                            bg-green-600 text-green-100 flex justify-center
+                                            items-center text-xs font-bold ml-auto">
+                                <p class="">
+                                    <?php echo $message_count; ?>
+                                </p>
+                            </div>
+                        <?php endif; ?>
+                    </a>
+                <?php } ?>
             </div>
         </div>
     </div>
