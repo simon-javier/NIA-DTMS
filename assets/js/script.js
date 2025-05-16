@@ -98,15 +98,20 @@ function handleItemClick() {
 }
 
 const userManagementMenu = document.querySelector("#userManagement");
-const submenu = userManagementMenu.parentElement.querySelector(".hidden");
-const chevron = userManagementMenu.querySelector(".chevron");
+let submenu;
+let chevron;
+if (userManagementMenu) {
+    submenu = userManagementMenu.parentElement.querySelector(".hidden");
+    chevron = userManagementMenu.querySelector(".chevron");
 
-userManagementMenu.addEventListener("click", () => {
+    userManagementMenu.addEventListener("click", () => {
 
-    chevron.classList.toggle("bx-chevron-down");
-    chevron.classList.toggle("bx-chevron-up");
-    submenu.classList.toggle('hidden');
-})
+        chevron.classList.toggle("bx-chevron-down");
+        chevron.classList.toggle("bx-chevron-up");
+        submenu.classList.toggle('hidden');
+    })
+}
+
 
 const notificationBtn = document.querySelector("#notificationButton");
 const notificationModal = document.querySelector("#notificationModal");
@@ -233,6 +238,23 @@ switch (currentPage) {
         btnText = "<i class='bx bx-plus-circle text-lg'></i>New User";
         btnClassName = "new-document-btn newGuestUserBtn";
         break;
+    case "pending-document.php":
+        btnText = "<i class='fa-solid fa-file'></i>Document List";
+        btnClassName = "docViewBtn";
+        break;
+    case "pulled-document.php":
+        btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
+        btnClassName = "dec-reg-btn backBtn";
+        break;
+    case "incomplete-document.php":
+        btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
+        btnClassName = "dec-reg-btn backBtn";
+        break;
+
+    case "document-tracking.php":
+        btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
+        btnClassName = "btnHidden";
+        break;
 }
 
 const mainTable = new DataTable('#mainTable', {
@@ -255,6 +277,10 @@ const mainTable = new DataTable('#mainTable', {
 
 $('.dec-reg-btn').click(() => {
     window.location.href = "guest-archived.php";
+})
+
+$('.docViewBtn').click(() => {
+    document.querySelector('.dropdown-list').classList.toggle('hidden');
 })
 
 $('.dec-reg-btn.backBtn').click(() => {
@@ -1042,3 +1068,81 @@ $("#add_user_btn").click(function(e) {
         });
     }
 });
+
+function createConversation(){
+    Swal.fire({
+    title: "Want to have conversation with admin?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, i want it!"
+    }).then((result) => {
+    if (result.isConfirmed) {
+        $('.loader-container').fadeIn();
+        $.ajax({
+            url: "../../controller/conversation-controller.php",
+            type: "POST",
+            data: "action=create_new_conversation",
+            success:function(response){
+
+                setTimeout(function() {
+
+                $('.loader-container').fadeOut();
+                }, 500);
+            
+                if(response.status === "failed"){
+                    Swal.fire({
+                        title: 'Something went wrong!',
+                        text: response.message,
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                }else if(response.status === "error"){
+                    Swal.fire({
+                        title: 'Error!',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                });
+                }
+                else if(response.status === "success"){
+                    Swal.fire({
+                    title: 'Success!',
+                    text: response.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
+                    }
+            },
+            error: function(xhr, status, error) {
+                // Handle the error here
+                var errorMessage = 'An error occurred while processing your request.';
+                if (xhr.statusText) {
+                    errorMessage += ' ' + xhr.statusText;
+                }
+                Swal.fire({
+                    title: 'Error!',
+                    text: errorMessage + '<br><br>' + JSON.stringify(xhr, null, 2), // Include the entire error object for debugging
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    // Check if the user clicked the "OK" button
+                    if (result.isConfirmed) {
+                        // Reload the page
+                        location.reload();
+                    }
+                });
+            }
+        });
+    }
+    });
+}
