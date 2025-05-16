@@ -1,26 +1,23 @@
+<?php
+session_start();
+$user_id = $_SESSION['userid'];
+$office_name = $_SESSION['office'];
+require '../../connection.php';
+if (!isset($_SESSION['userid'])) {
+    header("Location: ../../index.php");
+    exit;
+}
+
+$userid = $_SESSION['userid'];
+$findUserID = "SELECT conversation_id from tbl_conversation where user_id = :userid";
+$stmt = $pdo->prepare($findUserID);
+$stmt->bindParam(':userid', $userid);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
-
-<?php 
-    session_start();
-    $user_id = $_SESSION['userid'];
-    $office_name = $_SESSION['office'];
-    require '../../connection.php';
-    if(!isset($_SESSION['userid'])){
-        header("Location: ../../index.php");
-        exit;
-    }
-
-    $userid = $_SESSION['userid'];
-    $findUserID = "SELECT conversation_id from tbl_conversation where user_id = :userid";
-    $stmt = $pdo->prepare($findUserID);
-    $stmt->bindParam(':userid', $userid);
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-    //counting the receive documents
-    $docu_query = "SELECT tbl_office_document.status as docu_status, tbl_office_document.*, tbl_uploaded_document.*  
+//counting the receive documents
+$docu_query = "SELECT tbl_office_document.status as docu_status, tbl_office_document.*, tbl_uploaded_document.*  
     FROM tbl_office_document 
     JOIN tbl_uploaded_document ON tbl_office_document.docu_id = tbl_uploaded_document.id 
     WHERE (tbl_office_document.status = 'active' OR tbl_office_document.status = 'completed') 
@@ -52,53 +49,53 @@ $docu_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $ongoing_count = $stmt->rowCount();
 
 
-    
 
 
-    $current_time = date("M j, Y g:i A");
 
-    $notifCountQuery = "SELECT COUNT(*) from tbl_notification where user_id = :user_id and status = 'unread'";
-    $stmt = $pdo->prepare($notifCountQuery);
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->execute();
-    $notificationCount = $stmt->fetchColumn();
+$current_time = date("M j, Y g:i A");
 
-    $notificationQuery = "SELECT * from tbl_notification where user_id = :user_id and status = 'unread' ORDER BY timestamp DESC";
-    $stmt = $pdo->prepare($notificationQuery);
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->execute();
-    $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$notifCountQuery = "SELECT COUNT(*) from tbl_notification where user_id = :user_id and status = 'unread'";
+$stmt = $pdo->prepare($notifCountQuery);
+$stmt->bindParam(':user_id', $user_id);
+$stmt->execute();
+$notificationCount = $stmt->fetchColumn();
 
-    $userProfileQuery = "SELECT user_profile from tbl_userinformation where id = :id";
-    $stmt = $pdo->prepare($userProfileQuery);
-    $stmt->bindParam(':id', $user_id);
-    $stmt->execute();
-    $userProfile = $stmt->fetch(PDO::FETCH_ASSOC);
+$notificationQuery = "SELECT * from tbl_notification where user_id = :user_id and status = 'unread' ORDER BY timestamp DESC";
+$stmt = $pdo->prepare($notificationQuery);
+$stmt->bindParam(':user_id', $user_id);
+$stmt->execute();
+$notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $sql = "SELECT COUNT(*) AS total_count FROM tbl_uploaded_document WHERE status = 'pending' AND status != 'pulled'";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+$userProfileQuery = "SELECT user_profile from tbl_userinformation where id = :id";
+$stmt = $pdo->prepare($userProfileQuery);
+$stmt->bindParam(':id', $user_id);
+$stmt->execute();
+$userProfile = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $totalCount = $result['total_count'];
+$sql = "SELECT COUNT(*) AS total_count FROM tbl_uploaded_document WHERE status = 'pending' AND status != 'pulled'";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $user_id = $_SESSION['userid'];
-        //code...
-        $docu_query = "SELECT tbl_handler_incoming.receive_at as date_receive, tbl_handler_incoming.*, tbl_uploaded_document.*  
+$totalCount = $result['total_count'];
+
+$user_id = $_SESSION['userid'];
+//code...
+$docu_query = "SELECT tbl_handler_incoming.receive_at as date_receive, tbl_handler_incoming.*, tbl_uploaded_document.*  
                         FROM tbl_handler_incoming 
                         JOIN tbl_uploaded_document ON tbl_handler_incoming.docu_id = tbl_uploaded_document.id 
                         WHERE tbl_handler_incoming.user_id = :user_id and tbl_handler_incoming.status != 'notyetreceive'
                         ORDER BY receive_at DESC";
-    
-        $stmt = $pdo->prepare($docu_query);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->execute();
-        $docu_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-        // Count the number of rows
-        $num_rows = $stmt->rowCount();
 
-        // Count of pending documents
+$stmt = $pdo->prepare($docu_query);
+$stmt->bindParam(':user_id', $user_id);
+$stmt->execute();
+$docu_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Count the number of rows
+$num_rows = $stmt->rowCount();
+
+// Count of pending documents
 $sql = "SELECT COUNT(*) as count FROM tbl_uploaded_document WHERE status = 'pending' AND status != 'pulled'";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
@@ -112,7 +109,7 @@ $docu_query = "SELECT COUNT(*) as count
                 WHERE tbl_handler_incoming.user_id = :user_id 
                 AND tbl_handler_incoming.status = 'notyetreceive'
                 AND tbl_uploaded_document.completed != 'pulled' ";
-                
+
 $stmt = $pdo->prepare($docu_query);
 $stmt->bindParam(':user_id', $user_id);
 $stmt->execute();
@@ -124,301 +121,240 @@ $totalNewDocument = $count_pending + $count_not_yet_received;
 
 
 
- 
+
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document Tracking System</title>
-
-    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/jsdelivr/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/sweetalert/sweetalert2.min.css">
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/cloudflare/all.min.css">
-    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/boxicons/boxicons.min.css">
-    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/datatable/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/datatable/dataTables.dataTables.css">
-    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/datatable/dataTables.dateTime.min.css">
-    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-    <script src="https://cdn.rawgit.com/cozmo/jsQR/master/dist/jsQR.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script src="<?php echo $env_basePath; ?>assets/jquery/jquery-3.2.1.slim.min.js"></script>
-<script src="<?php echo $env_basePath; ?>assets/stackpath/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/datatable/datatables.min.css">
+    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/css/boxicons.min.css">
+    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/css/fontawesome.css">
+    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/css/brands.css">
+    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/css/solid.css">
+    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/css/output.css">
 
-    <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/cdnjs/bootstrap-select.min.css">
-
-    <script src="<?php echo $env_basePath; ?>assets/cdnjs/bootstrap-select.min.js"></script>
-    <link rel="stylesheet" href="sidebar.css">
- 
+    <script src="<?php echo $env_basePath; ?>assets/jquery/jquery-3.2.1.slim.min.js" defer></script>
+    <script src="<?php echo $env_basePath; ?>assets/datatable/datatables.min.js" defer></script>
+    <script src="<?php echo $env_basePath; ?>assets/jsdelivr/popper.min.js" defer></script>
+    <script src="<?php echo $env_basePath; ?>assets/jsdelivr/sweetalert2.all.min.js" defer></script>
+    <script src="<?php echo $env_basePath; ?>assets/jquery/jquery-3.6.4.min.js" defer></script>
+    <script src="<?php echo $env_basePath; ?>assets/js/script.js" defer></script>
 </head>
-<body>
+
+
+<body class="bg-gray-200 text-neutral-950 flex h-full">
     <?php require '../../assets/loader/loader.php'; ?>
-    <div class="sidebar active">
-        <div class="top">
-            <div class="logo">
-                <img src="<?php echo $env_basePath; ?>assets/img/logo.png" alt="User Default Image">
-                <span>NIA Document Tracking and Management System</span>
-            </div>
+    <!-- Sidebar -->
+    <aside class="bg-neutral-50 w-[270px] shrink-0 shadow-lg flex flex-col gap-9 min-h-screen sticky top-0"
+        id="sidebar">
+        <div class="flex flex-col items-center mt-4 gap-3">
+            <img src="<?php echo $env_basePath; ?>assets/img/logo.png" class="w-1/2" alt="">
+            <h1 class="text-lg font-bold text-center w-10/12" id="sidebarTitle">
+                NIA Document Tracking and Management System
+            </h1>
         </div>
-        <ul>
-            <li>
-                <a href="dashboard.php" class="navigation">
-                <i class='bx bxs-grid-alt' ></i>
-                    <span class="nav-item">Dashboard</span>
+        <div>
+            <div class="flex text-green-50 justify-center">
+                <a href="./dashboard.php" class="navigation select-none flex gap-3 bg-green-600 p-3 w-11/12
+                            rounded-md sidebar-item items-center">
+                    <i class="bx bxs-grid-alt text-2xl text-green-200 sidebar-icon"></i>
+                    Dashboard
                 </a>
-                <span class="tooltip">Dashboard</span>
-            </li>
-            <li>
-                <a href="create_document.php" class="navigation">
-                <i class='bx bx-map'></i>
-                    <span class="nav-item">Create Tracking</span>
-                </a>
-                <span class="tooltip">Create Tracking</span>
-            </li>
-            <li>
-                <a href="newly-created-docs.php" class="navigation">
-                <i class='bx bx-mail-send' ></i>
-                    <span class="nav-item">New Documents</span>
-                    <?php if($totalNewDocument > 0){ ?>
-                        <span class="badge bg-success rounded-pill"><?php echo $totalNewDocument; ?></span>
-                        <?php } ?>
-                    
-                </a>
-                <span class="tooltip">New Documents</span>
-            </li>
-            <li>
-                <a href="incoming-documents.php" class="navigation">
-                <i class='bx bxs-file-export'></i>
-                    <span class="nav-item">Incoming Documents</span>
-                    <?php if($num_rows > 0){ ?>
-                        <span class="badge bg-success rounded-pill mr-3" style="color: white;"><?php echo $num_rows; ?></span>
-                        <?php } ?>
-                
-                </a>
-                <span class="tooltip">Incoming Documents</span>
-            </li>
-            <li>
-                <a href="received-documents.php" class="navigation">
-                <i class='bx bx-file'></i>
-                    <span class="nav-item">Received Documents</span>
-                    <?php if($receive_documents_count > 0){ ?>
-                        <span class="badge bg-success rounded-pill mr-3" style="color: white;"><?php echo $receive_documents_count; ?></span>
-                        <?php } ?>
-                </a>
-                <span class="tooltip">Received Documents</span>
-            </li>
-            <li>
-                <a href="outgoing-documents.php" class="navigation">
-                <i class='bx bxs-file-import' ></i>
-                    <span class="nav-item">Ongoing Documents</span>
-                    <?php if($ongoing_count > 0){ ?>
-                        <span class="badge bg-success rounded-pill mr-3" style="color: white;"><?php echo $ongoing_count; ?></span>
-                        <?php } ?>
-                </a>
-                <span class="tooltip">Ongoing Documents</span>
-            </li>
-
-            
-            
-
-            <li style="display: none;">
-                <a href="create-tracking.php" class="navigation">
-                <i class='bx bx-mail-send' ></i>
-                    <span class="nav-item">Transfer to Internal Office</span>
-                    <!-- <span class="badge bg-success rounded-pill">14</span> -->
-                </a>
-                <span class="tooltip">Transfer to Internal Office</span>
-            </li>
-
-            <li style="display: none;">
-                <a href="accept-decline.php" class="navigation">
-                <i class='bx bx-mail-send' ></i>
-                    <span class="nav-item">Document Details</span>
-                    <!-- <span class="badge bg-success rounded-pill">14</span> -->
-                </a>
-                <span class="tooltip">Document Details</span>
-            </li>
-            <!-- <li>
-                <a href="document-tracking.php" class="navigation">
-                <i class='bx bx-map'></i>
-                    <span class="nav-item">Document Tracking</span>
-                </a>
-                <span class="tooltip">Document Tracking</span>
-            </li> -->
-
-            
-
-            <li>
-                <a href="document-tracking.php" class="navigation">
-                <i class='bx bx-map'></i>
-                    <span class="nav-item">Document Tracking</span>
-                </a>
-                <span class="tooltip">Document Tracking</span>
-            </li>
-            <li onclick="toggleDropdown()">
-                <a href="#" class="navigation" >
-                    <i class='bx bxs-receipt' ></i>
-                    <span class="nav-item">Transactions</span>
-                </a>
-                <span class="tooltip">Transactions</span>
-            </li>
-            <div class="custom-dropdown" style="margin-left: 10px; display: none;">
-            <li>
-                    <a href="generate-report.php" class="navigation">
-                    <i class='fa fa-arrow-right'></i>
-                        <span class="nav-item">Generate Report</span>
-                    </a>
-                    <span class="tooltip">Generate Report</span>
-                </li>
-                <li>
-                    <a href="pulled-document.php" class="navigation">
-                    <i class='fa fa-arrow-right'></i>
-                        <span class="nav-item">Pulled Documents</span>
-                    </a>
-                    <span class="tooltip">Pulled Documents</span>
-                </li>
-                <li>
-                    <a href="complete-document.php" class="navigation">
-                    <i class='fa fa-arrow-right'></i>
-                        <span class="nav-item">Complete Documents</span>
-                    </a>
-                    <span class="tooltip">Complete Documents</span>
-                </li>
-
-                <script>
-                    function toggleDropdown() {
-                        var dropdown = document.querySelector('.custom-dropdown');
-                        dropdown.style.display = (dropdown.style.display === 'none') ? 'block' : 'none';
-                    }
-                </script>
-
-                <li>
-                    <a href="incomplete-document.php" class="navigation">
-                    <i class='fa fa-arrow-right'></i>
-                        <span class="nav-item">Incomplete Documents</span>
-                    </a>
-                    <span class="tooltip">Incomplete Documents</span>
-                </li>
             </div>
-
-
-            <li>
-                <a href="communication.php" class="navigation">
-                <i class='bx bx-map'></i>
-                    <span class="nav-item">Communication</span>
+            <div class="flex justify-center">
+                <a href="create_document.php"
+                    class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200 items-center cursor-pointer sidebar-item">
+                    <i class="bx bx-map text-2xl text-gray-500 sidebar-icon"></i>
+                    Create Tracking
                 </a>
-                <span class="tooltip">Communication</span>
-            </li>
-            <li>
-                <a href="scan-qr-code.php" class="navigation">
-                <i class='bx bxs-inbox'></i>
-                    <span class="nav-item">Scan QR Code</span>
-                </a>
-                <span class="tooltip">Scan QR Code</span>
-            </li>
-
-
-
-
-        
-            <!-- <li>
-                <a href="document-tracking.php" class="navigation">
-                    <i class="bx bxs-grid-alt"></i>
-                    <span class="nav-item">Document Tracking</span>
-                </a>
-                <span class="tooltip">Document Tracking</span>
-            </li> -->
-            <!-- <?php if($result){ ?>
-                <li>
-                    <a href="communication.php?convoid=<?php echo $result['conversation_id']; ?>" class="navigation">
-                    <i class='bx bx-chat'></i>
-                        <span class="nav-item">Communication</span>
-                    </a>
-                    <span class="tooltip">Communication</span>
-                </li>
-            <?php }else{ ?>
-                <li>
-                    <a href="#" onclick="createConversation();" class="navigation">
-                    <i class='bx bx-chat'></i>
-                        <span class="nav-item">Communication</span>
-                    </a>
-                    <span class="tooltip">Communication</span>
-                </li>
-            <?php } ?> -->
-            
-
-        </ul>
-    </div>
-
-    <nav class="navbar active navbar-expand-lg">
-        <div class="container-fluid">
-            <div class="menu">
-                <i class="bx bx-menu" id="btn" ></i>
-                <h4 class="title d-none d-md-block">Navbar</h4>
             </div>
-            <div class="actions">
-                <div class="fullname">
-                    <p class="d-none d-md-block"><?php echo $current_time; ?></p>
-                </div>
-                <div class="btn-group">
-    <button type="button" class="btn btn-primary" id="openModalBtn" data-id="<?php echo $user_id; ?>" onclick="openNotification(event)">
-        <i class='bx bx-bell'></i>
-        <?php if ($notificationCount > 0) { ?>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                <?php echo $notificationCount; ?>
-            </span>
-        <?php } ?>
-    </button>
-</div>
-<div class="modal" id="notificationModal" style="color: black">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="flex justify-center">
+                <a href="newly-created-docs.php"
+                    class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200 items-center cursor-pointer sidebar-item">
+                    <i class="bx bx-mail-send text-2xl text-gray-500 sidebar-icon"></i>
+                    New Document
+                </a>
             </div>
-            <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
-                <?php if (!empty($notifications)) { ?>
-                    <?php foreach ($notifications as $notification) { ?>
-                        <div class="mb-3 border-bottom">
-                            <p><?php echo $notification['content']; ?></p>
-                            <small class="text-muted">
-                                <?php echo date('F j, Y', strtotime($notification['timestamp'])); ?>
-                            </small>
-                           
+            <div class="flex justify-center">
+                <a href="incoming-documents.php"
+                    class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200 cursor-pointer sidebar-item items-center">
+                    <i class="bx bxs-file-export text-2xl text-gray-500 sidebar-icon"></i>
+                    Incoming Documents
+                    <?php if ($num_rows > 0): ?>
+                        <div class="rounded-full w-5 h-5 p-1 
+                                        bg-green-600 text-green-100 flex justify-center
+                                        items-center text-xs font-bold">
+                            <p class="">
+                                <?php echo $num_rows; ?>
+                            </p>
                         </div>
-                    <?php } ?>
-                <?php } else { ?>
-                    <p class="text-center">No new notification.</p>
-                <?php } ?>
+                    <?php endif; ?>
+                </a>
             </div>
-            <div class="modal-footer">
-                <a href="notifications.php">View all notifications</a>
-                <button type="button" class="btn btn-secondary" id="closeModalBtn">Close</button>
+            <div class="flex justify-center">
+                <a href="received-documents.php"
+                    class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200 cursor-pointer sidebar-item items-center">
+                    <i class="bx bx-file text-2xl text-gray-500 sidebar-icon"></i>
+                    Received Documents
+                    <?php if ($receive_documents_count > 0): ?>
+                        <div class="rounded-full w-5 h-5 p-1 
+                                        bg-green-600 text-green-100 flex justify-center
+                                        items-center text-xs font-bold">
+                            <p class="">
+                                <?php echo $receive_documents_count; ?>
+                            </p>
+                        </div>
+                    <?php endif; ?>
+                </a>
             </div>
-        </div>
-    </div>
-</div>
+            <div class="flex justify-center">
+                <a href="outgoing-documents.php"
+                    class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200 cursor-pointer sidebar-item items-center">
+                    <i class="bx bxs-file-import text-2xl text-gray-500 sidebar-icon"></i>
+                    Ongoing Documents
+                    <?php if ($ongoing_count > 0): ?>
+                        <div class="rounded-full w-5 h-5 p-1 
+                                        bg-green-600 text-green-100 flex justify-center
+                                        items-center text-xs font-bold">
+                            <p class="">
+                                <?php echo $ongoing_count; ?>
+                            </p>
+                        </div>
+                    <?php endif; ?>
+                </a>
+            </div>
+            <div class="flex justify-center">
+                <a href="document-tracking.php"
+                    class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200 cursor-pointer sidebar-item items-center">
+                    <i class="bx bx-map text-2xl text-gray-500 sidebar-icon"></i>
+                    Document Tracking
+                </a>
+            </div>
 
-                <div class="dropdown">
-                <img src="<?php echo $env_basePath; ?>assets/user-profile/<?php echo $userProfile['user_profile']; ?>" alt="User Default Image" class="dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="height: 50px; width: 50px;">
-                    <ul class="dropdown-menu" aria-labelledby="userDropdown" style="left: auto !important; right: 0;">
-                    <!-- <p class="" style="margin-left: 10px;"><?php 
-                        // if(isset($_SESSION['fullname'])){
-                        //     echo $_SESSION['fullname'];
-                        // }
-                    ?></p> -->
-                        <li><a class="dropdown-item" href="<?php echo $env_basePath ?>views/settings/update-profile.php">Settings</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="confirmLogout()">Logout</a></li>
+            <div class="flex flex-col items-center">
+                <div class="select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
+                            cursor-pointer justify-between" id="userManagement">
+                    <div class="flex gap-3 justify-center items-center">
+                        <i class="bx bxs-receipt text-2xl text-gray-500 sidebar-icon"></i>
+                        Transactions
+                    </div>
+                    <i class='ml-3 bx bx-chevron-down text-2xl chevron'></i>
+                </div>
+                <div class="submenu hidden">
+                    <ul class="flex flex-col gap-2">
+                        <li class="select-none p-3 rounded-md hover:bg-neutral-200 sidebar-item">
+                            <a href="generate-report.php" class="navigation flex items-center gap-3">
+                                <i class="bx bx-right-arrow-alt sidebar-icon text-2xl text-gray-500"></i>
+                                Generate Report
+                            </a>
+
+                        </li>
+                        <li class="select-none p-3 rounded-md hover:bg-neutral-200 sidebar-item">
+                            <a href="pulled-document.php" class="navigation flex items-center gap-3">
+                                <i class="bx bx-right-arrow-alt sidebar-icon text-2xl text-gray-500"></i>
+                                Pulled Documents
+                            </a>
+
+                        </li>
+                        <li class="select-none p-3 rounded-md hover:bg-neutral-200 sidebar-item">
+                            <a href="./complete-document.php" class="navigation flex items-center gap-3">
+                                <i class="bx bx-right-arrow-alt sidebar-icon text-2xl text-gray-500"></i>
+                                Complete Documents
+
+                            </a>
+                        </li>
+                        <li class="select-none p-3 rounded-md hover:bg-neutral-200 sidebar-item">
+                            <a href="./incomplete-document.php" class="navigation flex items-center gap-3" id="incDoc">
+                                <i class="bx bx-right-arrow-alt sidebar-icon text-2xl text-gray-500"></i>
+                                Incomplete Documents
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
+            <div class="flex justify-center">
+                <a href="communication.php"
+                    class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200 cursor-pointer sidebar-item">
+                    <i class="bx bx-map text-2xl text-gray-500 sidebar-icon"></i>
+                    Communication
+                </a>
+            </div>
+            <div class="flex justify-center">
+                <a href="scan-qr-code.php"
+                    class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200 cursor-pointer sidebar-item">
+                    <i class="bx bxs-inbox text-2xl text-gray-500 sidebar-icon"></i>
+                    Scan QR Code
+                </a>
+            </div>
         </div>
-    </nav>
-    <div class="main-content">
-    <!-- end of top-template.php -->
+    </aside>
+    <main class="flex flex-col flex-1">
+        <!-- Navigation Bar -->
+        <header>
+            <nav class="bg-neutral-50 w-full flex justify-end items-center
+                gap-6 shadow-sm">
+                <p class="font-bold text-gray-500 py-5">
+                    <?php echo $current_time; ?>
+                </p>
+                <button type="button" class="cursor-pointer relative" id="notificationButton"
+                    data-id="<?php echo $user_id; ?>">
+                    <i class='bx bx-bell text-2xl text-gray-500 hover:text-green-600'></i>
+                    <?php if ($notificationCount > 0) { ?>
+                        <span
+                            class="bg-red-600 p-1 w-2 h-1 inline-block rounded-full absolute left-3 border-neutral-50 border-1"></span>
+                    <?php } ?>
+                </button>
+                <a href="../../views/settings/update-profile.php" class="cursor-pointer">
+                    <i class='bx bx-cog text-2xl text-gray-500 hover:text-green-600'></i>
+                </a>
+                <button type="button" class="cursor-pointer mr-5" id="profileLogo">
+                    <img src="<?php echo $env_basePath; ?>assets/user-profile/<?php echo $userProfile['user_profile']; ?>"
+                        class="drop-shadow-md size-9
+                        object-cover rounded-full hover:drop-shadow-green-600" alt="">
+                </button>
+            </nav>
+            <!-- Profile Logo Modal -->
+            <button type="button" class="hidden cursor-pointer absolute right-4 z-20 shadow-2xl text-red-600 items-baseline
+                    bg-neutral-50 py-4 px-5 rounded-lg gap-2 top-17 hover:bg-gray-100" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <p>Logout</p>
+            </button>
 
-    
+            <!-- Notification Modal -->
+            <div class="absolute hidden flex-col right-4 top-18 bg-neutral-50 
+                max-w-[402px] rounded-xl shadow-2xl z-10" id="notificationModal">
+                <div class="py-3 px-4">
+                    <h1 class="text-sm">Notifications</h1>
+                </div>
+                <div class="">
+                    <?php if (!empty($notifications)) { ?>
+                        <?php foreach ($notifications as $notification) { ?>
+                            <div class="flex gap-3 items-center p-3
+                                border-y-gray-200 border-y-1 max-w-[368px]">
+                                <i class='p-1 bg-gray-200 rounded-md border-gray-300 border-1 bx bxs-envelope'></i>
+                                <div>
+                                    <h2 class="text-sm font-bold">New User Registration Request</h2>
+                                    <p class="text-xs text-neutral-500">
+                                        <?php echo $notification['content']; ?>
+                                    </p>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <p class="text-center py-10 px-24">No new notification</p>
+                    <?php } ?>
+                </div>
+                <div class="py-3 px-4 text-center bg-neutral-100 rounded-b-xl">
+                    <a href="notifications.php" class="text-sm text-neutral-600">See all notifications</a>
+                </div>
+            </div>
+
+        </header>
