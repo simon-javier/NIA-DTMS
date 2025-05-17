@@ -109,7 +109,7 @@ try {
                     <td class="text-right">
                         <a href="accept-decline.php?id=<?php echo $detail['id']; ?>&from=external"
                             class="px-4 py-0.5 rounded-sm cursor-pointer text-green-700 shadow-xs-1 hover:text-green-900">
-                            Accept
+                            Show
                         </a>
                     <?php } ?>
                     </td>

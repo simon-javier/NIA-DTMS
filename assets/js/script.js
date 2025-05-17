@@ -259,6 +259,18 @@ switch (currentPage) {
         btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
         btnClassName = "btnHidden";
         break;
+    case "incoming-documents.php":
+        btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
+        btnClassName = "btnHidden";
+        break;
+    case "received-documents.php":
+        btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
+        btnClassName = "btnHidden";
+        break;
+    case "outgoing-documents.php":
+        btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
+        btnClassName = "btnHidden";
+        break;
 }
 
 const mainTable = new DataTable('#mainTable', {
