@@ -142,10 +142,10 @@ $totalNewDocument = $count_pending + $count_not_yet_received;
     <link rel="stylesheet" href="<?php echo $env_basePath; ?>assets/css/output.css">
 
     <script src="<?php echo $env_basePath; ?>assets/jquery/jquery-3.2.1.slim.min.js" defer></script>
+    <script src="<?php echo $env_basePath; ?>assets/jquery/jquery-3.6.4.min.js" defer></script>
     <script src="<?php echo $env_basePath; ?>assets/datatable/datatables.min.js" defer></script>
     <script src="<?php echo $env_basePath; ?>assets/jsdelivr/popper.min.js" defer></script>
     <script src="<?php echo $env_basePath; ?>assets/jsdelivr/sweetalert2.all.min.js" defer></script>
-    <script src="<?php echo $env_basePath; ?>assets/jquery/jquery-3.6.4.min.js" defer></script>
     <script src="<?php echo $env_basePath; ?>assets/js/script.js" defer></script>
 </head>
 

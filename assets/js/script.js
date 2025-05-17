@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setInactiveState(item);
         }
     });
+
 })
 
 
@@ -250,8 +251,11 @@ switch (currentPage) {
         btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
         btnClassName = "dec-reg-btn backBtn";
         break;
-
     case "document-tracking.php":
+        btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
+        btnClassName = "btnHidden";
+        break;
+    case "newly-created-docs.php":
         btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
         btnClassName = "btnHidden";
         break;
@@ -1146,3 +1150,4 @@ function createConversation() {
         }
     });
 }
+
