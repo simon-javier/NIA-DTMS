@@ -132,7 +132,7 @@ $message_count = $count['count'];
                             cursor-pointer sidebar-item">
                     <i class="bx bx-file text-2xl text-gray-500 sidebar-icon"></i>
                     Pending Document
-                    <?php if($count_pending > 0): ?>
+                    <?php if ($count_pending > 0): ?>
                         <div class="rounded-full w-5 h-5 p-1 
                                         bg-green-600 text-green-100 flex justify-center
                                         items-center text-xs font-bold ml-auto self-center">
@@ -151,7 +151,7 @@ $message_count = $count['count'];
                 </a>
             </div>
             <div class="flex justify-center">
-                <?php if($result){ ?>
+                <?php if ($result) { ?>
                     <a href="communication.php?convoid=<?php echo $result['conversation_id']; ?>" class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
                                 cursor-pointer sidebar-item items-center">
                         <i class="bx bx-chat text-2xl text-gray-500 sidebar-icon"></i>
@@ -166,7 +166,7 @@ $message_count = $count['count'];
                             </div>
                         <?php endif; ?>
                     </a>
-                <?php }else{ ?>
+                <?php } else { ?>
                     <a href="#" onclick="createConversation();" class="navigation select-none flex gap-3 p-3 w-11/12 rounded-md hover:bg-neutral-200
                                 cursor-pointer sidebar-item items-center">
                         <i class="bx bx-chat text-2xl text-gray-500 sidebar-icon"></i>
@@ -230,7 +230,7 @@ $message_count = $count['count'];
                                 border-y-gray-200 border-y-1 max-w-[368px]">
                                 <i class='p-1 bg-gray-200 rounded-md border-gray-300 border-1 bx bxs-envelope'></i>
                                 <div>
-                                    <h2 class="text-sm font-bold">New User Registration Request</h2>
+                                    <h2 class="text-sm font-bold">New Message</h2>
                                     <p class="text-xs text-neutral-500">
                                         <?php echo $notification['content']; ?>
                                     </p>

@@ -113,7 +113,7 @@ div.dt-container .dt-paging .dt-paging-button:active {
 }
 
 .receive-chat-bubble {
-    @apply bg-neutral-300 rounded-md self-start py-2 px-3 ml-3;
+    @apply bg-neutral-300 rounded-md self-start py-2 px-3 ml-3 max-w-[512px];
 }
 
 .sender-chat-bubble {

@@ -146,6 +146,8 @@ $totalNewDocument = $count_pending + $count_not_yet_received;
     <script src="<?php echo $env_basePath; ?>assets/datatable/datatables.min.js" defer></script>
     <script src="<?php echo $env_basePath; ?>assets/jsdelivr/popper.min.js" defer></script>
     <script src="<?php echo $env_basePath; ?>assets/jsdelivr/sweetalert2.all.min.js" defer></script>
+    <script src="https://cdn.rawgit.com/cozmo/jsQR/master/dist/jsQR.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10" defer></script>
     <script src="<?php echo $env_basePath; ?>assets/js/script.js" defer></script>
 </head>
 
@@ -341,7 +343,7 @@ $totalNewDocument = $count_pending + $count_not_yet_received;
                                 border-y-gray-200 border-y-1 max-w-[368px]">
                                 <i class='p-1 bg-gray-200 rounded-md border-gray-300 border-1 bx bxs-envelope'></i>
                                 <div>
-                                    <h2 class="text-sm font-bold">New User Registration Request</h2>
+                                    <h2 class="text-sm font-bold">New Message</h2>
                                     <p class="text-xs text-neutral-500">
                                         <?php echo $notification['content']; ?>
                                     </p>

@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
             setInactiveState(item);
         }
     });
-
 })
 
 
@@ -268,6 +267,10 @@ switch (currentPage) {
         btnClassName = "btnHidden";
         break;
     case "outgoing-documents.php":
+        btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
+        btnClassName = "btnHidden";
+        break;
+    case "complete-document.php":
         btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
         btnClassName = "btnHidden";
         break;
