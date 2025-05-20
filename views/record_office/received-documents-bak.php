@@ -1,4 +1,4 @@
-<?php require 'template/top-template.php'; ?>
+<?php require 'template/top-template-bak.php'; ?>
 
 <?php
 $office_name = $_SESSION['office'];
@@ -22,29 +22,84 @@ try {
 
 ?>
 
-<div class="self-center bg-neutral-50 mt-5 p-10 w-[95%] rounded-md shadow-xl">
-    <div class="flex justify-between mb-5">
-        <p class="text-red-600">Documents currently handle by this office.</p>
-        <div class="flex gap-3 items-center">
-            <p>Filter by date</p>
-            <div class="flex gap-2 items-center">
-                <input type="text"
-                    class="block w-40 rounded-md bg-neutral-50 px-3 py-1.5
-                    text-base text-neutral-900 outline-1 -outline-offset-1
-                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:shadow-none"
-                    id="min" name="min" placeholder="Start date">
-                <input type="text"
-                    class="block w-40 rounded-md bg-neutral-50 px-3 py-1.5
-                    text-base text-neutral-900 outline-1 -outline-offset-1
-                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:shadow-none"
-                    id="max" name="max" placeholder="End date">
-                <p class="" onclick="refreshPage()" style="cursor: pointer"><i class='bx bx-reset'
-                        style="font-size: 30px;"></i></p>
-            </div>
-        </div>
+<style>
+    :root {
+        --primary-color: #069734;
+        --lighter-primary-color: #07b940;
+        --white-color: #FFFFFF;
+        --black-color: #181818;
+        --bold: 600;
+        --transition: all 0.5s ease;
+        --box-shadow: 0 0.1rem 0.8rem rgba(0, 0, 0, 0.2);
+    }
+
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #009933;
+        border-radius: 6px;
+    }
+
+    .table-container {
+        padding: 2.5rem;
+        background-color: #fff;
+        box-shadow: var(--box-shadow);
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        border: 2px solid var(--primary-color) !important;
+        border-radius: 10px;
+        padding: 5px;
+        background-color: transparent;
+        color: inherit;
+        margin-left: 3px;
+
+    }
+
+    .dataTables_wrapper .dataTables_filter input:active {
+        border: 1px solid var(--primary-color) !important;
+        border-radius: 10px;
+        padding: 5px;
+    }
+
+    #example_wrapper {
+        overflow-x: scroll;
+    }
+
+    .form-control {
+        border: 2px solid #009933;
+        border-radius: 10px;
+    }
+</style>
+
+
+
+<div class="table-container">
+    <p class="mb-4" style="color: red;">Documents currently handle by this office.</p>
+    <style>
+        @media (min-width: 992px) {
+            .w-lg-25 {
+                width: 10% !important;
+            }
+        }
+    </style>
+    <div class="d-flex mb-3 justify-content-end align-items-end">
+        <p class="mb-2 mr-3">Filter by date</p>
+        <input type="text" class="form-control mr-3 w-lg-25 w-100" id="min" name="min" placeholder="Start date">
+        <input type="text" class="form-control w-lg-25 w-100" id="max" name="max" placeholder="End date">
+        <p class="ml-2" onclick="refreshPage()" style="cursor: pointer"><i class='bx bx-reset'
+                style="font-size: 30px;"></i></p>
     </div>
-    <table id="mainTable" class="hover stripe">
-        <thead class="text-green-900 border-b-1 border-b-gray-300 font-bold rounded-full">
+    <script>
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
+    <table id="example" class="hover" style="width:100%">
+        <thead>
             <tr>
                 <th>QR Code</th>
                 <th>Doc Code</th>
@@ -55,6 +110,7 @@ try {
             </tr>
         </thead>
         <tbody>
+
             <?php foreach ($docu_details as $detail) { ?>
                 <tr style="<?php
                             $updatedTimestamp = strtotime($detail['updated_at']);
@@ -82,83 +138,38 @@ try {
                     <td>
                         <?php echo $detail['sender'] ?>
                     </td>
-
-                    <td class="text-right">
+                    <td>
                         <?php if ($detail['docu_status'] == 'completed') { ?>
-                            <a href="track-document.php?code=<?php echo $detail['document_code']; ?>"
-                                class="px-4 py-0.5 rounded-sm cursor-pointer text-green-700 shadow-xs-1 hover:text-green-900">
-                                Show
-                            </a>
+                            <a href="track-document.php?code=<?php echo $detail['document_code']; ?>" class="btn btn-dark"><i
+                                    class='bx bx-show'></i></a>
                         <?php } else { ?>
-                            <div class="flex gap-3">
-                                <a href="transfer-complete.php?id=<?php echo $detail['id']; ?>"
-                                    class="rounded-sm cursor-pointer text-green-700 shadow-xs-1 hover:text-green-900">
-                                    Transfer
-                                </a>
-                                <button data-id="<?php echo $detail['id']; ?>" onclick="confirmComplete(event)"
-                                    class="rounded-sm cursor-pointer text-green-700 shadow-xs-1 hover:text-green-900">
-                                    Check
-                                </button>
-                            </div>
+                            <a href="transfer-complete.php?id=<?php echo $detail['id']; ?>" class="btn btn-dark"><i
+                                    class='fa fa-exchange'></i></a>
+                            <button class="btn btn-primary" data-id="<?php echo $detail['id']; ?>"
+                                onclick="confirmComplete(event)"><i class="fa fa-check" aria-hidden="true"></i></button>
                         <?php } ?>
-                    <?php } ?>
+
                     </td>
                 </tr>
+            <?php } ?>
+
         </tbody>
+        <tfoot>
+            <tr>
+                <th>QR Code</th>
+                <th>Doc Code</th>
+                <th>Document Type</th>
+                <th>Document Source</th>
+                <th>Sender</th>
+                <th>Action</th>
+            </tr>
+        </tfoot>
     </table>
 </div>
-</main>
 
-<script>
-    function refreshPage() {
-        window.location.reload();
-    }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        $(document).ready(function() {
-            // Initialize DataTable with your table ID
-            $('#mainTable').DataTable();
 
-            // Set placeholder text for DataTables search input
-            $('#dt-search-0').attr('placeholder', '🔎 Search all');
-        });
-
-        let minDate, maxDate;
-
-        // Custom filtering function which will search data in column 1 between two values
-        DataTable.ext.search.push(function(settings, data, dataIndex) {
-            let min = minDate.val();
-            let max = maxDate.val();
-            let date = new Date(data[0]);
-
-            if (
-                (min === null && max === null) ||
-                (min === null && date <= max) ||
-                (min <= date && max === null) ||
-                (min <= date && date <= max)
-            ) {
-                return true;
-            }
-            return false;
-        });
-
-        // Create date inputs
-        minDate = new DateTime('#min', {
-            format: 'YYYY-MM-DD'
-        });
-        maxDate = new DateTime('#max', {
-            format: 'YYYY-MM-DD'
-        });
-
-        // DataTables initialisation
-        let table = new DataTable('#mainTable');
-
-        // Refilter the table
-        document.querySelectorAll('#min, #max').forEach((el) => {
-            el.addEventListener('change', () => table.draw());
-        });
-    })
-</script>
+<?php require 'template/bottom-template.php'; ?>
 
 <script>
     function confirmComplete(event) {

@@ -196,7 +196,7 @@ $count = $stmt->fetchColumn(); // Fetching the count directly
                                 border-y-gray-200 border-y-1 max-w-[368px]">
                                 <i class='p-1 bg-gray-200 rounded-md border-gray-300 border-1 bx bxs-envelope'></i>
                                 <div>
-                                    <h2 class="text-sm font-bold">New User Registration Request</h2>
+                                    <h2 class="text-sm font-bold">New Message</h2>
                                     <p class="text-xs text-neutral-500">
                                         <?php echo $notification['content']; ?>
                                     </p>
