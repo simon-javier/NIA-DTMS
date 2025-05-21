@@ -1,4 +1,4 @@
-<?php require 'template/top-template.php'; ?>
+<?php require 'template/top-template-bak.php'; ?>
 
 <?php
 
@@ -6,7 +6,7 @@ $user_id = $_SESSION['userid'];
 $office = $_SESSION['office'];
 try {
     //code...
-    $docu_query = "SELECT tbl_handler_outgoing.*, tbl_uploaded_document.*  FROM tbl_handler_outgoing JOIN tbl_uploaded_document ON tbl_handler_outgoing.docu_id = tbl_uploaded_document.id where tbl_handler_outgoing.office_name = :office and tbl_uploaded_document.completed != 'pulled' ORDER BY receive_at DESC";
+    $docu_query = "SELECT tbl_handler_outgoing.receive_at as docu_date, tbl_handler_outgoing.*, tbl_uploaded_document.*  FROM tbl_handler_outgoing JOIN tbl_uploaded_document ON tbl_handler_outgoing.docu_id = tbl_uploaded_document.id where tbl_handler_outgoing.office_name = :office and tbl_uploaded_document.completed != 'pulled' ORDER BY receive_at DESC";
     $stmt = $pdo->prepare($docu_query);
     $stmt->bindParam(':office', $office);
     $stmt->execute();
@@ -20,40 +20,128 @@ try {
 
 
 ?>
-<div class="self-center bg-neutral-50 mt-5 p-10 w-[95%] rounded-md shadow-xl">
-    <div class="flex justify-end mb-5">
-        <div class="flex gap-3 items-center">
-            <p>Filter by date</p>
-            <div class="flex gap-2 items-center">
-                <input type="text"
-                    class="block w-40 rounded-md bg-neutral-50 px-3 py-1.5
-                    text-base text-neutral-900 outline-1 -outline-offset-1
-                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:shadow-none"
-                    id="min" name="min" placeholder="Start date">
-                <input type="text"
-                    class="block w-40 rounded-md bg-neutral-50 px-3 py-1.5
-                    text-base text-neutral-900 outline-1 -outline-offset-1
-                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:shadow-none"
-                    id="max" name="max" placeholder="End date">
-                <p class="" onclick="refreshPage()" style="cursor: pointer"><i class='bx bx-reset'
-                        style="font-size: 30px;"></i></p>
+
+<style>
+    :root {
+        --primary-color: #069734;
+        --lighter-primary-color: #07b940;
+        --white-color: #FFFFFF;
+        --black-color: #181818;
+        --bold: 600;
+        --transition: all 0.5s ease;
+        --box-shadow: 0 0.1rem 0.8rem rgba(0, 0, 0, 0.2);
+    }
+
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #009933;
+        border-radius: 6px;
+    }
+
+    .table-container {
+        padding: 2.5rem;
+        background-color: #fff;
+        box-shadow: var(--box-shadow);
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        border: 2px solid var(--primary-color) !important;
+        border-radius: 10px;
+        padding: 5px;
+        background-color: transparent;
+        color: inherit;
+        margin-left: 3px;
+
+    }
+
+    .dataTables_wrapper .dataTables_filter input:active {
+        border: 1px solid var(--primary-color) !important;
+        border-radius: 10px;
+        padding: 5px;
+    }
+
+    #example_wrapper {
+        overflow-x: scroll;
+    }
+
+    .form-control {
+        border: 2px solid #009933;
+        border-radius: 10px;
+    }
+
+    @media (min-width: 992px) {
+        .w-lg-25 {
+            width: 10% !important;
+        }
+    }
+</style>
+
+<!-- <div class="container">
+    <form autocomplete="off">
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="name">Document Type</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter your name">
+            </div>
+            <div class="form-group col-md-6 col-sm-12">
+                <label for="office">Date From</label>
+                <input type="date" class="form-control" id="office" placeholder="Enter your office">
+            </div>
+            <div class="form-group col-md-6 col-sm-12">
+                <label for="from">Date To</label>
+                <input type="date" class="form-control" id="from" placeholder="Enter sender's name">
             </div>
         </div>
+        <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
+    </form>
+</div> -->
+
+
+<div class="table-container">
+    <style>
+        @media (min-width: 992px) {
+            .w-lg-25 {
+                width: 10% !important;
+            }
+        }
+    </style>
+    <div class="d-flex mb-3 justify-content-end align-items-end">
+        <p class="mb-2 mr-3">Filter by date</p>
+        <input type="text" class="form-control mr-3 w-lg-25 w-100" id="min" name="min" placeholder="Start date">
+        <input type="text" class="form-control w-lg-25 w-100" id="max" name="max" placeholder="End date">
+        <p class="ml-2" onclick="refreshPage()" style="cursor: pointer"><i class='bx bx-reset'
+                style="font-size: 30px;"></i></p>
     </div>
-    <table id="mainTable" class="hover stripe">
-        <thead class="text-green-900 border-b-1 border-b-gray-300 font-bold rounded-full">
+    <script>
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
+    <table id="example" class="hover" style="width:100%">
+        <thead>
             <tr>
+
+                <th>Date</th>
                 <th>QR Code</th>
                 <th>Doc Code</th>
                 <th>Document Type</th>
                 <th>Document Source</th>
                 <th>Sender</th>
-                <th>Action</th>
+
+                <th style="text-align: end;">Action</th>
             </tr>
         </thead>
         <tbody>
+
             <?php foreach ($docu_details as $detail) { ?>
                 <tr>
+                    <td>
+                        <?php echo $detail['docu_date'] ?>
+                    </td>
                     <td><img src="<?php echo $env_basePath; ?>assets/qr-codes/<?php echo $detail['qr_filename']; ?>"
                             alt="QR Code" style="height: 80px"></td>
                     <td>
@@ -69,76 +157,38 @@ try {
                         <?php echo $detail['sender'] ?>
                     </td>
 
-                    <td class="text-right">
+
+                    <td style="text-align: end;">
                         <a href="<?php echo $env_basePath; ?>views/track-document.php?code=<?php echo $detail['document_code']; ?>"
-                            class="bg-black text-white px-2.5 py-2 rounded-lg hover:bg-black/80">
-                            <i class='bx bx-show'></i></a>
+                            class="btn btn-dark"><i class='bx bx-show'></i></a>
                         <?php if ($detail['sender_id'] == $user_id && $detail['cur_office'] == 'No current office.'): ?>
-                            <a href="edit-document.php?id=<?php echo $detail['id']; ?>"
-                                class="bg-black text-white px-2.5 py-2 rounded-lg hover:bg-black/80"><i
+                            <a href="edit-document.php?id=<?php echo $detail['id']; ?>" class="btn btn-danger"><i
                                     class='bx bx-pencil'></i></a>
-                            <button class="bg-black text-white px-2.5 py-2 rounded-lg hover:bg-black/80"
-                                data-id="<?php echo $detail['id']; ?>" onclick="confirmPullRequest(event)"><i
-                                    class='bx bx-git-pull-request'></i></button>
+                            <button class="btn btn-dark" data-id="<?php echo $detail['id']; ?>"
+                                onclick="confirmPullRequest(event)"><i class='bx bx-git-pull-request'></i></button>
                         <?php endif; ?>
-                    <?php } ?>
                     </td>
                 </tr>
+            <?php } ?>
         </tbody>
+        <tfoot>
+            <tr>
+                <th>Date</th>
+                <th>QR Code</th>
+                <th>Doc Code</th>
+                <th>Document Type</th>
+                <th>Document Source</th>
+                <th>Sender</th>
+
+                <th style="text-align: end;">Action</th>
+            </tr>
+        </tfoot>
     </table>
 </div>
-</main>
 
-<script>
-    function refreshPage() {
-        window.location.reload();
-    }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        $(document).ready(function() {
-            // Initialize DataTable with your table ID
-            $('#mainTable').DataTable();
 
-            // Set placeholder text for DataTables search input
-            $('#dt-search-0').attr('placeholder', '🔎 Search all');
-        });
-
-        let minDate, maxDate;
-
-        // Custom filtering function which will search data in column 1 between two values
-        DataTable.ext.search.push(function(settings, data, dataIndex) {
-            let min = minDate.val();
-            let max = maxDate.val();
-            let date = new Date(data[0]);
-
-            if (
-                (min === null && max === null) ||
-                (min === null && date <= max) ||
-                (min <= date && max === null) ||
-                (min <= date && date <= max)
-            ) {
-                return true;
-            }
-            return false;
-        });
-
-        // Create date inputs
-        minDate = new DateTime('#min', {
-            format: 'YYYY-MM-DD'
-        });
-        maxDate = new DateTime('#max', {
-            format: 'YYYY-MM-DD'
-        });
-
-        // DataTables initialisation
-        let table = new DataTable('#mainTable');
-
-        // Refilter the table
-        document.querySelectorAll('#min, #max').forEach((el) => {
-            el.addEventListener('change', () => table.draw());
-        });
-    })
-</script>
+<?php require 'template/bottom-template-bak.php'; ?>
 
 <script>
     function confirmPullRequest(event) {
@@ -148,7 +198,7 @@ try {
 
         Swal.fire({
             title: 'Are you sure?',
-            text: 'Do you want to pull this document?',
+            text: 'Do you want to pull this document?' + dataId,
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -158,7 +208,7 @@ try {
 
             if (result.isConfirmed) {
                 $('.loader-container').fadeIn();
-                var formData = new FormData($("")[0]);
+                var formData = new FormData($("#upload_docu_form")[0]);
                 formData.append("action", "pull_documents");
                 formData.append("id", dataId);
 

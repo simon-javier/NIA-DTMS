@@ -49,7 +49,7 @@
             <button type="reset"
                 class="cursor-pointer text-sm/6 font-semibold text-gray-900 hover:text-gray-900/80">Clear</button>
             <button type="submit"
-                class="cursor-pointer rounded-md disabled:bg-gray-500 disabled:cursor-default bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Submit</button>
+                class="cursor-pointer rounded-md disabled:bg-gray-500 disabled:cursor-default bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Generate</button>
         </div>
     </form>
 </div>

@@ -1,4 +1,4 @@
-<?php require 'template/top-template.php'; ?>
+<?php require 'template/top-template-bak.php'; ?>
 <?php
 require '../../connection.php';
 $office = $_SESSION['office'];
@@ -27,120 +27,130 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 ?>
-<div class="border-b border-gray-900/10 p-12 rounded-md bg-neutral-50 w-[95%] self-center my-10">
-    <form id='upload_docu_form' autocomplete="off" enctype="multipart/form-data">
-        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-full">
-                <label for="subject" class="block text-sm/6 font-medium text-neutral-900">Subject</label>
-                <div class="mt-2">
-                    <input type="text" name="subject" id="subject"
-                        class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
-                    text-base text-neutral-900 outline-1 -outline-offset-1
-                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600"
-                        placeholder="e.g., Request for Transcript of Records" required>
-                </div>
-            </div>
+<style>
+    :root {
+        --primary-color: #069734;
+        --lighter-primary-color: #07b940;
+        --white-color: #FFFFFF;
+        --black-color: #181818;
+        --bold: 600;
+        --transition: all 0.5s ease;
+        --box-shadow: 0 0.1rem 0.8rem rgba(0, 0, 0, 0.2);
+    }
 
-            <div class="sm:col-span-full">
-                <label for="doc_type" class="block text-sm/6 font-medium text-neutral-900">Document Type</label>
-                <div class="mt-2 grid grid-cols-1">
-                    <select id="doc_type" name="doc_type"
-                        class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-neutral-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6">
-                        <?php foreach ($doctypes as $doctype) { ?>
-                            <option value="<?php echo $doctype['document_type']; ?>">
-                                <?php echo $doctype['document_type']; ?>
-                            </option>
-                        <?php } ?>
-                    </select>
-                    <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                        viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-                        <path fill-rule="evenodd"
-                            d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </div>
-            </div>
+    ::-webkit-scrollbar {
+        width: 4px;
+    }
 
-            <div class="col-span-full">
-                <label for="description" class="block text-sm/6 font-medium text-neutral-900">Description</label>
-                <div class="mt-2">
-                    <textarea name="description" id="description" rows="3" placeholder="Brief summary of the document"
-                        class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"></textarea>
-                    <div class="flex justify-end text-xs text-neutral-500 mt-1">
-                        <p id="charCount">0/250</p>
-                    </div>
-                </div>
-            </div>
+    ::-webkit-scrollbar-thumb {
+        background-color: #009933;
+        border-radius: 6px;
+    }
 
-            <div class="sm:col-span-full">
-                <label for="document_date" class="block text-sm/6 font-medium text-neutral-900">Document Date</label>
-                <div class="mt-2">
-                    <input type="date" name="document_date" id="document_date"
-                        class="block w-full rounded-md bg-neutral-50 px-3 py-1.5 
-                    text-base text-neutral-900 outline-1 -outline-offset-1
-                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600" required>
-                </div>
-            </div>
+    .qr-code-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
 
-            <div class="sm:col-span-full">
-                <label for="required_action" class="block text-sm/6 font-medium text-neutral-900">Action
-                    Required</label>
-                <div class="mt-2">
-                    <input list="action_required_list" id="required_action" name="required_action" rows="3"
-                        placeholder="e.g., For approval, For review, For signature"
-                        class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
-                    text-base text-neutral-900 outline-1 -outline-offset-1
-                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600" required>
-                </div>
-            </div>
+    .qr-code {
+        height: 200px;
+    }
 
-            <div class="sm:col-span-full">
-                <div class="mt-2 internal-section">
-                    <input type="hidden" name="from_internal" id="from_internal"
-                        value="<?php echo $_SESSION['fullname'] ?>">
-                    <input type="hidden" name="sender_id" id="sender_id" value="<?php echo $user_id; ?>">
-                </div>
-            </div>
+    .table-container {
+        padding: 2.5rem;
+        background-color: #fff;
+        box-shadow: var(--box-shadow);
+    }
 
-            <div class="sm:col-span-full">
-                <label for="receiver_office" class="block text-sm/6 font-medium text-neutral-900">Send To:</label>
-                <div class="mt-2 grid grid-cols-1">
-                    <select id="receiver_office" name="receiver_office"
-                        class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-neutral-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"
-                        data-live-search="true">
-                        <option value="" selected>Select Office</option>
-                        <?php foreach ($offices as $office) { ?>
-                            <option value="<?php echo $office['office_name']; ?>">
-                                <?php echo $office['office_name']; ?>
-                            </option>
-                        <?php } ?>
-                    </select>
-                    <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                        viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-                        <path fill-rule="evenodd"
-                            d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </div>
-            </div>
+    .form-control {
+        border: 2px solid #009933;
+        border-radius: 10px;
+    }
 
-            <div class="sm:col-span-full">
-                <label for="file" class="block text-sm/6 font-medium text-neutral-900">Send Attachments</label>
-                <div class="mt-2">
-                    <input type="file" id="file" name="file" rows="3"
-                        class="w-full text-gray-400 text-sm bg-neutral-50 file:cursor-pointer cursor-pointer file:outline-0 file:py-2 file:px-4 file:mr-4 file:bg-black hover:file:bg-gray-900 file:text-white rounded"
-                        required>
-                    <p id="attachmentError" style="color: red;"></p>
-                </div>
+    .filter-option {
+        border: 2px solid var(--primary-color);
+        border-radius: 10px;
+    }
+</style>
+<div class="table-container">
+    <form accept-charset="UTF-8" id="upload_docu_form" autocomplete="off" enctype="multipart/form-data">
+        <!-- <div class="qr-code-container">
+                <img src="<?php echo $env_basePath; ?>assets/img/qr-code-default.jpg" alt="QR Code" class="qr-code img-fluid" id="qrCodeImage">
+                <input type="text" class="form-control" id="file_name" name="file_name" hidden  readonly>
+            </div> -->
+        <!-- <div class="form-group">
+                <label for="documentType">Document Code:</label>
+                <input type="text" class="form-control" id="docu_code" placeholder="Document code" name="docu_code" required>
+            </div> -->
+        <div class="form-group">
+            <label for="documentType">Subject:</label>
+            <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" name="subject"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label for="doc_type">Document Type:</label>
+            <select name="doc_type" class="form-control" id="doc_type">
+                <?php
+                foreach ($doctypes as $doctype) { ?>
+                    <option value="<?php echo $doctype['document_type']; ?>">
+                        <?php echo $doctype['document_type']; ?>
+                    </option>
+                <?php
+                }
+
+                ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="3"
+                placeholder="Enter document description"></textarea>
+            <div class="d-flex justify-content-end">
+                <p id="charCount">0/250</p>
             </div>
+        </div>
+        <div class="form-group">
+            <label for="document_date">Document Date:</label>
+            <input type="date" class="form-control" id="document_date" name="document_date" placeholder="Document date">
+        </div>
+        <div class="form-group">
+            <label for="required_action">Action Required:</label>
+            <input class="form-control" list="action_required_list" id="required_action" name="required_action"
+                placeholder="Action required">
+        </div>
+
+        <input type="hidden" name="sender_id" id="sender_id" value="<?php echo $user_id; ?>">
+        <input type="hidden" placeholder="Sender name" class="form-control" name="from_internal" id="from_internal"
+            value="<?php echo $_SESSION['fullname']; ?>">
+        <input type="hidden" name="source" id="source" value="internal">
+
+
+        <div class="form-group">
+            <label for="receiver_office">Send To:</label>
+            <select name="receiver_office" id="receiver_office" class="form-control selectpicker"
+                data-live-search="true" style="border: 2px solid green;" required>
+                <option value="" selected>Select</option>
+                <?php foreach ($offices as $office) { ?>
+                    <option value="<?php echo $office['office_name']; ?>">
+                        <?php echo $office['office_name']; ?>
+                    </option>
+                <?php } ?>
+            </select>
 
         </div>
-        <div class="mt-6 flex items-center justify-end gap-x-6">
-            <button type="reset"
-                class="cursor-pointer text-sm/6 font-semibold text-gray-900 hover:text-gray-900/80">Clear</button>
-            <button type="submit" id="upload_docu_button"
-                class="cursor-pointer rounded-md disabled:bg-gray-500 disabled:cursor-default bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Submit</button>
+
+        <div class="form-group">
+            <label for="file">Send Attachments:</label>
+            <input type="file" class="form-control" id="file" name="file">
+            <p id="attachmentError" style="color: red;"></p>
         </div>
+        <div class="d-flex justify-content-end align-items-end" style="gap: 20px">
+            <button type="submit" id="upload_docu_button" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-danger">Clear</button>
+        </div>
+
     </form>
 </div>
 
@@ -155,6 +165,7 @@ $offices = $statement->fetchAll(PDO::FETCH_ASSOC);
     <option value="For compliance">
 
 </datalist>
+
 
 <?php require 'template/bottom-template.php'; ?>
 <script>

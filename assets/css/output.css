@@ -502,14 +502,14 @@
   .h-10 {
     height: calc(var(--spacing) * 10);
   }
+  .h-\[36px\] {
+    height: 36px;
+  }
   .h-full {
     height: 100%;
   }
   .h-screen {
     height: 100vh;
-  }
-  .min-h-\[500px\] {
-    min-height: 500px;
   }
   .min-h-\[700px\] {
     min-height: 700px;
@@ -565,6 +565,9 @@
   .w-100 {
     width: calc(var(--spacing) * 100);
   }
+  .w-\[36px\] {
+    width: 36px;
+  }
   .w-\[95\%\] {
     width: 95%;
   }
@@ -582,6 +585,9 @@
   }
   .max-w-\[456px\] {
     max-width: 456px;
+  }
+  .max-w-\[900px\] {
+    max-width: 900px;
   }
   .flex-1 {
     flex: 1;
@@ -1258,6 +1264,13 @@
       }
     }
   }
+  .hover\:bg-green-400 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-green-400);
+      }
+    }
+  }
   .hover\:bg-green-500 {
     &:hover {
       @media (hover: hover) {
@@ -1269,6 +1282,23 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-green-600);
+      }
+    }
+  }
+  .hover\:bg-green-600\/80 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: color-mix(in srgb, oklch(62.7% 0.194 149.214) 80%, transparent);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--color-green-600) 80%, transparent);
+        }
+      }
+    }
+  }
+  .hover\:bg-green-700 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-green-700);
       }
     }
   }

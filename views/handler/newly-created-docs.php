@@ -1,14 +1,14 @@
-<?php 
-    require '../../connection.php';
+<?php
+require '../../connection.php';
 
 
-    
+
 
 ?>
 
 
 <?php require 'template/top-template.php'; ?>
-<?php 
+<?php
 $user_id = $_SESSION['userid'];
 $officename = $_SESSION['office'];
 try {
@@ -22,13 +22,10 @@ try {
     AND tbl_uploaded_document.completed != 'pulled' 
     ORDER BY tbl_handler_incoming.receive_at DESC";
 
-$stmt = $pdo->prepare($docu_query);
-$stmt->bindParam(':user_id', $user_id);
-$stmt->execute();
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-
+    $stmt = $pdo->prepare($docu_query);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (\Throwable $th) {
     //throw $th;
     echo $th;
@@ -36,133 +33,125 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 ?>
-<style>
-        :root {
-    --primary-color: #069734;
-    --lighter-primary-color: #07b940;
-    --white-color: #FFFFFF;
-    --black-color: #181818;
-    --bold: 600;
-    --transition: all 0.5s ease;
-    --box-shadow: 0 0.1rem 0.8rem rgba(0, 0, 0, 0.2);
-    }
-    ::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background-color: #009933; 
-        border-radius: 6px;
-    }
-    .table-container{
-        padding: 2.5rem;
-        background-color: #fff;
-        box-shadow: var(--box-shadow);
-    }
-    .dataTables_wrapper .dataTables_filter input {
-        border: 2px solid var(--primary-color) !important;
-        border-radius: 10px;
-        padding: 5px;
-        background-color: transparent;
-        color: inherit;
-        margin-left: 3px;
-        
-    }
-    .dataTables_wrapper .dataTables_filter input:active {
-        border: 1px solid var(--primary-color) !important;
-        border-radius: 10px;
-        padding: 5px;
-    }
-    #example_wrapper{
-        overflow-x: scroll;
-    }
-    .form-control{
-        border: 2px solid #009933;
-        border-radius: 10px;
-    }
-</style>
-
-
-<div class="table-container">
-<style>
-         @media (min-width: 992px) {
-            .w-lg-25 {
-                width: 10% !important;
-            }
-        }
-    </style>
-<div class="d-flex mb-3 justify-content-end align-items-end">
-    <p class="mb-2 mr-3">Filter by date</p>
-    <input type="text" class="form-control mr-3 w-lg-25 w-100" id="min" name="min" placeholder="Start date">
-    <input type="text" class="form-control w-lg-25 w-100" id="max" name="max" placeholder="End date">
-    <p class="ml-2" onclick="refreshPage()" style="cursor: pointer"><i class='bx bx-reset' style="font-size: 30px;"></i></p>
-</div>
-<script>
-    function refreshPage(){
-        window.location.reload();
-    }
-</script>
-<table id="example" class="hover" style="width:100%">
-        <thead>
+<div class="self-center bg-neutral-50 mt-5 p-10 w-[95%] rounded-md shadow-xl">
+    <div class="flex gap-3 justify-end mb-5 items-center">
+        <p>Filter by date</p>
+        <div class="flex gap-2 items-center">
+            <input type="text"
+                class="block w-40 rounded-md bg-neutral-50 px-3 py-1.5
+                    text-base text-neutral-900 outline-1 -outline-offset-1
+                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:shadow-none"
+                id="min" name="min" placeholder="Start date">
+            <input type="text"
+                class="block w-40 rounded-md bg-neutral-50 px-3 py-1.5
+                    text-base text-neutral-900 outline-1 -outline-offset-1
+                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:shadow-none"
+                id="max" name="max" placeholder="End date">
+            <p class="" onclick="window.location.reload();" style="cursor: pointer"><i class='bx bx-reset'
+                    style="font-size: 30px;"></i></p>
+        </div>
+    </div>
+    <table id="mainTable" class="hover stripe">
+        <div class="p-2 bg-neutral-50 shadow-sm absolute w-60
+                        right-[74px] z-100 top-[168px] rounded-sm hidden dropdown-list">
+            <ul class="dropdown-menu dropdown-menu-end flex flex-col gap-1" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item flex items-center gap-1" href="pulled-document.php"><i
+                            class='bx bx-show'></i> Pulled Documents</a></li>
+                <li><a class="dropdown-item flex items-center gap-1" href="incomplete-document.php"><i
+                            class='bx bx-show'></i>Incomplete Documents</a></li>
+            </ul>
+        </div>
+        <thead class="text-green-900 border-b-1 border-b-gray-300 font-bold rounded-full">
             <tr>
-            <th>Date</th>
-            <th>Document Code</th>
+                <th>Date</th>
                 <th>Document Type</th>
-                <th>Sender</th>
                 <th>Subject</th>
                 <th>Description</th>
-                <th>Action required</th>
-      
-
-                <th style="text-align: end;">Action</th>
+                <th>Action Required</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
+            <?php foreach ($results as $detail) { ?>
+                <tr style="<?php
+                            $uploadedTimestamp = strtotime($detail['uploaded_at']);
+                            $currentTimestamp = time();
+                            $threeDaysInSeconds = 3 * 24 * 60 * 60; // 3 days in seconds
+                            $fiveDaysInSeconds = 5 * 24 * 60 * 60;  // 5 days in seconds
 
-        
-        <?php foreach ($results as $detail) { ?>
-    <tr style="<?php
-        $uploadedTimestamp = strtotime($detail['uploaded_at']);
-        $currentTimestamp = time();
-        $threeDaysInSeconds = 3 * 24 * 60 * 60; // 3 days in seconds
-        $fiveDaysInSeconds = 5 * 24 * 60 * 60;  // 5 days in seconds
+                            if ($currentTimestamp - $uploadedTimestamp > $fiveDaysInSeconds) {
+                                echo 'background-color: #FFC0C0;';  // Set background color for more than 5 days
+                            } elseif ($currentTimestamp - $uploadedTimestamp > $threeDaysInSeconds) {
+                                echo 'background-color: #FFEC94;';  // Set background color for more than 3 days
+                            }
+                            ?>">
+                    <td>
+                        <?php echo date('Y-m-d', strtotime($detail['uploaded_at'])); ?>
+                    </td>
+                    <td>
+                        <?php echo $detail['document_type'] ?>
+                    </td>
+                    <td>
+                        <?php echo $detail['sender'] ?>
+                    </td>
+                    <td>
+                        <?php echo $detail['subject'] ?>
+                    </td>
+                    <td>
+                        <?php echo $detail['description'] ?>
+                    </td>
+                    <td>
+                        <?php echo $detail['required_action'] ?>
+                    </td>
+                    <td class="text-right">
+                        <a href="accept-decline.php?id=<?php echo $detail['id']; ?>&from=external"
+                            class="px-4 py-0.5 rounded-sm cursor-pointer text-green-700 shadow-xs-1 hover:text-green-900">
+                            Show
+                        </a>
+                    <?php } ?>
+                    </td>
+                </tr>
 
-        if ($currentTimestamp - $uploadedTimestamp > $fiveDaysInSeconds) {
-            echo 'background-color: #FFC0C0;';  // Set background color for more than 5 days
-        } elseif ($currentTimestamp - $uploadedTimestamp > $threeDaysInSeconds) {
-            echo 'background-color: #FFEC94;';  // Set background color for more than 3 days
-        }
-        ?>">
-        <td><?php echo date('Y-m-d', strtotime($detail['uploaded_at'])); ?></td>
-        <td><?php echo $detail['document_code'] ?></td>
-        <td><?php echo $detail['document_type'] ?></td>
-        <td><?php echo $detail['sender'] ?></td>
-        <td><?php echo $detail['subject'] ?></td>
-        <td><?php echo $detail['description'] ?></td>
-        <td><?php echo $detail['required_action'] ?></td>
+                <?php foreach ($results1 as $detail) { ?>
+                    <tr style="<?php
+                                $uploadedTimestamp = strtotime($detail['updated_at']);
+                                $currentTimestamp = time();
+                                $threeDaysInSeconds = 3 * 24 * 60 * 60; // 3 days in seconds
+                                $fiveDaysInSeconds = 5 * 24 * 60 * 60;  // 5 days in seconds
 
-
-        <td style="text-align: end;">
-            <a href="accept-decline.php?id=<?php echo $detail['id']; ?>" class="btn btn-dark"><i class='bx bx-show'></i></a>
-        </td>
-    </tr>
-<?php } ?>
-
+                                if ($currentTimestamp - $uploadedTimestamp > $fiveDaysInSeconds) {
+                                    echo 'background-color: #FFC0C0;';  // Set background color for more than 5 days
+                                } elseif ($currentTimestamp - $uploadedTimestamp > $threeDaysInSeconds) {
+                                    echo 'background-color: #FFEC94;';  // Set background color for more than 3 days
+                                }
+                                ?>">
+                        <td>
+                            <?php echo date('Y-m-d', strtotime($detail['uploaded_at'])); ?>
+                        </td>
+                        <td>
+                            <?php echo $detail['document_type'] ?>
+                        </td>
+                        <td>
+                            <?php echo $detail['sender'] ?>
+                        </td>
+                        <td>
+                            <?php echo $detail['subject'] ?>
+                        </td>
+                        <td>
+                            <?php echo $detail['description'] ?>
+                        </td>
+                        <td>
+                            <?php echo $detail['required_action'] ?>
+                        </td>
+                        <td class="text-right">
+                            <a href="accept-decline.php?id=<?php echo $detail['id']; ?>&from=external"
+                                class="px-4 py-0.5 rounded-sm cursor-pointer text-green-700 shadow-xs-1 hover:text-green-900">
+                                Accept
+                            </a>
+                        <?php } ?>
+                        </td>
+                    </tr>
         </tbody>
-        <tfoot>
-            <tr>
-            <th>Date</th>
-            <th>Document Code</th>
-                <th>Document Type</th>
-                <th>Sender</th>
-                <th>Subject</th>
-                <th>Description</th>
-                <th>Action required</th>
-
-                <th style="text-align: end;">Action</th>
-            </tr>
-        </tfoot>
     </table>
 </div>
 
