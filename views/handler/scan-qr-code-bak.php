@@ -1,34 +1,71 @@
-<?php require 'template/top-template.php'; ?>
+<?php require 'template/top-template-bak.php'; ?>
 <?php require '../../connection.php'; ?>
+<style>
+    :root {
+        --primary-color: #069734;
+        --lighter-primary-color: #07b940;
+        --white-color: #FFFFFF;
+        --black-color: #181818;
+        --bold: 600;
+        --transition: all 0.5s ease;
+        --box-shadow: 0 0.1rem 0.8rem rgba(0, 0, 0, 0.2);
+    }
 
-<div
-    class="border-b border-gray-900/10 p-12 rounded-md bg-neutral-50 w-[95%] self-center my-10 grid place-content-center">
-    <div class="flex flex-col justify-center items-center gap-3">
-        <video class="border-5 rounded-xl border-green-500 video" id="preview"></video>
-        <button class="bg-black py-2 cursor-pointer rounded-md text-neutral-50 w-full hover:bg-black/90"
-            onclick="scanQRCode()">Scan QR
-            Code</button>
-        <form id="find_code" class="w-full mt-3">
-            <div class="flex items-center justify-center gap-3">
-                <input type="text"
-                    class="block w-full rounded-md bg-neutral-50 px-3 py-1.5
-                    text-base text-neutral-900 outline-1 -outline-offset-1
-                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600"
-                    name="code" placeholder="Input document tracking code" required>
-                <button type="submit" id="find_code_button"
-                    class="bg-blue-600 py-2 rounded-md text-neutral-50 w-30 cursor-pointer hover:bg-blue-500">Find
-                    Code</button>
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #009933;
+        border-radius: 6px;
+    }
+
+    .table-container {
+        padding: 2.5rem;
+        background-color: #fff;
+        box-shadow: var(--box-shadow);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 85vh;
+    }
+
+    .form-control {
+        border: 2px solid #009933;
+        border-radius: 10px;
+    }
+
+    .filter-option {
+        border: 2px solid var(--primary-color);
+        border-radius: 10px;
+    }
+
+    .video {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+
+
+<div class="table-container">
+    <div class="video-container">
+
+        <video class="video" id="preview"></video>
+        <button class="btn btn-primary mb-3 w-100" onclick="scanQRCode()">Scan QR Code</button>
+        <form id="find_code" class="w-100">
+            <div class="d-flex flex-column justify-content-center align-item-center">
+                <input type="text" class="form-control mb-3" name="code" placeholder="Input document tracking code"
+                    required>
+                <button type="submit" id="find_code_button" class="btn btn-primary">Find Code</button>
             </div>
         </form>
+
+
     </div>
 </div>
 
 
-
-
-
-<?php require 'template/bottom-template.php'; ?>
-<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
 <script>
     let scanner;
@@ -227,6 +264,10 @@
         }
     }
 </script>
+
+
+<?php require 'template/bottom-template-bak.php'; ?>
+
 <script>
     $("#find_code_button").click(function(e) {
         if ($("#find_code")[0].checkValidity()) {

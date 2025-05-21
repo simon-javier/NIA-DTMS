@@ -1,4 +1,4 @@
-<?php require 'template/top-template.php'; ?>
+<?php require 'template/top-template-bak.php'; ?>
 
 <?php
 $office_name = $_SESSION['office'];
@@ -22,39 +22,97 @@ try {
 
 ?>
 
-<div class="self-center bg-neutral-50 mt-5 p-10 w-[95%] rounded-md shadow-xl">
-    <div class="flex justify-between mb-5">
-        <p class="text-red-600">Documents currently handle by this office.</p>
-        <div class="flex gap-3 items-center">
-            <p>Filter by date</p>
-            <div class="flex gap-2 items-center">
-                <input type="text"
-                    class="block w-40 rounded-md bg-neutral-50 px-3 py-1.5
-                    text-base text-neutral-900 outline-1 -outline-offset-1
-                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:shadow-none"
-                    id="min" name="min" placeholder="Start date">
-                <input type="text"
-                    class="block w-40 rounded-md bg-neutral-50 px-3 py-1.5
-                    text-base text-neutral-900 outline-1 -outline-offset-1
-                    outline-gray-300 placeholder:text-gray-400 sm:text-sm/6 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:shadow-none"
-                    id="max" name="max" placeholder="End date">
-                <p class="" onclick="window.location.reload();" style="cursor: pointer"><i class='bx bx-reset'
-                        style="font-size: 30px;"></i></p>
-            </div>
-        </div>
+<style>
+    :root {
+        --primary-color: #069734;
+        --lighter-primary-color: #07b940;
+        --white-color: #FFFFFF;
+        --black-color: #181818;
+        --bold: 600;
+        --transition: all 0.5s ease;
+        --box-shadow: 0 0.1rem 0.8rem rgba(0, 0, 0, 0.2);
+    }
+
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #009933;
+        border-radius: 6px;
+    }
+
+    .table-container {
+        padding: 2.5rem;
+        background-color: #fff;
+        box-shadow: var(--box-shadow);
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        border: 2px solid var(--primary-color) !important;
+        border-radius: 10px;
+        padding: 5px;
+        background-color: transparent;
+        color: inherit;
+        margin-left: 3px;
+
+    }
+
+    .dataTables_wrapper .dataTables_filter input:active {
+        border: 1px solid var(--primary-color) !important;
+        border-radius: 10px;
+        padding: 5px;
+    }
+
+    #example_wrapper {
+        overflow-x: scroll;
+    }
+
+    .form-control {
+        border: 2px solid #009933;
+        border-radius: 10px;
+    }
+</style>
+
+
+
+<div class="table-container">
+    <p class="mb-4" style="color: red;">Documents currently handle by this office.</p>
+    <style>
+        @media (min-width: 992px) {
+            .w-lg-25 {
+                width: 10% !important;
+            }
+        }
+    </style>
+    <div class="d-flex mb-3 justify-content-end align-items-end">
+        <p class="mb-2 mr-3">Filter by date</p>
+        <input type="text" class="form-control mr-3 w-lg-25 w-100" id="min" name="min" placeholder="Start date">
+        <input type="text" class="form-control w-lg-25 w-100" id="max" name="max" placeholder="End date">
+        <p class="ml-2" onclick="refreshPage()" style="cursor: pointer"><i class='bx bx-reset'
+                style="font-size: 30px;"></i></p>
     </div>
-    <table id="mainTable" class="hover stripe">
-        <thead class="text-green-900 border-b-1 border-b-gray-300 font-bold rounded-full">
+    <script>
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
+    <table id="example" class="hover" style="width:100%">
+        <thead>
             <tr>
+                <th>Date</th>
                 <th>QR Code</th>
                 <th>Doc Code</th>
                 <th>Document Type</th>
                 <th>Document Source</th>
                 <th>Sender</th>
+
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
+
             <?php foreach ($docu_details as $detail) { ?>
                 <tr style="<?php
                             $updatedTimestamp = strtotime($detail['updated_at']);
@@ -68,6 +126,9 @@ try {
                                 echo 'background-color: #FFEC94;';  // Set background color for more than 3 days
                             }
                             ?>">
+                    <td>
+                        <?php echo $detail['docu_date'] ?>
+                    </td>
                     <td><img src="<?php echo $env_basePath; ?>assets/qr-codes/<?php echo $detail['qr_filename']; ?>"
                             alt="QR Code" style="height: 80px"></td>
                     <td>
@@ -82,35 +143,39 @@ try {
                     <td>
                         <?php echo $detail['sender'] ?>
                     </td>
-
-                    <td class="text-right">
+                    <td>
                         <?php if ($detail['docu_status'] == 'completed') { ?>
-                            <a href="track-document.php?code=<?php echo $detail['document_code']; ?>"
-                                class="bg-black text-white px-2.5 py-2 rounded-lg hover:bg-black/80">
-                                <i class='bx bx-show'></i></a>
-                            </a>
+                            <a href="track-document.php?code=<?php echo $detail['document_code']; ?>" class="btn btn-dark"><i
+                                    class='bx bx-show'></i></a>
                         <?php } else { ?>
-                            <div class="flex gap-3 justify-end">
-                                <a href="transfer-complete.php?id=<?php echo $detail['id']; ?>"
-                                    class="bg-black text-white px-2.5 py-2 rounded-lg hover:bg-black/80">
-                                    <i class='fa fa-exchange'></i></a>
-                                </a>
-                                <button data-id="<?php echo $detail['id']; ?>" onclick="confirmComplete(event)"
-                                    class="bg-green-600 text-white px-2.5 py-2 rounded-lg hover:bg-green-700">
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                </button>
-                            </div>
+                            <a href="transfer-complete.php?id=<?php echo $detail['id']; ?>" class="btn btn-dark"><i
+                                    class='fa fa-exchange'></i></a>
+                            <button class="btn btn-primary" data-id="<?php echo $detail['id']; ?>"
+                                onclick="confirmComplete(event)"><i class="fa fa-check" aria-hidden="true"></i></button>
                         <?php } ?>
-                    <?php } ?>
+
                     </td>
                 </tr>
+            <?php } ?>
+
         </tbody>
+        <tfoot>
+            <tr>
+                <th>Date</th>
+                <th>QR Code</th>
+                <th>Doc Code</th>
+                <th>Document Type</th>
+                <th>Document Source</th>
+                <th>Sender</th>
+                <th>Action</th>
+            </tr>
+        </tfoot>
     </table>
 </div>
 
 
 
-<?php require 'template/bottom-template.php'; ?>
+<?php require 'template/bottom-template-bak.php'; ?>
 
 <script>
     function confirmComplete(event) {

@@ -502,6 +502,9 @@
   .h-10 {
     height: calc(var(--spacing) * 10);
   }
+  .h-\[36px\] {
+    height: 36px;
+  }
   .h-full {
     height: 100%;
   }
@@ -516,6 +519,9 @@
   }
   .min-h-screen {
     min-height: 100vh;
+  }
+  .w-1 {
+    width: calc(var(--spacing) * 1);
   }
   .w-1\/2 {
     width: calc(1/2 * 100%);
@@ -534,6 +540,9 @@
   }
   .w-10\/12 {
     width: calc(10/12 * 100%);
+  }
+  .w-11 {
+    width: calc(var(--spacing) * 11);
   }
   .w-11\/12 {
     width: calc(11/12 * 100%);
@@ -555,6 +564,9 @@
   }
   .w-100 {
     width: calc(var(--spacing) * 100);
+  }
+  .w-\[36px\] {
+    width: 36px;
   }
   .w-\[95\%\] {
     width: 95%;
@@ -579,6 +591,9 @@
   }
   .flex-1 {
     flex: 1;
+  }
+  .flex-shrink {
+    flex-shrink: 1;
   }
   .shrink-0 {
     flex-shrink: 0;
@@ -743,6 +758,9 @@
   .border-gray-300 {
     border-color: var(--color-gray-300);
   }
+  .border-gray-900 {
+    border-color: var(--color-gray-900);
+  }
   .border-gray-900\/10 {
     border-color: color-mix(in srgb, oklch(21% 0.034 264.665) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -848,6 +866,9 @@
   .p-12 {
     padding: calc(var(--spacing) * 12);
   }
+  .px-2 {
+    padding-inline: calc(var(--spacing) * 2);
+  }
   .px-2\.5 {
     padding-inline: calc(var(--spacing) * 2.5);
   }
@@ -865,6 +886,9 @@
   }
   .px-24 {
     padding-inline: calc(var(--spacing) * 24);
+  }
+  .py-0 {
+    padding-block: calc(var(--spacing) * 0);
   }
   .py-0\.5 {
     padding-block: calc(var(--spacing) * 0.5);
@@ -1240,6 +1264,13 @@
       }
     }
   }
+  .hover\:bg-green-400 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-green-400);
+      }
+    }
+  }
   .hover\:bg-green-500 {
     &:hover {
       @media (hover: hover) {
@@ -1251,6 +1282,23 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-green-600);
+      }
+    }
+  }
+  .hover\:bg-green-600\/80 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: color-mix(in srgb, oklch(62.7% 0.194 149.214) 80%, transparent);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--color-green-600) 80%, transparent);
+        }
+      }
+    }
+  }
+  .hover\:bg-green-700 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-green-700);
       }
     }
   }

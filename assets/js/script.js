@@ -270,7 +270,19 @@ switch (currentPage) {
         btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
         btnClassName = "btnHidden";
         break;
+    case "completed-documents.php":
+        btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
+        btnClassName = "btnHidden";
+        break;
     case "complete-document.php":
+        btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
+        btnClassName = "btnHidden";
+        break;
+    case "incomplete-documents.php":
+        btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
+        btnClassName = "btnHidden";
+        break;
+    case "pulled-documents.php":
         btnText = "<i class='bx bx-arrow-back text-base'></i>Back";
         btnClassName = "btnHidden";
         break;

@@ -202,21 +202,21 @@ $countNewDocument = $result['count'];
 
                         </li>
                         <li class="select-none p-3 rounded-md hover:bg-neutral-200 sidebar-item">
-                            <a href="pulled-document.php" class="navigation flex items-center gap-3">
+                            <a href="pulled-documents.php" class="navigation flex items-center gap-3">
                                 <i class="bx bx-right-arrow-alt sidebar-icon text-2xl text-gray-500"></i>
                                 Pulled Documents
                             </a>
 
                         </li>
                         <li class="select-none p-3 rounded-md hover:bg-neutral-200 sidebar-item">
-                            <a href="./complete-document.php" class="navigation flex items-center gap-3">
+                            <a href="./completed-documents.php" class="navigation flex items-center gap-3">
                                 <i class="bx bx-right-arrow-alt sidebar-icon text-2xl text-gray-500"></i>
                                 Complete Documents
 
                             </a>
                         </li>
                         <li class="select-none p-3 rounded-md hover:bg-neutral-200 sidebar-item">
-                            <a href="./incomplete-document.php" class="navigation flex items-center gap-3" id="incDoc">
+                            <a href="./incomplete-documents.php" class="navigation flex items-center gap-3" id="incDoc">
                                 <i class="bx bx-right-arrow-alt sidebar-icon text-2xl text-gray-500"></i>
                                 Incomplete Documents
                             </a>
