@@ -508,9 +508,6 @@
   .h-screen {
     height: 100vh;
   }
-  .min-h-\[500px\] {
-    min-height: 500px;
-  }
   .min-h-\[700px\] {
     min-height: 700px;
   }
@@ -519,9 +516,6 @@
   }
   .min-h-screen {
     min-height: 100vh;
-  }
-  .w-1 {
-    width: calc(var(--spacing) * 1);
   }
   .w-1\/2 {
     width: calc(1/2 * 100%);
@@ -540,9 +534,6 @@
   }
   .w-10\/12 {
     width: calc(10/12 * 100%);
-  }
-  .w-11 {
-    width: calc(var(--spacing) * 11);
   }
   .w-11\/12 {
     width: calc(11/12 * 100%);
@@ -583,11 +574,11 @@
   .max-w-\[456px\] {
     max-width: 456px;
   }
+  .max-w-\[900px\] {
+    max-width: 900px;
+  }
   .flex-1 {
     flex: 1;
-  }
-  .flex-shrink {
-    flex-shrink: 1;
   }
   .shrink-0 {
     flex-shrink: 0;
@@ -752,9 +743,6 @@
   .border-gray-300 {
     border-color: var(--color-gray-300);
   }
-  .border-gray-900 {
-    border-color: var(--color-gray-900);
-  }
   .border-gray-900\/10 {
     border-color: color-mix(in srgb, oklch(21% 0.034 264.665) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -860,9 +848,6 @@
   .p-12 {
     padding: calc(var(--spacing) * 12);
   }
-  .px-2 {
-    padding-inline: calc(var(--spacing) * 2);
-  }
   .px-2\.5 {
     padding-inline: calc(var(--spacing) * 2.5);
   }
@@ -880,9 +865,6 @@
   }
   .px-24 {
     padding-inline: calc(var(--spacing) * 24);
-  }
-  .py-0 {
-    padding-block: calc(var(--spacing) * 0);
   }
   .py-0\.5 {
     padding-block: calc(var(--spacing) * 0.5);
