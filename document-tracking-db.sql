@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 16, 2024 at 07:19 PM
+-- Host: localhost
+-- Generation Time: May 29, 2025 at 07:36 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -69,7 +69,8 @@ INSERT INTO `tbl_action_taken` (`id`, `docu_id`, `action_taken`, `timestamp`) VA
 (28, 159, 'For comments/recommendation', '2024-03-16 16:44:35'),
 (29, 159, 'Please follow-up and report action taken', '2024-03-16 16:45:04'),
 (30, 159, 'Please see me', '2024-03-16 16:50:24'),
-(31, 159, 'For compliance', '2024-03-16 17:02:28');
+(31, 159, 'For compliance', '2024-03-16 17:02:28'),
+(32, 160, 'Please follow-up and report action taken', '2025-05-18 09:45:00');
 
 -- --------------------------------------------------------
 
@@ -112,7 +113,11 @@ INSERT INTO `tbl_conversation` (`id`, `conversation_id`, `user_id`) VALUES
 (15, 87163, '41'),
 (16, 87163, 'recordoffice'),
 (17, 702558, '42'),
-(18, 702558, 'recordoffice');
+(18, 702558, 'recordoffice'),
+(19, 929717, '43'),
+(20, 929717, 'recordoffice'),
+(21, 126650, '44'),
+(22, 126650, 'recordoffice');
 
 -- --------------------------------------------------------
 
@@ -169,7 +174,14 @@ INSERT INTO `tbl_document_tracking` (`id`, `docu_id`, `action_taken`, `person`, 
 (381, 159, 'Administrative Section Records received the document.', 'Records Office', 'ASR', '2024-03-16 17:02:19'),
 (382, 159, 'For compliance.', 'Records Office', 'ASR', '2024-03-16 17:02:28'),
 (383, 159, 'Office of The Regional Irrigation Manager received the document.', 'asdasdasdasqzA asdasd', 'RIM', '2024-03-16 17:02:55'),
-(384, 160, 'Document code created: 2024-03-17-7033.', 'Records Office', 'ASR', '2024-03-16 17:54:00');
+(384, 160, 'Document code created: 2024-03-17-7033.', 'Records Office', 'ASR', '2024-03-16 17:54:00'),
+(387, 164, 'Document code created:  2025-05-16-6721', 'simon javier', 'ASR', '2025-05-16 10:24:42'),
+(388, 160, 'Administrative Section Records received the document.', 'simon javier', 'ASR', '2025-05-18 09:44:20'),
+(389, 160, 'Please follow-up and report action taken.', 'simon javier', 'ASR', '2025-05-18 09:45:00'),
+(391, 166, 'Document code created:  2025-05-22-0628', 'handler handler', 'RIM', '2025-05-22 00:08:04'),
+(394, 159, 'complete', 'handler handler', 'RIM', '2025-05-29 05:32:33'),
+(395, 159, 'Transaction Complete', 'handler handler', NULL, '2025-05-29 05:32:34'),
+(396, 160, 'Office of The Regional Irrigation Manager received the document.', 'handler handler', 'RIM', '2025-05-29 05:33:41');
 
 -- --------------------------------------------------------
 
@@ -255,7 +267,9 @@ INSERT INTO `tbl_document_type` (`id`, `document_type`, `created_at`) VALUES
 (138, 'Fuel Slip', '2024-01-06 04:25:53'),
 (139, 'Gate Pass', '2024-01-06 04:25:57'),
 (140, 'Inspection and Acceptance', '2024-01-06 04:26:02'),
-(142, 'TESTING', '2024-01-07 12:09:20');
+(142, 'TESTING', '2024-01-07 12:09:20'),
+(164, 'Hello', '2025-05-29 05:23:45'),
+(165, 'Hi', '2025-05-29 05:29:49');
 
 -- --------------------------------------------------------
 
@@ -305,8 +319,10 @@ INSERT INTO `tbl_handler_incoming` (`id`, `user_id`, `office_name`, `docu_id`, `
 (307, 33, 'Office of The Regional Irrigation Manager', 154, 'notyetreceive', '2024-03-16 14:36:25', '2024-03-16 14:36:25'),
 (308, 30, 'Administrative Section Records', 157, 'notyetreceive', '2024-03-16 15:07:19', '2024-03-16 15:07:19'),
 (309, 35, 'Administrative Section Records', 157, 'notyetreceive', '2024-03-16 15:07:19', '2024-03-16 15:07:19'),
-(328, 30, 'Administrative Section Records', 160, 'pending', '2024-03-16 17:54:00', '2024-03-16 17:54:00'),
-(329, 35, 'Administrative Section Records', 160, 'pending', '2024-03-16 17:54:00', '2024-03-16 17:54:00');
+(336, 31, 'Office of the Regional Manager - Health Services', 164, 'notyetreceive', '2025-05-16 10:24:42', '2025-05-16 10:24:42'),
+(337, 34, 'Office of the Regional Manager - Health Services', 164, 'notyetreceive', '2025-05-16 10:24:42', '2025-05-16 10:24:42'),
+(343, 31, 'Office of the Regional Manager - Health Services', 166, 'notyetreceive', '2025-05-22 00:08:04', '2025-05-22 00:08:04'),
+(344, 34, 'Office of the Regional Manager - Health Services', 166, 'notyetreceive', '2025-05-22 00:08:04', '2025-05-22 00:08:04');
 
 -- --------------------------------------------------------
 
@@ -334,7 +350,8 @@ INSERT INTO `tbl_handler_outgoing` (`id`, `office_name`, `docu_id`, `updated_at`
 (76, 'Office of The Regional Irrigation Manager', 157, '2024-03-16 15:07:19', '2024-03-16 15:07:19'),
 (77, 'Administrative Section Records', 158, '2024-03-16 15:09:40', '2024-03-16 15:09:40'),
 (82, 'Office of The Regional Irrigation Manager', 159, '2024-03-16 16:50:24', '2024-03-16 16:50:24'),
-(83, 'Administrative Section Records', 159, '2024-03-16 17:02:28', '2024-03-16 17:02:28');
+(83, 'Administrative Section Records', 159, '2024-03-16 17:02:28', '2024-03-16 17:02:28'),
+(84, 'Administrative Section Records', 160, '2025-05-18 09:45:00', '2025-05-18 09:45:00');
 
 -- --------------------------------------------------------
 
@@ -362,7 +379,7 @@ INSERT INTO `tbl_login_account` (`id`, `username`, `password`, `role`, `status`,
 (11, 'guestaccount', '$2y$10$vchNKlb9m5arE0DcE2Ck/OORxXqWGBXE5P2PdZggDc482TK04eFya', 'guest', 'active', '2023-12-16 02:45:42'),
 (13, 'handler1', '$2y$10$MWVvILoUQd/uYzgKsog5guc3a3K.dTKgao5TwbEUmP/UAFAm9Mkea', 'handler', 'archived', '2023-12-16 03:06:00'),
 (18, 'handler2', '$2y$10$QOAK5ZM0r5FTo7EyJE/JHeIp49iSWMxSoaSY8Mhmfh84awXvx.G2S', 'handler', 'archived', '2023-12-18 07:38:05'),
-(19, 'angelo1', '$2y$10$mXamfGKOuC6Y/DfHHQfkMOm/XCob/2u3NE.cj6Hhb2HyE5OHbZGay', 'guest', 'archived', '2023-12-18 07:40:14'),
+(19, 'angelo1', '$2y$10$mXamfGKOuC6Y/DfHHQfkMOm/XCob/2u3NE.cj6Hhb2HyE5OHbZGay', 'guest', 'active', '2023-12-18 07:40:14'),
 (20, 'testingguest', '$2y$10$IKx3ZVETyfKjvGioNM80iuxxYFN.gXmB.8xVWuqPKWekDA9Ugpsb.', 'guest', 'active', '2023-12-29 04:27:16'),
 (21, 'qweqwe', '$2y$10$r3oMzehZqRtG3HKo7ypj6uW6xge2DnCYxGcP/NsxQ6zGNAtetJwM6', 'handler', 'archived', '2023-12-30 11:12:35'),
 (22, 'trylangs', '$2y$10$X7NAMEP7C7De/Y0p9rjvSuKQJhliacygumnKx2URulzZ2tLzCh6Xm', 'guest', 'active', '2023-12-31 06:08:41'),
@@ -382,7 +399,11 @@ INSERT INTO `tbl_login_account` (`id`, `username`, `password`, `role`, `status`,
 (39, 'asdasdsadasdwqe', '$2y$10$BSjr54lVss6QWVxK/tqYTuqVtg9c9n2WIHW0rdBZh63CaMFGSMRUq', 'guest', 'pending', '2024-03-05 05:12:30'),
 (40, 'asdqweqwe', '$2y$10$.wRv0ehs.bzIp7t9B2O3zeKjaDZ7nd6eEFdutSHR5.klu5OYD0rfy', 'guest', 'active', '2024-03-05 05:13:42'),
 (41, 'newguest123', '$2y$10$zlFvHHMCSelEIVfeMpuoFeJuj.lyngUgQz3UJJHSwOkqoCDKXCHfa', 'guest', 'active', '2024-03-05 07:55:15'),
-(42, '0123123', '$2y$10$B7yRWnz9MkQRhQTXQVOIHOWRP1rPQlqv8FEjWPgbbs60S8n0cf//y', 'guest', 'active', '2024-03-10 22:29:37');
+(42, '0123123', '$2y$10$B7yRWnz9MkQRhQTXQVOIHOWRP1rPQlqv8FEjWPgbbs60S8n0cf//y', 'guest', 'active', '2024-03-10 22:29:37'),
+(43, 'aleah_g', '$2y$10$QEUbRRPn7aAAQOSO.4v3B.L8skIEn9jYYtTy5lgQvkU4LvsyMHbc6', 'guest', 'active', '2025-03-31 03:49:26'),
+(44, 'simon1', '$2y$10$ew0XmwgUxwmMYbJA7/fNJ.iHM2qeyNp3dm/O0DijZnFzmwTgyJvfG', 'guest', 'active', '2025-05-04 06:34:44'),
+(45, 'simon2', '$2y$10$3BkGlFLLlu1hGqv0r0a4oeS4lcLjjYtJU9eel4hK8BEAkicw0XmVy', 'handler', 'active', '2025-05-04 08:44:23'),
+(46, 'handler3', '$2y$10$O3h.7EqwS0Wx/cwBAPj.qOyUPs7hMUd766foZkKHjHAQV5CmE/ItG', 'handler', 'active', '2025-05-20 07:06:09');
 
 -- --------------------------------------------------------
 
@@ -422,12 +443,23 @@ INSERT INTO `tbl_messages` (`id`, `conversation_id`, `user_id`, `message`, `stat
 (168, 59346, 'recordoffice', 'asdqwe23', 'unread', '2024-01-30 06:54:52'),
 (169, 658, '11', '123', 'read', '2024-01-30 06:55:28'),
 (170, 87163, '41', 'asdasd', 'unread', '2024-03-05 07:57:40'),
-(171, 702558, '42', 'asdqweqwe', 'unread', '2024-03-10 22:30:23'),
-(172, 702558, '42', 'asdasd', 'unread', '2024-03-10 22:30:25'),
-(173, 702558, '42', '213123', 'unread', '2024-03-10 22:30:27'),
+(171, 702558, '42', 'asdqweqwe', 'read', '2024-03-10 22:30:23'),
+(172, 702558, '42', 'asdasd', 'read', '2024-03-10 22:30:25'),
+(173, 702558, '42', '213123', 'read', '2024-03-10 22:30:27'),
 (174, 87163, 'recordoffice', 'asd', 'unread', '2024-03-16 00:54:06'),
 (175, 87163, 'recordoffice', 'asdasd', 'unread', '2024-03-16 00:56:43'),
-(176, 658, '11', 'asdasd', 'unread', '2024-03-16 17:54:17');
+(176, 658, '11', 'asdasd', 'unread', '2024-03-16 17:54:17'),
+(177, 126650, '44', 'Hello', 'read', '2025-05-04 07:40:56'),
+(178, 126650, '2', 'Yow whats up', 'read', '2025-05-04 07:42:40'),
+(179, 126650, '2', 'ede wow', 'read', '2025-05-04 07:42:52'),
+(180, 126650, '44', 'hahaha', 'read', '2025-05-04 07:43:30'),
+(181, 126650, '44', 'Lorem ipsum dolor sit amet consectetur adipiscing elit tempus lacinia suscipit vulputate, risus ante est non diam pellentesque senectus platea nibh hac bibendum, pretium arcu orci ultricies sociis sociosqu eleifend lacus duis facilisi. Congue torquent sollicitudin integer potenti bibendum volutpat cursus phasellus, et ligula maecenas id conubia magna tellus, parturient primis venenatis nulla arcu pharetra etiam. Pulvinar nullam fames aliquet donec tempor ante mattis phasellus, nunc porttitor et venenatis ad turpis morbi facilisis tellus, laoreet sodales scelerisque litora habitant dis primis.', 'read', '2025-05-04 07:43:57'),
+(182, 126650, 'recordoffice', 'hiii', 'read', '2025-05-04 08:48:16'),
+(183, 126650, 'recordoffice', 'yow', 'read', '2025-05-20 06:42:30'),
+(184, 126650, '44', 'hello how are you', 'read', '2025-05-20 06:57:24'),
+(185, 126650, 'recordoffice', 'I\'m fine thank you', 'read', '2025-05-20 06:57:52'),
+(186, 126650, 'recordoffice', 'Lorem ipsum dolor sit amet consectetur adipiscing elit tempus lacinia suscipit vulputate, risus ante est non diam pellentesque senectus platea nibh hac bibendum, pretium arcu orci ultricies sociis sociosqu eleifend lacus duis facilisi. Congue torquent sollicitudin integer potenti bibendum volutpat cursus phasellus, et ligula maecenas id conubia magna tellus, parturient primis venenatis nulla arcu pharetra etiam. Pulvinar nullam fames aliquet donec tempor ante mattis phasellus, nunc porttitor et venenatis ad turpis morbi facilisis tellus, laoreet sodales scelerisque litora habitant dis primis.', 'read', '2025-05-20 07:03:44'),
+(187, 929717, 'recordoffice', 'yow', 'unread', '2025-05-20 07:14:27');
 
 -- --------------------------------------------------------
 
@@ -1123,7 +1155,46 @@ INSERT INTO `tbl_notification` (`id`, `user_id`, `content`, `status`, `timestamp
 (727, 35, 'Office of The Regional Irrigation Manager received the document. Received by asdasdasdasqzA asdasd.', 'unread', '2024-03-16 17:02:55'),
 (728, 30, 'Guest Guest uploaded new document.', 'unread', '2024-03-16 17:53:45'),
 (729, 35, 'Guest Guest uploaded new document.', 'unread', '2024-03-16 17:53:45'),
-(730, 11, 'Your document has been accepted by Administrative Section Records, and already have a tracking code. Accept byRecords Office.', 'unread', '2024-03-16 17:54:00');
+(730, 11, 'Your document has been accepted by Administrative Section Records, and already have a tracking code. Accept byRecords Office.', 'unread', '2024-03-16 17:54:00'),
+(731, 2, 'A new user has submitted a request for registration. Please review and approve.', 'read', '2025-04-20 12:53:07'),
+(732, 2, 'A new user has submitted a request for registration. Please review and approve.', 'read', '2025-05-04 06:35:16'),
+(733, 30, 'simon javier uploaded new document.', 'unread', '2025-05-04 07:29:21'),
+(734, 35, 'simon javier uploaded new document.', 'unread', '2025-05-04 07:29:21'),
+(735, 2, 'A new user has submitted a request for registration. Please review and approve.', 'read', '2025-05-09 22:43:17'),
+(736, 25, 'We are sending a new document with Document Tracking Code: 2025-05-16-0170. Send by simon javier.', 'unread', '2025-05-16 10:00:26'),
+(737, 28, 'We are sending a new document with Document Tracking Code: 2025-05-16-0170. Send by simon javier.', 'unread', '2025-05-16 10:00:26'),
+(738, 33, 'We are sending a new document with Document Tracking Code: 2025-05-16-0170. Send by simon javier.', 'unread', '2025-05-16 10:00:26'),
+(739, 25, 'We are sending a new document with Document Tracking Code: 2025-05-16-6343. Send by simon javier.', 'unread', '2025-05-16 10:08:12'),
+(740, 28, 'We are sending a new document with Document Tracking Code: 2025-05-16-6343. Send by simon javier.', 'unread', '2025-05-16 10:08:12'),
+(741, 33, 'We are sending a new document with Document Tracking Code: 2025-05-16-6343. Send by simon javier.', 'unread', '2025-05-16 10:08:12'),
+(742, 31, 'We are sending a new document with Document Tracking Code: 2025-05-16-6721. Send by simon javier.', 'unread', '2025-05-16 10:24:42'),
+(743, 34, 'We are sending a new document with Document Tracking Code: 2025-05-16-6721. Send by simon javier.', 'unread', '2025-05-16 10:24:42'),
+(744, 11, 'Administrative Section Records scanned your document.', 'unread', '2025-05-18 09:44:19'),
+(745, 11, 'Administrative Section Records received the document.', 'unread', '2025-05-18 09:44:20'),
+(746, 30, 'Administrative Section Records received the document. Received by simon javier.', 'unread', '2025-05-18 09:44:20'),
+(747, 35, 'Administrative Section Records received the document. Received by simon javier.', 'unread', '2025-05-18 09:44:20'),
+(748, 45, 'Administrative Section Records received the document. Received by simon javier.', 'read', '2025-05-18 09:48:47'),
+(749, 11, 'Please follow-up and report action taken.', 'unread', '2025-05-18 09:45:00'),
+(750, 25, 'We are transferring a new document with Document Tracking Code: 2024-03-17-7033. Transferred by simon javier.', 'unread', '2025-05-18 09:45:00'),
+(751, 28, 'We are transferring a new document with Document Tracking Code: 2024-03-17-7033. Transferred by simon javier.', 'unread', '2025-05-18 09:45:00'),
+(752, 33, 'We are transferring a new document with Document Tracking Code: 2024-03-17-7033. Transferred by simon javier.', 'unread', '2025-05-18 09:45:00'),
+(753, 2, 'A new user has submitted a request for registration. Please review and approve.', 'read', '2025-05-20 07:06:21'),
+(754, 33, 'Administrative Section Records scanned your document.', 'unread', '2025-05-21 23:58:03'),
+(755, 11, 'Office of The Regional Irrigation Manager scanned your document.', 'unread', '2025-05-22 00:00:03'),
+(756, 31, 'We are sending a new document with Document Tracking Code: 2025-05-22-1390. Send by handler handler.', 'unread', '2025-05-22 00:06:04'),
+(757, 34, 'We are sending a new document with Document Tracking Code: 2025-05-22-1390. Send by handler handler.', 'unread', '2025-05-22 00:06:04'),
+(758, 31, 'We are sending a new document with Document Tracking Code: 2025-05-22-0628. Send by handler handler.', 'unread', '2025-05-22 00:08:04'),
+(759, 34, 'We are sending a new document with Document Tracking Code: 2025-05-22-0628. Send by handler handler.', 'unread', '2025-05-22 00:08:04'),
+(760, 31, 'We are sending a new document with Document Tracking Code: 2025-05-22-9149. Send by handler handler.', 'unread', '2025-05-22 00:14:14'),
+(761, 34, 'We are sending a new document with Document Tracking Code: 2025-05-22-9149. Send by handler handler.', 'unread', '2025-05-22 00:14:14'),
+(762, 31, 'We are sending a new document with Document Tracking Code: 2025-05-22-0314. Send by handler handler.', 'unread', '2025-05-22 00:16:09'),
+(763, 34, 'We are sending a new document with Document Tracking Code: 2025-05-22-0314. Send by handler handler.', 'unread', '2025-05-22 00:16:09'),
+(764, 33, 'Transaction completed. Mark this by: handler handler', 'unread', '2025-05-29 05:32:33'),
+(765, 11, 'Office of The Regional Irrigation Manager scanned your document.', 'unread', '2025-05-29 05:33:40'),
+(766, 11, 'Office of The Regional Irrigation Manager received the document.', 'unread', '2025-05-29 05:33:41'),
+(767, 30, 'Office of The Regional Irrigation Manager received the document. Received by handler handler.', 'unread', '2025-05-29 05:33:41'),
+(768, 35, 'Office of The Regional Irrigation Manager received the document. Received by handler handler.', 'unread', '2025-05-29 05:33:41'),
+(769, 45, 'Office of The Regional Irrigation Manager received the document. Received by handler handler.', 'unread', '2025-05-29 05:33:41');
 
 -- --------------------------------------------------------
 
@@ -1174,7 +1245,8 @@ CREATE TABLE `tbl_office_document` (
 
 INSERT INTO `tbl_office_document` (`id`, `office_name`, `docu_id`, `status`) VALUES
 (61, 'Office of The Regional Irrigation Manager', 150, 'completed'),
-(72, 'Office of The Regional Irrigation Manager', 159, 'active');
+(72, 'Office of The Regional Irrigation Manager', 159, 'completed'),
+(74, 'Office of The Regional Irrigation Manager', 160, 'active');
 
 -- --------------------------------------------------------
 
@@ -1249,8 +1321,11 @@ INSERT INTO `tbl_uploaded_document` (`id`, `qr_filename`, `pdf_filename`, `docum
 (156, NULL, '1710599499.pdf', NULL, 'Acknowledge Receipt for Equipment (ARE)', '29.65kb', 11, 'Guest Guest', NULL, '123123', '123123123', 'guest', 'For appropirate action', 'pulled', 'pulled', NULL, NULL, NULL, '2024-03-16', '2024-03-16 14:31:39', '2024-03-16 14:31:43'),
 (157, '2024-03-16-6152.png', '2024-03-16-6152.pdf', '2024-03-16-6152', 'Acknowledge Receipt for Equipment (ARE)', '29.65kb', 33, 'asdasdasdasqzA asdasd', 'Office of The Regional Irrigation Manager', 'qweqe2', 'wqewqeqwe', 'internal', 'For appropirate action', 'pulled', 'pulled', 'No previous office.', 'No current office.', NULL, '2024-03-16', '2024-03-16 15:07:19', '2024-03-16 15:09:05'),
 (158, '2024-03-16-5959.png', '2024-03-16-5959.pdf', '2024-03-16-5959', 'Transmittal Letter', '29.65kb', 30, 'Records Office', 'Administrative Section Records', 'editr', '213213123213', 'internal', 'For appropirate action', 'pulled', 'pulled', 'No previous office.', 'No current office.', NULL, '2024-03-09', '2024-03-16 15:09:40', '2024-03-16 15:41:08'),
-(159, '2024-03-17-9110.png', '2024-03-17-9110.pdf', '2024-03-17-9110', 'Indorsement&nbsp; Letter', '29.65kb', 33, 'asdasdasdasqzA asdasd', 'Office of The Regional Irrigation Manager', 'qweqwewq', 'wqeqweqwe', 'internal', 'For compliance', 'Document code created:  2024-03-17-9110, , For appropirate action., Office of The Regional Irrigation Manager received the document., For comments/recommendation., Administrative Section Records received the document., Please follow-up and report action taken., Office of The Regional Irrigation Manager received the document., Please see me., Administrative Section Records received the document., For compliance., Office of The Regional Irrigation Manager received the document.', 'ongoing', 'No previous office.', 'Office of The Regional Irrigation Manager', NULL, '2024-03-07', '2024-03-16 16:35:43', '2024-03-16 17:02:55'),
-(160, '2024-03-17-7033.png', '1710611625.pdf', '2024-03-17-7033', 'Acknowledge Receipt for Equipment (ARE)', '29.65kb', 11, 'Guest Guest', NULL, 'sadas', 'qweqweqw', 'guest', 'For comments/recommendation', 'Document code created: 2024-03-17-7033.', 'ongoing', 'No previous office.', 'Administrative Section Records', 'Document accepted', '2024-03-14', '2024-03-16 17:53:45', '2024-03-16 17:54:00');
+(159, '2024-03-17-9110.png', '2024-03-17-9110.pdf', '2024-03-17-9110', 'Indorsement&nbsp; Letter', '29.65kb', 33, 'asdasdasdasqzA asdasd', 'Office of The Regional Irrigation Manager', 'qweqwewq', 'wqeqweqwe', 'internal', 'For compliance', 'Document code created:  2024-03-17-9110, , For appropirate action., Office of The Regional Irrigation Manager received the document., For comments/recommendation., Administrative Section Records received the document., Please follow-up and report action taken., Office of The Regional Irrigation Manager received the document., Please see me., Administrative Section Records received the document., For compliance., Office of The Regional Irrigation Manager received the document., Transaction completed. Mark this by: handler handler', 'complete', 'No previous office.', 'Office of The Regional Irrigation Manager', NULL, '2024-03-07', '2024-03-16 16:35:43', '2025-05-29 05:32:33'),
+(160, '2024-03-17-7033.png', '1710611625.pdf', '2024-03-17-7033', 'Acknowledge Receipt for Equipment (ARE)', '29.65kb', 11, 'Guest Guest', NULL, 'sadas', 'qweqweqw', 'guest', 'Please follow-up and report action taken', 'Document code created: 2024-03-17-7033., Administrative Section Records received the document., Please follow-up and report action taken., Office of The Regional Irrigation Manager received the document.', 'ongoing', 'No previous office.', 'Office of The Regional Irrigation Manager', 'Document accepted', '2024-03-14', '2024-03-16 17:53:45', '2025-05-29 05:33:41'),
+(161, NULL, '1746343761.png', NULL, 'Letter', '222kb', 44, 'simon javier', NULL, 'fdsafkldsj', 'dsalkfjdsalk', 'guest', 'slkfdsjf', 'pulled', 'pulled', NULL, NULL, NULL, '3131-03-12', '2025-05-04 07:29:21', '2025-05-04 07:33:46'),
+(164, '2025-05-16-6721.png', '2025-05-16-6721.png', '2025-05-16-6721', 'Letter', '68.71kb', NULL, 'simonn', NULL, 'hello', 'flaksdfjdskl', 'guest', 'For compliance', 'Document code created:  2025-05-16-6721', 'ongoing', 'No previous office.', 'No current office.', NULL, '2031-03-12', '2025-05-16 10:24:42', '2025-05-16 10:24:42'),
+(166, '2025-05-22-0628.png', '2025-05-22-0628.png', '2025-05-22-0628', 'Letter', '63.71kb', NULL, NULL, NULL, 'faasdf', 'dslfkdsajlj', '', 'fsadlkfj', 'Document code created:  2025-05-22-0628', 'ongoing', 'No previous office.', 'No current office.', NULL, '5342-03-16', '2025-05-22 00:08:04', '2025-05-22 00:08:04');
 
 -- --------------------------------------------------------
 
@@ -1284,7 +1359,7 @@ INSERT INTO `tbl_userinformation` (`id`, `user_profile`, `firstname`, `lastname`
 (11, '1703999658_user-default.jpg', 'Guest', 'Guest', '9123123123', 'EDITEDasd', 'asdqweasd', NULL, 'fonej95623@arensus.com', 'guest', 'active', '2023-12-16 02:45:42'),
 (13, 'user-default.jpg', 'Hander 2', 'Hander 2', '9123123123', '123123123', 'Handler Office 2', NULL, 'tomas49870@aseall.com', 'handler', 'archived', '2023-12-16 03:06:00'),
 (18, 'user-default.jpg', 'Hander 3', 'Hander 3', '09123123123', 'asdasd', 'Hanler Office 3', NULL, 'antdev0101@gmail.com', 'handler', 'archived', '2023-12-18 07:38:05'),
-(19, 'user-default.jpg', '123y78123', 'trovela', '09123123123', 'asdasd', 'asdqweqwe', NULL, 'antdev01011@gmail.com', 'guest', 'archived', '2023-12-18 07:40:14'),
+(19, 'user-default.jpg', '123y78123', 'trovela', '09123123123', 'asdasd', 'asdqweqwe', NULL, 'antdev01011@gmail.com', 'guest', 'active', '2023-12-18 07:40:14'),
 (20, 'user-default.jpg', 'asdasdasd', 'asdasdasd', '9123123123', 'asdasdasdasd', 'asdasdqweqweqwe', NULL, 'metag70052@vasteron.com', 'guest', 'active', '2023-12-29 04:27:16'),
 (21, 'user-default.jpg', 'aqweqwe', 'qweqwe', '9123123123', 'qwe123', 'qweqweqwe', NULL, 'asdqweqwe@asdasd.com', 'handler', 'archived', '2023-12-30 11:12:35'),
 (22, '1704003022_123.png', 'TESTING', 'TESTING', '9123123123', 'SADQWEQWEQWE', NULL, NULL, 'vedopac922@vasteron.com', 'guest', 'active', '2023-12-31 06:08:41'),
@@ -1303,7 +1378,11 @@ INSERT INTO `tbl_userinformation` (`id`, `user_profile`, `firstname`, `lastname`
 (38, 'user-default.jpg', 'asdqweqwe', 'qweqwdasdas', '9123123123', NULL, NULL, NULL, 'yamevif531@artgulin.com', 'guest', 'decline', '2024-03-05 05:04:07'),
 (40, 'user-default.jpg', 'qweqwe', 'qweqwe', '9123123123', NULL, NULL, NULL, 'yagib59657@bizatop.com', 'guest', 'active', '2024-03-05 05:13:42'),
 (41, 'user-default.jpg', 'newguest', 'newguest', '9123123123', NULL, NULL, NULL, 'wanadet919@artgulin.com', 'guest', 'active', '2024-03-05 07:55:15'),
-(42, 'user-default.jpg', 'qweqweqwe', 'qweqweqwe', '09123123123', NULL, NULL, NULL, 'micopar463@bizatop.com', 'guest', 'active', '2024-03-10 22:29:37');
+(42, 'user-default.jpg', 'qweqweqwe', 'qweqweqwe', '09123123123', NULL, NULL, NULL, 'micopar463@bizatop.com', 'guest', 'active', '2024-03-10 22:29:37'),
+(43, 'user-default.jpg', 'aleah', 'oxina', '09514470450', NULL, NULL, NULL, 'oxinaazzaleah@gmail.com', 'guest', 'active', '2025-03-31 03:49:26'),
+(44, 'user-default.jpg', 'simon', 'javier', '09252552522', NULL, NULL, NULL, 'simonjavier812+1@gmail.com', 'guest', 'active', '2025-05-04 06:34:44'),
+(45, 'user-default.jpg', 'simon', 'javier', '09241124422', 'Small Forward', 'Administrative Section Records', 'ASR', 'simonjavier812+2@gmail.com', 'handler', 'active', '2025-05-04 08:44:23'),
+(46, 'user-default.jpg', 'handler', 'handler', '09122312311', 'Head', 'Office of The Regional Irrigation Manager', 'RIM', 'simonjavier812+3@gmail.com', 'handler', 'active', '2025-05-20 07:06:09');
 
 --
 -- Indexes for dumped tables
@@ -1432,7 +1511,7 @@ ALTER TABLE `tbl_userinformation`
 -- AUTO_INCREMENT for table `tbl_action_taken`
 --
 ALTER TABLE `tbl_action_taken`
-  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `tbl_admins_incoming`
@@ -1444,19 +1523,19 @@ ALTER TABLE `tbl_admins_incoming`
 -- AUTO_INCREMENT for table `tbl_conversation`
 --
 ALTER TABLE `tbl_conversation`
-  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tbl_document_tracking`
 --
 ALTER TABLE `tbl_document_tracking`
-  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=385;
+  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=397;
 
 --
 -- AUTO_INCREMENT for table `tbl_document_type`
 --
 ALTER TABLE `tbl_document_type`
-  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT for table `tbl_handler_document`
@@ -1468,43 +1547,43 @@ ALTER TABLE `tbl_handler_document`
 -- AUTO_INCREMENT for table `tbl_handler_incoming`
 --
 ALTER TABLE `tbl_handler_incoming`
-  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=330;
+  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=349;
 
 --
 -- AUTO_INCREMENT for table `tbl_handler_outgoing`
 --
 ALTER TABLE `tbl_handler_outgoing`
-  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `tbl_login_account`
 --
 ALTER TABLE `tbl_login_account`
-  MODIFY `id` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `tbl_messages`
 --
 ALTER TABLE `tbl_messages`
-  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
+  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 
 --
 -- AUTO_INCREMENT for table `tbl_notification`
 --
 ALTER TABLE `tbl_notification`
-  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=731;
+  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=770;
 
 --
 -- AUTO_INCREMENT for table `tbl_offices`
 --
 ALTER TABLE `tbl_offices`
-  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_office_document`
 --
 ALTER TABLE `tbl_office_document`
-  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `tbl_office_incoming`
@@ -1522,13 +1601,13 @@ ALTER TABLE `tbl_ratings`
 -- AUTO_INCREMENT for table `tbl_uploaded_document`
 --
 ALTER TABLE `tbl_uploaded_document`
-  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
+  MODIFY `id` bigint(250) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
 
 --
 -- AUTO_INCREMENT for table `tbl_userinformation`
 --
 ALTER TABLE `tbl_userinformation`
-  MODIFY `id` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- Constraints for dumped tables
