@@ -1,0 +1,1 @@
+{"version":1,"defects":{"LogoutTest::testLogoutFunction":8,"FindCodeTest::testFindCodeInvalid":5},"times":{"ConnectionTest::testDatabaseConnection":0.013,"HashTest::testPasswordHashAndVerify":0.578,"LogoutTest::testLogoutFunction":0.373,"FindCodeTest::testFindCodeInvalid":1.483}}
